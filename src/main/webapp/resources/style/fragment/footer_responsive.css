@@ -1,0 +1,94 @@
+@media only screen and (max-width: 1200px) {
+  .imgLogoFooter {
+    max-width: 20%;
+  }
+  .aboutUs,
+  .supportInfo {
+    min-width: 20%;
+  }
+  .info,
+  .follow {
+    min-width: 10%;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .imgLogoFooter {
+    min-width: 30%;
+  }
+  .supportInfo {
+    min-width: 30%;
+  }
+  .info {
+    min-width: 20%;
+  }
+  .follow {
+    min-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .aboutUs > h5,
+  .supportInfo > h5,
+  .info > h5,
+  .follow > h5,.footer2>.col>p {
+    font-size: 15px;
+  }
+  .aboutUs>a,
+.info>a,
+.boss>.col>a,
+.contact>.col>a,
+.email>.col>a{
+    font-size: 13px;
+}
+  
+  .imgLogoFooter {
+    min-width: 100%;
+    text-align: center;
+  }
+  .imgLogoFooter>img{
+    width: 40%;
+  }
+  
+  .supportInfo{
+    min-width: 40%;
+  }
+  .aboutUs,.info,
+  .follow {
+    min-width: 30%;
+  }
+  
+}
+@media only screen and (max-width: 580px) {
+    .imgLogoFooter>img{
+        width: 50%;
+    }
+    .aboutUs,.info{
+        min-width: 40%;
+    }
+    .supportInfo,.follow{
+         min-width: 60%;
+    }
+}
+@media only screen and (max-width: 320px) {
+    .imgLogoFooter>img{
+        width: 60%;
+    }
+    .aboutUs > h5,
+    .supportInfo > h5,
+    .info > h5,
+    .follow > h5,.footer2>.col>p {
+      font-size: 14px;
+    }
+    .aboutUs>a,
+  .info>a,
+  .boss>.col>a,
+  .contact>.col>a,
+  .email>.col>a{
+      font-size: 12px;
+  }
+  .aboutUs,.info{
+    min-width: 100%;
+}
+.supportInfo,.follow{
+     min-width: 100%;
+}
+}

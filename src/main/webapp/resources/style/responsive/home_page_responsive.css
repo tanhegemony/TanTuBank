@@ -1,0 +1,104 @@
+@media only screen and (max-width: 1200px){
+    .contentService>.col-2{
+        margin-left: 0.5rem;
+    }
+}
+@media only screen and (max-width: 991px){
+    .contentService>.col-2{
+        min-width: 20%;
+    }
+    .nameService{
+        margin-top: 0rem;
+    }
+}
+
+@media only screen and (max-width: 767px){
+    .content>.jumbotron>div>.display-4{
+        font-size: 25px;
+    }
+    .content>.jumbotron>div>.lead{
+        font-size: 15px;
+    }
+    .content>.jumbotron>div>a{
+        font-size: 13px;
+    }
+    .content>.jumbotron>div>p{
+        font-size: 12px;
+    }
+    .nameService>.col>h5{
+        font-size: 15px;
+    }
+    .contentService>.col-2{
+        min-width: 25%;
+    }
+    .contentService>.col-2>.card-1>.card-body>a>p{
+        font-size: 13px;
+    }
+    .nameService{
+        margin-top: -2rem;
+    }
+    .content>.jumbotron>.contentJum{
+        position: absolute; top: 6rem;
+    }
+    
+}
+@media only screen and (max-width: 580px){
+    .content>.jumbotron>.contentJum{
+        width: 90%;
+    }
+    .content>img{
+        display: none;
+    }
+    .nameService{
+        margin-top: 14rem;
+    }
+    .content>.jumbotron>.contentJum{
+        position: absolute; top: 9rem;
+    }
+    .contentService>.col-2{
+        min-width: 30%;
+    }
+    .contentService>.col-2{
+        margin-left: 0.2rem;
+    }
+}
+@media only screen and (max-width: 480px){
+    .content>.jumbotron>.contentJum{
+        width: 80%;
+    }
+    .nameService{
+        margin-top: 18rem;
+    }
+    .contentService>.col-2{
+        min-width: 40%;
+    }
+}
+@media only screen and (max-width: 320px){
+    .content>.jumbotron>div>.display-4{
+        font-size: 18px;
+    }
+    .content>.jumbotron>div>.lead{
+        font-size: 13px;
+    }
+    .content>.jumbotron>div>a{
+        font-size: 11px;
+    }
+    .content>.jumbotron>div>p{
+        font-size: 10px;
+    }
+    .nameService>.col>h5{
+        font-size: 11px;
+    }
+    .contentService>.col-2{
+        min-width: 25%;
+    }
+    .contentService>.col-2>.card-1>.card-body>a>p{
+        font-size: 10px;
+    }
+    .nameService{
+        margin-top: 13rem;
+    }
+    .contentService>.col-2{
+        min-width: 45%;
+    }
+}

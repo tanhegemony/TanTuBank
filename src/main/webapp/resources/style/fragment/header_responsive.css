@@ -1,0 +1,66 @@
+@media only screen and (max-width: 1200px){
+    .logo{
+        min-width: 20%;
+    }
+    .menu1{
+        min-width: 80%;
+    }
+    .menu2{
+        min-width: 100%;
+        text-align: end;
+    }
+}
+@media only screen and (max-width: 991px){
+    .logo{
+        min-width: 30%;
+    }
+    .menu1{
+        min-width: 70%;
+        
+    }
+    .menu1>.nav{
+        justify-content: left;
+    }
+}
+@media only screen and (max-width: 767px){
+    .menu1>.nav>li>a,
+    .menu2>.nav>li>a{
+        font-size: 11px;
+    }
+    .personal>a,
+    .menu2>.nav>li>b{
+        font-size: 13px;
+    }
+    .logo{
+        min-width: 40%;
+    }
+    .menu1{
+        min-width: 60%;
+        
+    }
+}
+@media only screen and (max-width: 580px){
+    .logo{
+        min-width: 50%;
+    }
+    .menu1{
+        min-width: 100%;
+    }
+}
+@media only screen and (max-width: 320px){
+    .logo{
+        min-width: 60%;
+    }
+    .menu1>.nav>li>a,
+    .menu2>.nav>li>a{
+        font-size: 10px;
+    }
+    .personal>a,
+    .menu2>.nav>li>b{
+        font-size: 12px;
+    }
+    .personal{
+        background-color: #1a2c2a; 
+        border: 1px solid white;
+    }
+}

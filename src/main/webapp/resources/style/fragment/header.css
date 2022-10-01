@@ -1,0 +1,35 @@
+.header{
+    background-color: #8aaae5;
+}
+.header>.row>.col-7,
+.header>.row>.col-3{
+    font-size: 12px;
+}
+.header>.row>.col-7>.nav>li>a{
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.header>.row>.col-3>.nav>li>b{
+    font-size: 13px;color: black;
+}
+.header>.row>.col-3>.nav>li>a{
+    color: black;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    text-transform: uppercase;
+}
+.personal{
+    background-color: rgba(0,0,0,0.5); 
+    border: 1px solid white;
+}
+.personal>a{
+    color: white;
+}
+.personal>a:hover{
+    color: black;
+}
+.menu1>.nav{
+    justify-content: center;
+}

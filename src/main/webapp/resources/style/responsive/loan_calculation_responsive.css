@@ -1,0 +1,82 @@
+@media only screen and (max-width: 991px){
+    .content>.row>.col>nav{
+        position: absolute;
+        left: 2rem;
+        top: 3rem;
+    }
+}
+@media only screen and (max-width: 767px){
+    .content>.row>.col>nav{
+        position: absolute;
+        top: 2rem;
+    }
+    .inputForm,.displayForm{
+        min-width: 100%;
+    }
+    .form>.inputForm{
+        border-radius: 20px 20px 00px 0px;
+    }
+    .form>.displayForm{
+        border-radius: 0px 0px 20px 20px;
+    }
+    .content>.row>.col>nav>ol>li>a,
+    .content>.row>.col>nav>ol>.active{
+        font-size: 14px;
+    }
+    .contentForm>h2{
+        font-size: 20px;
+    }
+    .form>.inputForm>h5,.form>.displayForm>h5{
+        font-size: 18px;
+    }
+    .inputForm>form>.form-group>label,
+    .inputForm>form>.form-group>.input-group>input,
+    .inputForm>form>.form-group>.input-group>.input-group-append>span,
+    .inputForm>form>.form-group>.small,
+    .buttonCalculation>button,
+    .displayForm>.form-group>label,
+    .displayForm>.form-group>.input-group>input,
+    .displayForm>.form-group>.input-group>.input-group-append>span,
+    .thead>th,
+    .contentTable>td,
+    .endTable>th,.endTable>td,.note>.col>p{
+        font-size: 14px;
+    }
+}
+@media only screen and (max-width: 580px){
+    .content>.row>.col>nav{
+        position: absolute;
+        top: 1rem;
+    }
+    .originalPlusInterest,.month,.originalRemain,.original,.interest{
+        min-width: 6rem;
+    }
+}
+@media only screen and (max-width: 320px){
+    .content>.row>.col>nav>ol>li>a,
+    .content>.row>.col>nav>ol>.active{
+        font-size: 13px;
+    }
+    .contentForm>h2{
+        font-size: 13px;
+    }
+    .form>.inputForm>h5,.form>.displayForm>h5{
+        font-size: 12px;
+    }
+    .inputForm>form>.form-group>label,
+    .inputForm>form>.form-group>.input-group>input,
+    .inputForm>form>.form-group>.input-group>.input-group-append>span,
+    .inputForm>form>.form-group>.small,
+    .buttonCalculation>button,
+    .displayForm>.form-group>label,
+    .displayForm>.form-group>.input-group>input,
+    .displayForm>.form-group>.input-group>.input-group-append>span,
+    .thead>th,
+    .contentTable>td,
+    .endTable>th,.endTable>td,.note>.col>p{
+        font-size: 11px;
+    }
+    .originalPlusInterest,.month,.originalRemain,.original,.interest{
+        min-width: 3rem;
+    }
+}

@@ -1,0 +1,31 @@
+.footer{
+    background-color: #8aaae5;
+    margin-top: -1rem;
+}
+.footer>.row,
+.footer2{
+    color: black;
+}
+.aboutUs>h5,
+.supportInfo>h5,
+.info>h5,
+.follow>h5{
+    color: black;
+    font-weight: bold;
+}
+.aboutUs>a,
+.info>a,
+.boss>.col>a,
+.contact>.col>a,
+.email>.col>a{
+    color: black;
+}
+.boss>.col>b>img,
+.contact>.col>b>i,
+.email>.col>b>i{
+    border: 1px solid black;
+    padding: 5px 5px 5px 5px;
+    border-radius: 100%;
+    background-color: black;
+    color: white; 
+}

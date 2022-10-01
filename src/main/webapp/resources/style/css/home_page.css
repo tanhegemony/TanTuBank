@@ -1,0 +1,67 @@
+body {
+    background-color: #efede9;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  }
+.content>.jumbotron{
+    background-color: #efede9;
+    color: black;
+}
+.content>.jumbotron>.contentJum{
+    position: absolute; top: 4rem;
+    width: 50%;
+}
+.content>.jumbotron>div{
+    margin-top: 5rem;
+}
+.content>.jumbotron>div>.display-4{
+    font-size: 35px;
+}
+.content>.jumbotron>div>.lead{
+    font-size: 20px;
+}
+.content>.jumbotron>div>a{
+    font-size: 18px;
+    border: 2px solid black;
+    background-color: transparent;
+    padding: 5px 5px 5px 5px;
+    color: black;
+    font-weight: bolder;
+}
+
+.nameService>.col>h5{
+    color: black;
+    text-transform: uppercase;
+}
+.contentService>.col-2{
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-left: 1rem;
+}
+.contentService>.col-2>.card-1>a>img{
+    width: 30%;
+}
+.contentService>.col-2>.card-1>.card-body>a>p{
+    color: black;
+}
+
+.contentService>.col-2>.card-1 a>img {
+    transition: 0.5s;
+}
+
+.contentService>.col-2>.card-1:hover img {
+    opacity: 0.5;
+    transform:scale(1.1,1.1)
+    
+}
+.contentService>.col-2>.card-1>
+.card-body>a:hover{
+    text-decoration: none;
+}
+.contentService>.col-2>.card-1>
+.card-body>a>p:hover{
+    font-weight: bolder;
+}
+.nameService{
+    margin-top: -8rem;
+}
+

@@ -1,0 +1,51 @@
+body {
+    background-color: #efede9;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  }
+.content>.row>.col>nav{
+    position: absolute;
+    top: 5rem;
+    left: 7rem;
+}
+.content>.row>.col>nav>ol{
+    background-color: #efede9;
+}
+.content>.row>.col>nav>ol>li>a{
+    color: black;
+}
+.content>.row>.col>nav>ol>.active{
+    color: #8aaae5;
+}
+.contentForm>h2{
+    color: black;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+.contentForm>.form{
+    color: black;
+}
+.form>.inputForm{
+    border: 2px solid #8aaae5;
+    padding: 20px 20px 20px 20px;
+    border-radius: 20px 0px 0px 20px;
+}
+.form>.inputForm>h5{
+    font-weight: bolder;
+}
+.buttonCalculation>button{
+    background-color: #8aaae5; 
+    border: 1px solid black;
+}
+.form>.displayForm{
+    padding: 20px 20px 20px 20px;
+    border-radius: 0px 20px 20px 0px;
+    background-color: #8aaae5;
+}
+.form>.displayForm>h5{
+    color: black;
+    font-weight: bolder;
+}
+.thead{
+    background-color: #8aaae5;
+    text-align: center;
+}
