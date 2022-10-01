@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @author TanHegemony
  */
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
-    
+    //cc
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{JPAConfig.class};
