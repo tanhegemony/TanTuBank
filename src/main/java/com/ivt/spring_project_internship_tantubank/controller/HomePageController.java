@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomePageController {
-    @RequestMapping(value = {"/","/home"})
-    public String homePage(Model model){
-        return "/user/home_page";
-    }
+//    @RequestMapping(value = {"/","/home"})
+//    public String homePage(Model model){
+//        return "/user/home_page";
+//    }
     
     
 }

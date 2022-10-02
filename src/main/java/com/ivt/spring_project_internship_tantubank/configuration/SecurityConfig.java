@@ -4,10 +4,12 @@
  */
 package com.ivt.spring_project_internship_tantubank.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  *
@@ -17,5 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 //@EnableWebSecurity
 //@ComponentScan(basePackages = {"com.ivt.spring_project_internship_tantubank"})
 //public class SecurityConfig extends WebSecurityConfiguration{
+//    
+//    
+//    
 //    
 //}
