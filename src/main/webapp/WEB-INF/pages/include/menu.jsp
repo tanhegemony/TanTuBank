@@ -41,7 +41,7 @@
                             <li class="nav-item active">
                                 <a href="index.html" class="nav-toggle">
                                     <i class="material-icons">dashboard</i>
-                                    <span class="title">Bản điều khiển</span>
+                                    <span class="title">Bảng điều khiển</span>
 
                                 </a>
 
@@ -68,13 +68,13 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">account_circle</i>
-                                    <span class="title">Quản lý tài khoảng</span>
+                                    <span class="title">Quản lý tài khoản</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">autorenew</i>
-                                    <span class="title">Quản lý giao d?ch</span>
+                                    <span class="title">Quản lý giao dịch</span>
                                 </a>
                             </li>
                             <li class="nav-item">
