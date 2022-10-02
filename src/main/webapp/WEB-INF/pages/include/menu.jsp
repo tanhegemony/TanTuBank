@@ -52,7 +52,7 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">account_box</i>
-                                    <span class="title">Quảng lý người dùng</span>
+                                    <span class="title">Quản lý người dùng</span>
                                 </a>
                             </li>
                             <li class="menu-heading m-t-20">
@@ -61,26 +61,26 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">attach_money</i>
-                                    <span class="title">G?i ti?n</span>
+                                    <span class="title">Gửi tiền</span>
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">account_circle</i>
-                                    <span class="title">Quảng lý tài khoảng</span>
+                                    <span class="title">Quản lý tài khoảng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">autorenew</i>
-                                    <span class="title">Quảng lý giao d?ch</span>
+                                    <span class="title">Quản lý giao d?ch</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons"> person</i>
-                                    <span class="title">Quảng lý Khách hàng</span>
+                                    <span class="title">Quản lý Khách hàng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
