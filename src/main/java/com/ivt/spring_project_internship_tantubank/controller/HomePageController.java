@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomePageController {
     @RequestMapping(value = {"/","/home"})
     public String homePage(Model model){
+        System.out.println("Ton lan");
         return "/user/home_page";
     }
     
