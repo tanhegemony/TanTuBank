@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="sidebar-container">
                 <div class="sidemenu-container navbar-collapse collapse fixed-menu">
                     <div id="remove-scroll">
@@ -40,7 +41,7 @@
                             <li class="nav-item active">
                                 <a href="index.html" class="nav-toggle">
                                     <i class="material-icons">dashboard</i>
-                                    <span class="title">B?n ??u khi?n</span>
+                                    <span class="title">Bản điều khiển</span>
 
                                 </a>
 
@@ -51,7 +52,7 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">account_box</i>
-                                    <span class="title">Qu?n l� ng??i d�ng</span>
+                                    <span class="title">Quảng lý người dùng</span>
                                 </a>
                             </li>
                             <li class="menu-heading m-t-20">
@@ -67,25 +68,25 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">account_circle</i>
-                                    <span class="title">Qu?n l� t�i kho?ng</span>
+                                    <span class="title">Quảng lý tài khoảng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">autorenew</i>
-                                    <span class="title">Qu?ng l� giao d?ch</span>
+                                    <span class="title">Quảng lý giao d?ch</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons"> person</i>
-                                    <span class="title">Qu?ng l� Kh�ch h�ng</span>
+                                    <span class="title">Quảng lý Khách hàng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">assignment_returned</i>
-                                    <span class="title">R�t ti?n</span>
+                                    <span class="title">Rút tiền</span>
                                 </a>
                             </li>
                         </ul>

@@ -1,4 +1,5 @@
-  <div class="page-header navbar navbar-fixed-top">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<div class="page-header navbar navbar-fixed-top">
             <div class="page-header-inner ">
                 <!-- logo start -->
                 <div class="page-logo">
