@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -46,11 +47,11 @@ public class BankAccountEntity {
     @Column(name = "account_type", length = 20)
     private String accountType;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customerId")
     private CustomerEntity customer;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "bankId")
     private BankEntity bank;
     

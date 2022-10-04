@@ -17,7 +17,7 @@ public class HomePageController {
     @RequestMapping(value = {"/","/home"})
     public String homePage(Model model){
         System.out.println("");
-        return "/login";
+        return "/user/home_page";
     }
     
     

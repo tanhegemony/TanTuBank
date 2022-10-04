@@ -4,12 +4,14 @@
  */
 package com.ivt.spring_project_internship_tantubank.entities;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,15 +30,15 @@ public class BankEntity {
     @Column(name = "bank_name", length = 50, unique = true)
     private String bankName;
 
-    @OneToOne(mappedBy = "bank", cascade = CascadeType.ALL)
-    private BankAccountEntity bankAccount;
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
+    private List<BankAccountEntity> bankAccounts;
 
-    public BankAccountEntity getBankAccount() {
-        return bankAccount;
+    public List<BankAccountEntity> getBankAccounts() {
+        return bankAccounts;
     }
 
-    public void setBankAccount(BankAccountEntity bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setBankAccounts(List<BankAccountEntity> bankAccounts) {
+        this.bankAccounts = bankAccounts;
     }
     
     public long getId() {

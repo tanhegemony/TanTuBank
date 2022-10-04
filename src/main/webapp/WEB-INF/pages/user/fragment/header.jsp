@@ -30,7 +30,7 @@
                 nhân</a
               >
               <div class="dropdown-menu personal">
-                <a class="dropdown-item" href="#">Chuyển tiền nội bộ</a>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/viewInternalTransfer">Chuyển tiền nội ngân hàng</a>
                 <a class="dropdown-item" href="#">Chuyển tiền liên ngân hàng</a>
               </div>
             </li>

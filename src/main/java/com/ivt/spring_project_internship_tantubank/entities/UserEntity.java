@@ -52,8 +52,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserRoleEntity> userRoles;
 
-    @ManyToOne
-    @JoinColumn(name = "customerId")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private CustomerEntity customer;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

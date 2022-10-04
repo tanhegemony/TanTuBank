@@ -16,6 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -36,7 +37,7 @@ public class CustomerEntity {
     @Column(name = "customer_name", length = 50, unique = true)
     private String customerName;
     
-    @Column(name = "customer_email", length = 20, unique = true)
+    @Column(name = "customer_email", length = 50, unique = true)
     private String customerEmail;
     
     @Column(name = "customer_phone", length = 20, unique = true)
@@ -57,26 +58,27 @@ public class CustomerEntity {
     @Enumerated(EnumType.STRING)
     private Nation nation;
 
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<UserEntity> users;
+    private List<BankAccountEntity> bankAccounts;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private BankAccountEntity bankAccount;
-
-    public BankAccountEntity getBankAccount() {
-        return bankAccount;
+    public List<BankAccountEntity> getBankAccounts() {
+        return bankAccounts;
     }
 
-    public void setBankAccount(BankAccountEntity bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-    
-    public List<UserEntity> getUsers() {
-        return users;
+    public void setBankAccounts(List<BankAccountEntity> bankAccounts) {
+        this.bankAccounts = bankAccounts;
     }
 
-    public void setUsers(List<UserEntity> users) {
-        this.users = users;
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
     
     public long getId() {
