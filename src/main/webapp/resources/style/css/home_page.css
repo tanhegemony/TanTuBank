@@ -2,6 +2,9 @@ body {
     background-color: #efede9;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   }
+  .content>img{
+      width: 100%;
+  }
 .content>.jumbotron{
     background-color: #efede9;
     color: black;
