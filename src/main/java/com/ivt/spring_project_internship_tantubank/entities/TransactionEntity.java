@@ -34,7 +34,7 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "transaction_type", length = 20)
+    @Column(name = "transaction_type", length = 50)
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
     

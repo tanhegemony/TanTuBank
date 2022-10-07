@@ -1,7 +1,7 @@
 body {
     background-color: #efede9;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  }
+}
 .content>.row>.col>nav{
     position: absolute;
     top: 5rem;
@@ -25,9 +25,9 @@ body {
     margin-bottom: 30px;
     font-weight: 700;
     text-align: center;
-  }
+}
 
-  h3.title-comm:before {
+h3.title-comm:before {
     content: "";
     position: absolute;
     top: 50%;
@@ -37,9 +37,9 @@ body {
     border-top: 2px solid #8aaae5;
     z-index: 1;
     display: block;
-  }
+}
 
-  .title-comm .title-holder {
+.title-comm .title-holder {
     min-width: 350px;
     height: 45px;
     background-color: #8aaae5;
@@ -51,9 +51,9 @@ body {
     text-align: center;
     display: inline-block;
     min-width: 280px;
-  }
+}
 
-  .title-holder:before {
+.title-holder:before {
     content: "";
     position: absolute;
     right: -15px;
@@ -67,9 +67,9 @@ body {
     border-top: 23px solid transparent;
     border-bottom: 22px solid transparent;
     border-left: 15px solid #8aaae5;
-  }
+}
 
-  .title-holder:after {
+.title-holder:after {
     content: "";
     position: absolute;
     left: -15px;
@@ -83,76 +83,102 @@ body {
     border-top: 23px solid transparent;
     border-bottom: 22px solid transparent;
     border-right: 15px solid #8aaae5;
-  }
-  .transactionContent>.col-8{
-    border: 2px solid #8aaae5; 
-    border-radius: 10px; 
+}
+.transactionContent>.col-8{
+    border: 2px solid #8aaae5;
+    border-radius: 10px;
     padding: 50px;
-  }
-  .transactionContent>.col-8>h5,
-  .displayInfoTransaction>h5,
-  .confirmCode>h5{
+}
+.transactionContent>.col-8>h5,
+.displayInfoTransaction>h5,
+.confirmCode>h5{
     font-weight: bolder;
-  }
-  .destinationAccount>.col-4>img,
-  .destinationAccount>.col-6>img{
-    border-radius: 10px; 
+}
+.destinationAccount>.col-4>img,
+.destinationAccount>.col-6>img{
+    border-radius: 10px;
     border: 1px solid black;
-  }
-  .destinationAccount>.col-8>b,
-  .destinationAccount>.col-6>b{
+}
+.destinationAccount>.col-8>b,
+.destinationAccount>.col-6>b{
     font-size: 20px;
-  }
-  .destinationAccount>.col-8>p,
-  .destinationAccount>.col-6>p{
+}
+.destinationAccount>.col-8>p,
+.destinationAccount>.col-6>p{
     font-size: 14px;
-  }
-  .captcha>.col-3{
+}
+/*code chống copy past*/
+/*#displayCaptcha{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}*/
+.captcha>.col-3{
     margin-top: 1.5rem;
-  }
-  .captcha>.col-1{
+}
+.captcha>.col-1{
     margin-top: 2rem;
-  }
-  .captcha>.col-3>p{
+}
+.captcha>.col-3>p{
     font-style: italic;
-    border: 1px solid #8aaae5; 
+    border: 1px solid #8aaae5;
     background-color: #8aaae5;
     color: black;
     padding: 10px;
     font-size: 20px;
     text-align: center;
     border-radius: 20px;
-  }
-  .captcha>.col-1>button{
+}
+.captcha>.col-1>button{
     background-color: white;
     border: 1px solid white;
-  }
-  .nextButton>.col>button
-  ,.transferButton>.col>button{
+}
+.nextButton>.col>button
+,.transferButton>.col>button{
     border: 1px solid black;
     color: black;
     background-color: #8aaae5;
-  }
-  .makeTransaction>form>.displayInfoTransaction{
-    border: 2px solid #8aaae5; 
-    border-radius: 10px 0px 0px 10px; 
+}
+.makeTransaction>.displayInfoTransaction{
+    border: 2px solid #8aaae5;
+    border-radius: 10px 0px 0px 10px;
     padding: 50px;
-  }
-  .makeTransaction>form>.confirmCode{
-    border: 2px solid #8aaae5; 
-    border-radius: 0px 10px 10px 0px; 
+}
+.makeTransaction>.confirmCode{
+    border: 2px solid #8aaae5;
+    border-radius: 0px 10px 10px 0px;
     padding: 50px;
+}
+.receiveAccount>label>span,
+.nameReceiveAccount>label>span,
+.balance>label{
+    font-weight: bolder;
+}
+.balance>label>span,
+.confirmCode>.form-group>label>span{
+    color: red;
+}
+.confirmCode>.row>.col-6>img{
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+
+ .completeIT>.col-8{
+    border: 2px solid #8aaae5;
+    padding: 20px;
+    border-radius: 20px;
+    height: 20rem;
   }
-  .receiveAccount>label>span,
-  .nameReceiveAccount>label>span,
-  .balance>label{
+  .headerCompleteIT{
+    font-size: 30px;
+  }
+  .bodyCompleteIT>a{
+    color: #dd5415;
     font-weight: bolder;
   }
-  .balance>label>span,
-  .confirmCode>.form-group>label>span{
+  .footerCompleteIT>a{
     color: red;
-  }
-  .confirmCode>.row>.col-6>img{
-    border: 1px solid #fff; 
-    border-radius: 10px;
   }
