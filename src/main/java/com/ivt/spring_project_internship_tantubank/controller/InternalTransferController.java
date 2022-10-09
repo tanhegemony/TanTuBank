@@ -13,6 +13,8 @@ import com.ivt.spring_project_internship_tantubank.service.BankAccountService;
 import com.ivt.spring_project_internship_tantubank.service.TransactionService;
 import java.util.Date;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author TanHegemony
  */
 @Controller
-public class TransferController {
+public class InternalTransferController {
 
     @Autowired
     private BankAccountService bankAccountService;
@@ -47,56 +50,76 @@ public class TransferController {
 
     public void resetSessionTransactionAfter() {
         session.setAttribute("receiveAccount", new String());
-        session.setAttribute("bankReceiveAccount", new String());
+        session.setAttribute("receiveBankAccount", new BankAccountEntity());
         session.setAttribute("balanceTransfer", new String());
         session.setAttribute("captcha", new String());
         session.setAttribute("confirmCode", new String());
+        session.setAttribute("contentTransfer", new String());
     }
-    
+
     @RequestMapping("viewInternalTransfer")
     public String viewTransfer(Model model) {
-        BankAccountEntity bankAccount = bankAccountService.findBankAccountByTypeAndCustomer(AccountType.PAYMENT_ACCOUNT.toString(), 1);
-        session.setAttribute("bankReceiveAccount", new BankAccountEntity());
+        //set action
+        model.addAttribute("action", "internal_transfer");
+        //find bank account original
+        BankAccountEntity bankAccount = bankAccountService.findBankAccountByTypeAndCustomer(
+                AccountType.PAYMENT_ACCOUNT.toString(), 1);
         session.setAttribute("bankAccount", bankAccount);
+        // create auto captcha
+        String captcha = RandomStringUtils.randomAlphanumeric(6);
+        session.setAttribute("captcha", captcha);
+
         model.addAttribute("prepareIT", true);
         model.addAttribute("makeIT", false);
         model.addAttribute("completeIT", false);
-        String captcha = RandomStringUtils.randomAlphanumeric(6);
-        session.setAttribute("captcha", captcha);
-        resetSessionTransactionAfter();
+
+        // make empty session
+        session.setAttribute("receiveAccount", new String());
+        session.setAttribute("receiveBankAccount", new BankAccountEntity());
+        session.setAttribute("balanceTransfer", new String());
+        session.setAttribute("confirmCode", new String());
+        session.setAttribute("contentTransfer", new String());
         return "/user/internal_transfer";
     }
 
     @RequestMapping(value = "checkEnterReceiveAccount", method = RequestMethod.POST)
     public String checkEnterReceiveAccount(Model model) {
+        model.addAttribute("action", "internal_transfer");
         String receiveAccount = request.getParameter("receiveAccount");
         //find entered receive account
-        BankAccountEntity bankReceiveAccount = bankAccountService.findBankAccountByTypeAndAccountNumber(model, AccountType.PAYMENT_ACCOUNT.toString(), receiveAccount);
+        BankAccountEntity receiveBankAccount = bankAccountService.findBankAccountByTypeAndAccountNumberAndBank(model, AccountType.PAYMENT_ACCOUNT.toString(), receiveAccount, 1);
+
         session.setAttribute("receiveAccount", receiveAccount);
-        session.setAttribute("bankReceiveAccount", bankReceiveAccount);
+        session.setAttribute("receiveBankAccount", receiveBankAccount);
         model.addAttribute("prepareIT", true);
         model.addAttribute("makeIT", false);
         model.addAttribute("completeIT", false);
         return "/user/internal_transfer";
     }
-    
+
     @RequestMapping(value = "resultPrepareInternalTransfer", method = RequestMethod.POST)
     public String resultPrepareInternalTransfer(Model model) throws MessagingException {
-        // get Bank Account Original
-        BankAccountEntity bankAccount = bankAccountService.findBankAccountByTypeAndCustomer(AccountType.PAYMENT_ACCOUNT.toString(), 1);
-        // enter fields
-        String balanceTransferString = request.getParameter("balanceTransfer");
-        String balanceTransfer = balanceTransferString.replace(",", "");
-        System.out.println(balanceTransfer);
-        String captcha = request.getParameter("captcha");
-        //check enter captcha and sendmail
-        boolean checkCapt = transactionService.checkInternalTransfer(
-                model, balanceTransfer, bankAccount, captcha, 
-                bankAccount.getCustomer().getCustomerEmail());
-        model.addAttribute("balanceTransferString", balanceTransferString);
-        session.setAttribute("balanceTransfer", balanceTransfer);
-        if (checkCapt == true) {
-            return "redirect:/viewConfirmIT";
+        model.addAttribute("action", "internal_transfer");
+        if (session.getAttribute("receiveAccount").equals("")) {
+            model.addAttribute("messageReceiveAccountNumber", "Bạn chưa nhập tài khoản nhận!");
+        } else {
+            // get Bank Account Original
+            BankAccountEntity bankAccount
+                    = (BankAccountEntity) session.getAttribute("bankAccount");
+            // enter fields
+            String balanceTransfer = request.getParameter("balanceTransfer");
+            balanceTransfer = balanceTransfer.replaceAll(",", "");
+            String contentTransfer = request.getParameter("contentTransfer");
+            String captcha = request.getParameter("captcha");
+            //check enter captcha and sendmail
+            boolean checkTrans = transactionService.checkTransfer(
+                    model, contentTransfer, balanceTransfer, bankAccount, captcha,
+                    bankAccount.getCustomer().getCustomerEmail());
+            session.setAttribute("balanceTransfer", balanceTransfer);
+            session.setAttribute("contentTransfer", contentTransfer);
+            if (checkTrans == true) {
+                return "redirect:/viewConfirmIT";
+            }
         }
         model.addAttribute("prepareIT", true);
         model.addAttribute("makeIT", false);
@@ -115,6 +138,7 @@ public class TransferController {
 
     @RequestMapping("viewConfirmIT")
     public String viewConfirmEmailInternalTransfer(Model model) {
+        model.addAttribute("action", "internal_transfer");
         model.addAttribute("prepareIT", false);
         model.addAttribute("makeIT", true);
         model.addAttribute("completeIT", false);
@@ -123,6 +147,7 @@ public class TransferController {
 
     @RequestMapping(value = "resultMakeInternalTransfer", method = RequestMethod.POST)
     public String resultMakeInternalTransfer(Model model) {
+        model.addAttribute("action", "internal_transfer");
         String confirmCode = request.getParameter("confirmCode");
         boolean checkCCode = transactionService.checkConfirmCode(model, confirmCode);
         if (checkCCode == false) {
@@ -130,8 +155,7 @@ public class TransferController {
             model.addAttribute("completeIT", false);
         } else {
             TransactionEntity transaction = new TransactionEntity();
-            BankAccountEntity bankAccount = (BankAccountEntity) session.getAttribute("bankAccount");
-            transactionService.internalTransfer(transaction, bankAccount.getCustomer().getCustomerEmail());
+            transactionService.makeTransfer("internal_transfer", transaction);
             model.addAttribute("makeIT", false);
             model.addAttribute("completeIT", true);
             resetSessionTransactionAfter();
@@ -139,7 +163,5 @@ public class TransferController {
         model.addAttribute("prepareIT", false);
         return "/user/internal_transfer";
     }
-
-    
 
 }

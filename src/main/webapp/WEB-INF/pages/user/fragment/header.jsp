@@ -8,7 +8,7 @@
 <div class="container-fluid header">
       <div class="row">
         <div class="col-2 logo">
-            <img src="${pageContext.request.contextPath}/resources/images/tantubankLogo.png" class="img-fluid" alt="" />
+            <a href="${pageContext.request.contextPath}/home"><img src="${pageContext.request.contextPath}/resources/images/tantubankLogo.png" class="img-fluid" alt="" /></a>
         </div>
         <div class="col-7 menu1 mt-3">
           <ul class="nav">
@@ -31,7 +31,7 @@
               >
               <div class="dropdown-menu personal">
                 <a class="dropdown-item" href="${pageContext.request.contextPath}/viewInternalTransfer">Chuyển tiền nội ngân hàng</a>
-                <a class="dropdown-item" href="#">Chuyển tiền liên ngân hàng</a>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/viewExternalTransfer">Chuyển tiền liên ngân hàng</a>
               </div>
             </li>
             <li class="nav-item">

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Chuyển khoản nội ngân hàng</title>
+        <title>Chuyển khoản liên ngân hàng</title>
         <!-- Required meta tags -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta
@@ -25,8 +25,8 @@
         <link rel="stylesheet" href="<c:url value="/resources/style/fragment/header_responsive.css" />" />
         <link rel="stylesheet" href="<c:url value="/resources/style/fragment/footer.css" />" />
         <link rel="stylesheet" href="<c:url value="/resources/style/fragment/footer_responsive.css" />" />
-        <link rel="stylesheet" href="<c:url value="/resources/style/css/internal_transfer.css" />" />
-        <link rel="stylesheet" href="<c:url value="/resources/style/responsive/internal_transfer_responsive.css" />" />
+        <link rel="stylesheet" href="<c:url value="/resources/style/css/external_transfer.css" />" />
+        <link rel="stylesheet" href="<c:url value="/resources/style/responsive/external_transfer_responsive.css" />" />
         <script src="<c:url value="/webjars/bootstrap/4.6.1/js/bootstrap.min.js"/>"></script>
         <script src="<c:url value="/webjars/jquery/3.6.0/jquery.min.js"/>"></script>
     </head>
@@ -36,57 +36,82 @@
         <div class="container-fluid content">
             <div class="row">
                 <div class="col">
-                    <img src="${pageContext.request.contextPath}/resources/images/banner/banner_transfer.jpg" class="img-fluid" alt="" />
+                    <img src="${pageContext.request.contextPath}/resources/images/banner/complete_internal_transfer.jpg" class="img-fluid" alt="" />
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="#"><i class="fa-solid fa-house-chimney"></i> Trang chủ</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <i class="fa-solid fa-money-bill-transfer"></i> Chuyển tiền: nội
+                                <i class="fa-solid fa-money-bill-transfer"></i> Chuyển tiền: liên
                                 ngân hàng
                             </li>
                         </ol>
                     </nav>
                 </div>
             </div>
-            <h3 class="title-comm"><span class="title-holder">Chuyển tiền nội bộ ngân hàng</span></h3>
+            <h3 class="title-comm"><span class="title-holder">Chuyển tiền liên ngân hàng</span></h3>
             <div class="container contentForm mt-5">
-                <c:if test="${prepareIT == true}">
+                <c:if test="${prepareET == true}">
                     <div class="row transactionContent justify-content-center">
+                        <div class="col-4 text-center">
+                            <h5 class="text-center">Tài khoản gốc</h5>
+                            <img src="${pageContext.request.contextPath}/resources/images/cardblack_TanTuBank.png" class="img-fluid" alt="">
+                            <div class="row mt-2 destinationAccount">
+                                <div class="col">
+                                    <b>${sessionScope.bankAccount.accountNumber}</b>
+                                    <p>Số thẻ TanTuBank - Black Card</p>
+                                    <p>Số dư khả dụng: <fmt:formatNumber type="number" value="${sessionScope.bankAccount.balance}" />đ</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-8">
-                            <h5 class="text-center">Thông tin chuyển tiền nội ngân hàng</h5>
-                            <mvc:form action="${pageContext.request.contextPath}/checkEnterReceiveAccount" 
-                                      method="POST">
-                                <div class="row destinationAccount">
-                                    <div class="col-4">
-                                        <img src="${pageContext.request.contextPath}/resources/images/cardblack_TanTuBank.png" class="img-fluid" alt="">
-                                    </div>
+                            <h5 class="text-center">Thông tin giao dịch</h5>
+                            <mvc:form action="${pageContext.request.contextPath}/checkEnterReceiveAccountET" method="POST">
+                                <div class="form-group">
+                                    <label for="bankId">Chọn ngân hàng: </label>
+                                    <select class="form-control" name="bankId" id="bankId" onchange="this.form.submit();">
+                                        <option value="">Ngân hàng</option>
+                                        <c:forEach var="b" items="${banks}">
+                                            <c:if test="${b.bankName == 'TanTuBank'}">
+                                                <option disabled>${b.bankName}(Không được chọn)</option>
+                                            </c:if>
+                                            <c:if test="${b.bankName != 'TanTuBank'}">
+                                                <c:if test="${sessionScope.bankId == b.id}">
+                                                    <option value="${b.id}" selected>${b.bankName}</option>
+                                                </c:if>
+                                                <c:if test="${sessionScope.bankId != b.id}">
+                                                    <option value="${b.id}">${b.bankName}</option>
+                                                </c:if>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                    <small class="form-text text-muted">${messageBank}</small>
+                                </div>
+                                <div class="row enterReceiveAcc">
                                     <div class="col-8">
-                                        <b>${sessionScope.bankAccount.accountNumber}</b>
-                                        <p>Số thẻ <span style="font-weight: bolder;">TanTuBank</span> - Black Card</p>
-                                        <p>Số dư khả dụng: <fmt:formatNumber type="number" value="${sessionScope.bankAccount.balance}" />đ</p>
+                                        <div class="form-group mt-3">
+                                            <label for="receiveAccount">Nhập số tài khoản nhận: </label>
+                                            <input type="text" class="form-control" name="receiveAccount" id="receiveAccount"
+                                                   placeholder="Số tài khoản của bạn là gì?" value="${sessionScope.receiveAccount}" onchange="this.form.submit();">
+                                            <small class="form-text text-muted">${messageReceiveAccountNumber}</small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label for="receiveAccount">Nhập số tài khoản nhận (TK Thanh toán): </label>
-                                    <input type="text" class="form-control" name="receiveAccount" id="receiveAccount"
-                                           placeholder="Số tài khoản này phải là tài khoản TanTuBank" onchange="this.form.submit()" 
-                                           value="${sessionScope.receiveAccount}">
-                                    <small class="form-text text-muted">${messageReceiveAccountNumber}</small>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label>Tên tài khoản nhận: </label>
-                                    <input type="text" class="form-control" value="${sessionScope.receiveBankAccount.accountName}" readonly>
+                                    <div class="col-4">
+                                        <div class="form-group mt-3">
+                                            <label>Tên tài khoản nhận: </label>
+                                            <input type="text" class="form-control" value="${sessionScope.receiveBankAccount.accountName}" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </mvc:form>
-                            <mvc:form action="${pageContext.request.contextPath}/resultPrepareInternalTransfer" method="POST">
+                            <mvc:form action="${pageContext.request.contextPath}/resultPrepareExternalTransfer" method="POST">
                                 <div class="form-group">
                                     <label for="balanceTransfer">Nhập số tiền: </label>
-                                    <input type="text" min="0"  class="form-control" 
-                                           name="balanceTransfer"  id="balanceTransfer"
+                                    <input type="text" min="0" class="form-control" 
+                                           name="balanceTransfer" id="balanceTransfer"
                                            placeholder="Số tiền cần chuyển là bao nhiêu?" 
-                                           value="${sessionScope.balanceTransfer}">
+                                           value="${balanceTransfer}">
                                     <small class="form-text text-muted">${messageBalanceTransfer}</small>
                                     <script>
                                         var Amount = document.getElementById("balanceTransfer");
@@ -98,78 +123,83 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="contentTransfer">Nội dung chuyển khoản: </label>
-                                    <textarea class="form-control" name="contentTransfer" id="contentTransfer" rows="3"
-                                              >${bankAccount.accountName} chuyển khoản</textarea>
+                                    <textarea class="form-control" name="contentTransfer" id="contentTransfer" rows="3"><c:if test="${contentTransfer == ''}">${sessionScope.bankAccount.accountName} chuyển khoản</c:if>${contentTransfer}</textarea>
                                     <small class="form-text text-muted">${messageContentTransfer}</small>
                                 </div>
                                 <div class="row captcha">
                                     <div class="col-8">
                                         <div class="form-group">
-                                            <label for="captcha">Nhập captcha (6 ký tự): </label>
-                                            <input type="text" class="form-control" name="captcha" id="captcha" placeholder="Captcha nè!">
+                                            <label for="captcha">Nhập captcha (6 ký tự cả số và chữ): </label>
+                                            <input type="text" class="form-control" name="captcha" id="captcha"
+                                                   placeholder="Captcha nè!">
                                             <small class="form-text text-muted">${messageCaptcha}</small>
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <p id="displayCaptcha">${sessionScope.captcha}</p>
+                                        <script>
+                                            function change() {
+                                                $.ajax({
+                                                    type: 'GET',
+                                                    contentType: "application/json",
+                                                    dataType: 'json',
+                                                    url: '${home}changeCaptET',
+                                                    success: function (e) {
+                                                    },
+                                                    error: function (e) {
+                                                        $("#displayCaptcha").load("${home}changeCaptET");
+                                                    }
+
+                                                });
+                                            }
+
+                                        </script>
+
                                     </div>
                                     <div class="col-1">
-                                        <p class="btn" onclick="change();"><i class="fa-solid fa-rotate"></i></p>
+                                        <p onclick="change()" class="btn"><i class="fa-solid fa-rotate"></i></p>
                                     </div>
                                 </div>
                                 <div class="row nextButton text-center">
                                     <div class="col">
-                                        <button  class="btn">
+                                        <button class="btn">
                                             <i class="fa-solid fa-forward"></i> Tiếp tục</button>
                                     </div>
                                 </div>
                             </mvc:form>
-
-
-                            <script>
-                                function change() {
-                                    $.ajax({
-                                        type: 'GET',
-                                        contentType: "application/json",
-                                        dataType: 'json',
-                                        url: '${home}changeCapt',
-                                        success: function (e) {
-                                        },
-                                        error: function (e) {
-                                            $("#displayCaptcha").load("${home}changeCapt");
-                                        }
-
-                                    });
-                                }
-
-                            </script>
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${makeIT == true}">
-                    <mvc:form action="${pageContext.request.contextPath}/resultMakeInternalTransfer" method="POST">
+                <c:if test="${makeET == true}">
+                    <mvc:form action="${pageContext.request.contextPath}/resultMakeExternalTransfer" method="POST">
                         <div class="row makeTransaction mt-2">
                             <div class="col-6 displayInfoTransaction">
-                                <h5 class="text-center" >Thông tin giao dịch</h5>
-                                <div class="row destinationAccount">
-                                    <div class="col-6">
-                                        <img src="${pageContext.request.contextPath}/resources/images/cardblack_TanTuBank.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="col-6">
-                                        <b>${bankAccount.accountNumber}</b>
+                                <h5 class="text-center">Thông tin giao dịch</h5>
+                                <div class="row destinationAccount text-center">
+                                    <div class="col-5">
+                                        <img src="${pageContext.request.contextPath}/resources/images/cardblack_TanTuBank.png" class="img-fluid" alt=""> <br>
+                                        <b>${sessionScope.bankAccount.accountNumber}</b>
                                         <p>Số thẻ TanTuBank - Black Card</p>
-                                        <p>Số dư khả dụng: <fmt:formatNumber type="number" value="${sessionScope.bankAccount.balance}"/>đ</p>
+                                        <p>Số dư khả dụng: <fmt:formatNumber type="number" value="${sessionScope.bankAccount.balance}" />đ</p>
+                                    </div>
+                                    <div class="col-1 mt-5">
+                                        <i class="fas fa-long-arrow-right"></i>
+                                        <i class="fas fa-long-arrow-down"></i>
+                                    </div>
+                                    <div class="col-6 mt-4">
+                                        <img src="${pageContext.request.contextPath}/resources/images/banks/${bank.imageBank}" class="img-fluid" alt=""> <br>
+                                        <div class="form-group receiveAccount mt-3">
+                                            <label for="accountNumber">${sessionScope.receiveBankAccount.accountNumber}</label>
+                                        </div>
+                                        <div class="form-group nameReceiveAccount mt-3">
+                                            <label>${sessionScope.receiveBankAccount.accountName}</label>
+                                        </div>
+                                        <div class="form-group balance">
+                                            <label for="balance">Số tiền chuyển: <span><fmt:formatNumber type="number" value="${balanceTransfer}" />đ</span></label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group receiveAccount mt-3">
-                                    <label for="accountNumber">Số tài khoản nhận: <span>${sessionScope.receiveBankAccount.accountNumber}</span></label>
-                                </div>
-                                <div class="form-group nameReceiveAccount mt-3">
-                                    <label>Tên tài khoản nhận: <span>${sessionScope.receiveBankAccount.accountName}</span></label>
-                                </div>
-                                <div class="form-group balance">
-                                    <label for="balance">Số tiền chuyển: <span><fmt:formatNumber type="number" value="${sessionScope.balanceTransfer}" />đ</span></label>
-                                </div>
+
                             </div>
                             <div class="col-6 confirmCode">
                                 <h5 class="text-center">Xác nhận</h5>
@@ -185,8 +215,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="confirmCode">Nhập mã xác nhận (Hiệu lực mã xác nhận có giá trị 1 phút ): 
-                                        <span id="time">01:00</span> minutes!</label>
+                                    <label for="balance">Nhập mã xác nhận (Hiệu lực mã xác nhận có giá trị 1 phút ): <span
+                                            id="time">01:00</span> minutes!</label>
                                     <input type="text" class="form-control" name="confirmCode" id="confirmCode"
                                            placeholder="Mã xác nhận đã được gửi tới email của bạn!">
                                     <small class="form-text text-muted">${messageConfirmCode}</small>
@@ -197,12 +227,15 @@
                                             setInterval(function () {
                                                 minutes = parseInt(timer / 60, 10);
                                                 seconds = parseInt(timer % 60, 10);
+
                                                 minutes = minutes < 10 ? "0" + minutes : minutes;
                                                 seconds = seconds < 10 ? "0" + seconds : seconds;
+
                                                 display.textContent = minutes + ":" + seconds;
+
                                                 if (--timer < 0) {
                                                     timer = duration;
-                                                    location.href = '${home}viewInternalTransfer'
+                                                    // location.href='index.html'
                                                 }
                                             }, 1000);
                                         }
@@ -216,26 +249,27 @@
                                 </div>
                                 <div class="row transferButton text-center">
                                     <div class="col">
-                                        <button class="btn"><i
-                                                class="fa-solid fa-money-bill-transfer"></i> Chuyển tiền</button>
+                                        <button class="btn"><i class="fa-solid fa-money-bill-transfer"></i> Chuyển
+                                            tiền</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </mvc:form>
                 </c:if>
-                <c:if test="${completeIT == true}">
+                <c:if test="${completeET == true}">
                     <div class="row completeIT justify-content-center">
                         <div class="col-8 mt-4 text-center">
                             <b class="headerCompleteIT">Giao dịch thành công</b>
-                            <p class="bodyCompleteIT">Bạn vui lòng kiểm tra lại thông tin giao dịch trong <a href="https://mail.google.com/mail/u/0/#inbox">Email của bạn</a>
+                            <p class="bodyCompleteIT">Bạn vui lòng kiểm tra lại thông tin giao dịch trong <a
+                                    href="https://mail.google.com/mail/u/0/#inbox">Email của bạn</a>
                                 hoặc trang <a href="#">Lịch sử giao dịch</a> để nắm thông tin.</p>
-                            <b class="footerCompleteIT">Mọi thắc mắc xin liên hệ <a href="tel:0376160960">0376160960 (gặp Anh Tấn HandsomeBoy)</a>
+                            <b class="footerCompleteIT">Mọi thắc mắc xin liên hệ <a href="tel:0376160960">0376160960 (gặp Anh
+                                    Tấn HandsomeBoy)</a>
                                 hoặc <a href="tel:0795768338">0795768338 (gặp Anh Tự SadBoy)</a></b>
                         </div>
                     </div>
                 </c:if>
-
             </div>
         </div>
         <jsp:include page="fragment/footer.jsp" />

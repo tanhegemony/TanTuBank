@@ -47,28 +47,33 @@ public class BankAccountService {
     }
 
     // check bank acc by account type and receive account number
-    public BankAccountEntity findBankAccountByTypeAndAccountNumber(Model model, String accountType, String receiveAccount) {
-        if (receiveAccount.equals("")) {
-            model.addAttribute("messageAccountNumber", "ReceiveAccount không được để trống!");
+    public BankAccountEntity findBankAccountByTypeAndAccountNumberAndBank(Model model, String accountType, String receiveAccount, long bankId) {
+        if (bankId == 0) {
+            model.addAttribute("messageBank", "Bạn vui lòng chọn bank!");
         } else {
-            if (StringUtils.isNumeric(receiveAccount) == false || receiveAccount.length() != 16) {
-                model.addAttribute("messageAccountNumber", "ReceiveAccount phải là số có 16 số");
+            if (receiveAccount.equals("")) {
+                model.addAttribute("messageReceiveAccountNumber", "ReceiveAccount không được để trống!");
             } else {
-                BankAccountEntity bankAccount = bankAccountRepository.findByAccountTypeAndAccountNumber(accountType, receiveAccount);
-                System.out.println(bankAccount);
-                if (bankAccount != null) {
-                    StringBuilder sb = new StringBuilder(bankAccount.getAccountNumber());
-                    sb = sb.insert(4, " ");
-                    sb = sb.insert(9, " ");
-                    sb = sb.insert(14, " ");
-                    bankAccount.setAccountNumber(sb.toString());
-                    return bankAccount;
+                if (StringUtils.isNumeric(receiveAccount) == false || receiveAccount.length() != 16) {
+                    model.addAttribute("messageReceiveAccountNumber", "ReceiveAccount phải là số có 16 số");
                 } else {
-                    model.addAttribute("messageAccountNumber", "Tài khoản này không tồn tại!");
+                    BankAccountEntity bankAccount = bankAccountRepository.findByAccountTypeAndAccountNumberAndBankId(accountType, receiveAccount, bankId);
+                    System.out.println(bankAccount);
+                    if (bankAccount != null) {
+                        StringBuilder sb = new StringBuilder(bankAccount.getAccountNumber());
+                        sb = sb.insert(4, " ");
+                        sb = sb.insert(9, " ");
+                        sb = sb.insert(14, " ");
+                        bankAccount.setAccountNumber(sb.toString());
+                        return bankAccount;
+                    } else {
+                        model.addAttribute("messageReceiveAccountNumber", "Tài khoản này không tồn tại!");
+                    }
                 }
-            }
 
+            }
         }
+
         return new BankAccountEntity();
     }
 }

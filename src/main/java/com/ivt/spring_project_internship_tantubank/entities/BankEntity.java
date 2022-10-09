@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -33,6 +35,28 @@ public class BankEntity {
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
     private List<BankAccountEntity> bankAccounts;
 
+    @Column(name = "image_bank", length = 1000)
+    private String imageBank;
+    
+    @Transient
+    private MultipartFile imgBank;
+
+    public String getImageBank() {
+        return imageBank;
+    }
+
+    public void setImageBank(String imageBank) {
+        this.imageBank = imageBank;
+    }
+
+    public MultipartFile getImgBank() {
+        return imgBank;
+    }
+
+    public void setImgBank(MultipartFile imgBank) {
+        this.imgBank = imgBank;
+    }
+    
     public List<BankAccountEntity> getBankAccounts() {
         return bankAccounts;
     }

@@ -5,6 +5,7 @@
 package com.ivt.spring_project_internship_tantubank.entities;
 
 import com.ivt.spring_project_internship_tantubank.enums.TransactionType;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -41,9 +43,12 @@ public class TransactionEntity {
     @Column(name = "transaction_amount")
     private double transactionAmount;
     
+    @Column(name = "transaction_content", length = 50)
+    private String transactionContent;
+    
     @Column(name = "transaction_date")
-    @Temporal(TemporalType.DATE)
-    private Date transactionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp transactionDate;
     
     @ManyToOne
     @JoinColumn(name = "bankAccountId1")
@@ -64,6 +69,14 @@ public class TransactionEntity {
         this.id = id;
     }
 
+    public String getTransactionContent() {
+        return transactionContent;
+    }
+
+    public void setTransactionContent(String transactionContent) {
+        this.transactionContent = transactionContent;
+    }
+
     public TransactionType getTransactionType() {
         return transactionType;
     }
@@ -80,11 +93,11 @@ public class TransactionEntity {
         this.transactionAmount = transactionAmount;
     }
 
-    public Date getTransactionDate() {
+    public Timestamp getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(Timestamp transactionDate) {
         this.transactionDate = transactionDate;
     }
 
