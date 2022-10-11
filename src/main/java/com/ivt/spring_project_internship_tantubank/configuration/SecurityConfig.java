@@ -4,12 +4,14 @@
 // */
 //package com.ivt.spring_project_internship_tantubank.configuration;
 //
+//import com.ivt.spring_project_internship_tantubank.service.UserDetailsServiceImpl;
+//import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.ComponentScan;
 //import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
@@ -23,35 +25,32 @@
 //@EnableWebSecurity
 //@ComponentScan(basePackages = {"com.ivt.spring_project_internship_tantubank"})
 //public class SecurityConfig extends WebSecurityConfigurerAdapter{
+//    
+//    @Autowired
+//    private UserDetailsServiceImpl userDetailsService;
+//    
 //    @Bean
 //    public BCryptPasswordEncoder passwordEncoder() {
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 //        return bCryptPasswordEncoder;
 //    }
 //
-////    @Autowired
-////    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-////    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//    }
 //
 //
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
 //
 //        http.csrf().disable();
-//        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/home").permitAll();
+//        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/home", "/register", "/checkAccountBySendEmails", "/user/loan_calculation").permitAll();
 //
-////        http.authorizeRequests().antMatchers("/addVoteMovie","/booking","/booking_seat",
-////                "/view_checkout","/checkout","/manage_user", "/viewBookingDetail","/addVoteReviewMovie",
-////                "/likeReviewMovie").access("hasAnyRole('ROLE_ADMIN,ROLE_USER,ROLE_MANAGER,ROLE_RECEPTIONIST')")
-////                .antMatchers("/admin/home").access("hasAnyRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_RECEPTIONIST')")
-////                .antMatchers("/admin/accounts","/admin/accountsBanking").access("hasRole('ROLE_ADMIN')")
-////                .antMatchers("/admin/payments").access("hasAnyRole('ROLE_MANAGER, ROLE_RECEPTIONIST')")
-////                .antMatchers("/admin/bookings","/admin/customers","/admin/categories", "/admin/cinemaRooms",
-////                        "/admin/cinemas", "/admin/cinemaMovies", "/admin/foods", "/admin/movies",
-////                        "/admin/promotions", "/admin/reviews", "/admin/seats", "/admin/tickets",
-////                        "/admin/votes").access("hasRole('ROLE_MANAGER')");
-//
+//        http.authorizeRequests().antMatchers("/user/home","/user/internal_transfer", "/viewExternalTransfer").access("hasAnyRole('CUSTOMER,TELLER,ADMIN')")
+//                .antMatchers("/admin/*").access("hasRole('TELLER')")
+//                .antMatchers("/admin/*","/admin/accountsBanking").access("hasRole('ADMIN')");
+//                
 //        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 //
 //        http.authorizeRequests().and().formLogin()
@@ -61,7 +60,7 @@
 //                .failureUrl("/login?error=true")
 //                .usernameParameter("userName")
 //                .passwordParameter("password")
-//                .and().logout().logoutUrl("/logout1?logoutStatus=true")
+//                .and().logout().logoutUrl("/logout")
 //                .logoutSuccessUrl("/home").deleteCookies("JSESSIONID");
 //        
 //        http.authorizeRequests().and().rememberMe().tokenRepository(this.persistentTokenRepository())

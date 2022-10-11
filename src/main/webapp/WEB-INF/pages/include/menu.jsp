@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="sidebar-container">
                 <div class="sidemenu-container navbar-collapse collapse fixed-menu">
@@ -38,6 +39,7 @@
                             <li class="menu-heading">
                                 <span>-- Main</span>
                             </li>
+                            <sec:authorize access="isAuthenticated()">
                             <li class="nav-item active">
                                 <a href="index.html" class="nav-toggle">
                                     <i class="material-icons">dashboard</i>
@@ -46,15 +48,19 @@
                                 </a>
 
                             </li>
+                             <sec:authorize access="hasRole('ADMIN')">
                             <li class="menu-heading m-t-20">
                                 <span>--Admin</span>
                             </li>
+                           
                             <li class="nav-item">
                                 <a href="#" class="nav-link nav-toggle">
                                     <i class="material-icons">account_box</i>
                                     <span class="title">Quản lý người dùng</span>
                                 </a>
                             </li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('TELLER')">
                             <li class="menu-heading m-t-20">
                                 <span>--Teller</span>
                             </li>
@@ -89,6 +95,8 @@
                                     <span class="title">Rút tiền</span>
                                 </a>
                             </li>
+                            </sec:authorize>
+                            </sec:authorize>
                         </ul>
                     </div>
                 </div>

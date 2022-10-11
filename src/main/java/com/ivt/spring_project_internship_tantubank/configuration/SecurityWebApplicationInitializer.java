@@ -10,6 +10,6 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
  *
  * @author tanhegemony
  */
-//public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer{
-//    
-//}
+public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer{
+    
+}

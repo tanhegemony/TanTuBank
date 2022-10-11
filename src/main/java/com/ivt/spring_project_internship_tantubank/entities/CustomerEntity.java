@@ -34,7 +34,7 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "customer_name", length = 50, unique = true)
+    @Column(name = "customer_name", length = 50)
     private String customerName;
     
     @Column(name = "customer_email", length = 50, unique = true)
