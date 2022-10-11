@@ -58,7 +58,6 @@ public class BankAccountService {
                     model.addAttribute("messageReceiveAccountNumber", "ReceiveAccount phải là số có 16 số");
                 } else {
                     BankAccountEntity bankAccount = bankAccountRepository.findByAccountTypeAndAccountNumberAndBankId(accountType, receiveAccount, bankId);
-                    System.out.println(bankAccount);
                     if (bankAccount != null) {
                         StringBuilder sb = new StringBuilder(bankAccount.getAccountNumber());
                         sb = sb.insert(4, " ");

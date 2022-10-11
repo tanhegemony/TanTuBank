@@ -86,8 +86,8 @@
                                     <input type="text" min="0"  class="form-control" 
                                            name="balanceTransfer"  id="balanceTransfer"
                                            placeholder="Số tiền cần chuyển là bao nhiêu?" 
-                                           value="${sessionScope.balanceTransfer}">
-                                    <small class="form-text text-muted">${messageBalanceTransfer}</small>
+                                           value="${sessionScope.balanceTransaction}">
+                                    <small class="form-text text-muted">${messageBalanceTransaction}</small>
                                     <script>
                                         var Amount = document.getElementById("balanceTransfer");
                                         Amount.addEventListener('keyup', function (evt) {
@@ -99,7 +99,7 @@
                                 <div class="form-group">
                                     <label for="contentTransfer">Nội dung chuyển khoản: </label>
                                     <textarea class="form-control" name="contentTransfer" id="contentTransfer" rows="3"
-                                              >${bankAccount.accountName} chuyển khoản</textarea>
+                                              ><c:if test="${contentTransaction == ''}">${sessionScope.bankAccount.accountName} chuyển khoản</c:if>${contentTransaction}</textarea>
                                     <small class="form-text text-muted">${messageContentTransfer}</small>
                                 </div>
                                 <div class="row captcha">
@@ -168,7 +168,7 @@
                                     <label>Tên tài khoản nhận: <span>${sessionScope.receiveBankAccount.accountName}</span></label>
                                 </div>
                                 <div class="form-group balance">
-                                    <label for="balance">Số tiền chuyển: <span><fmt:formatNumber type="number" value="${sessionScope.balanceTransfer}" />đ</span></label>
+                                    <label for="balance">Số tiền chuyển: <span><fmt:formatNumber type="number" value="${sessionScope.balanceTransaction}" />đ</span></label>
                                 </div>
                             </div>
                             <div class="col-6 confirmCode">

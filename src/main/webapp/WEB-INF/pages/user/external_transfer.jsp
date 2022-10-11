@@ -111,8 +111,8 @@
                                     <input type="text" min="0" class="form-control" 
                                            name="balanceTransfer" id="balanceTransfer"
                                            placeholder="Số tiền cần chuyển là bao nhiêu?" 
-                                           value="${balanceTransfer}">
-                                    <small class="form-text text-muted">${messageBalanceTransfer}</small>
+                                           value="${sessionScope.balanceTransaction}">
+                                    <small class="form-text text-muted">${messageBalanceTransaction}</small>
                                     <script>
                                         var Amount = document.getElementById("balanceTransfer");
                                         Amount.addEventListener('keyup', function (evt) {
@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="contentTransfer">Nội dung chuyển khoản: </label>
-                                    <textarea class="form-control" name="contentTransfer" id="contentTransfer" rows="3"><c:if test="${contentTransfer == ''}">${sessionScope.bankAccount.accountName} chuyển khoản</c:if>${contentTransfer}</textarea>
+                                    <textarea class="form-control" name="contentTransfer" id="contentTransfer" rows="3"><c:if test="${contentTransaction == ''}">${sessionScope.bankAccount.accountName} chuyển khoản</c:if>${contentTransaction}</textarea>
                                     <small class="form-text text-muted">${messageContentTransfer}</small>
                                 </div>
                                 <div class="row captcha">
@@ -195,7 +195,7 @@
                                             <label>${sessionScope.receiveBankAccount.accountName}</label>
                                         </div>
                                         <div class="form-group balance">
-                                            <label for="balance">Số tiền chuyển: <span><fmt:formatNumber type="number" value="${balanceTransfer}" />đ</span></label>
+                                            <label for="balance">Số tiền chuyển: <span><fmt:formatNumber type="number" value="${balanceTransaction}" />đ</span></label>
                                         </div>
                                     </div>
                                 </div>

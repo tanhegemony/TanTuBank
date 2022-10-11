@@ -1,0 +1,71 @@
+@media only screen and (max-width: 767px){
+    .makeDeposit>.col-md-12>form>.form-group>label,
+    .makeDeposit>.col-md-12>form>.form-group>input,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-4>.form-group>label,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-4>.form-group>input,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-6>.form-group>label,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-6>.form-group>input,
+    .captcha>.col-9>.form-group>label,
+    .captcha>.col-9>.form-group>input{
+        font-size: 14px;
+    }
+    .captcha>.col-2>p{
+        font-size: 16px;
+    }
+    .captcha>.col-9{
+        max-width: 60%;
+    }
+    .captcha>.col-2{
+        min-width: 25%;
+    }
+    .captcha>.col-1{
+        max-width: 15%;
+    }
+    .nameCus{
+        min-width: 100%;
+    }
+    .emailCus,.phoneCus{
+        min-width: 50%;
+    }
+}
+@media only screen and (max-width: 480px){
+    .emailCus,.phoneCus{
+        min-width: 100%;
+    }
+    .staffInfoDeposit>.col-6{
+        min-width: 100%;
+    }
+    .captcha>.col-9{
+        min-width: 100%;
+    }
+    .captcha>.col-2{
+        min-width: 40%;
+        margin-top: 0rem;
+    }
+    .captcha>.col-1{
+        margin-top: 1.3rem;
+    }
+}
+@media only screen and (max-width: 320px){
+    .makeDeposit>.col-md-12>form>.form-group>label,
+    .makeDeposit>.col-md-12>form>.form-group>input,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-4>.form-group>label,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-4>.form-group>input,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-6>.form-group>label,
+    .makeDeposit>.col-md-12>form>.row>
+    .col-6>.form-group>input,
+    .captcha>.col-9>.form-group>label,
+    .captcha>.col-9>.form-group>input{
+        font-size: 12px;
+    }
+    .captcha>.col-2>p{
+        font-size: 14px;
+    }
+}

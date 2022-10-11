@@ -61,6 +61,30 @@ public class TransactionEntity {
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<ExternalTransferEntity> externalTransfers;
 
+    @ManyToOne
+    @JoinColumn(name = "staffId")
+    private StaffEntity staff; 
+    
+    @Column(name = "fee_transaction")
+    private double feeTransaction;
+
+    public StaffEntity getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffEntity staff) {
+        this.staff = staff;
+    }
+
+    public double getFeeTransaction() {
+        return feeTransaction;
+    }
+
+    public void setFeeTransaction(double feeTransaction) {
+        this.feeTransaction = feeTransaction;
+    }
+    
+    
     public long getId() {
         return id;
     }

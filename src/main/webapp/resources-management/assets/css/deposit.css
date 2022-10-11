@@ -1,0 +1,35 @@
+.pull-left>.page-title{
+    font-weight: bolder;
+}
+.captcha>.col-2{
+    margin-top: 1.3rem;
+}
+.captcha>.col-2>p{
+    background-color: #8aaae5;
+    padding: 20px;
+    border-radius: 10px; 
+    font-size: 18px;
+}
+.captcha>.col-1{
+    margin-top: 2.2rem;
+}
+.depositButton>.col>button{
+    background-color: #426bb5; 
+    color: white;
+}
+.depositButton>.col>button>img{
+    width: 20%;
+}
+.completeDeposit>.col{
+    background-color: #8aaae5;
+    border-radius: 10px;
+    padding: 20px;
+}
+.completeDeposit>.col>.headerCD{
+    font-size: 20px;
+    color: red;
+    font-weight: bold;
+}
+.contentCD{
+    font-size: 18px;
+}

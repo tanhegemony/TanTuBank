@@ -8,6 +8,7 @@ import com.ivt.spring_project_internship_tantubank.entities.BankAccountEntity;
 import com.ivt.spring_project_internship_tantubank.entities.BankEntity;
 import com.ivt.spring_project_internship_tantubank.entities.TransactionEntity;
 import com.ivt.spring_project_internship_tantubank.enums.AccountType;
+import com.ivt.spring_project_internship_tantubank.enums.TransactionType;
 import com.ivt.spring_project_internship_tantubank.service.BankAccountService;
 import com.ivt.spring_project_internship_tantubank.service.BankService;
 import com.ivt.spring_project_internship_tantubank.service.TransactionService;
@@ -48,11 +49,11 @@ public class ExternalTransferController {
     public void resetSessionTransactionAfter() {
         session.setAttribute("receiveAccount", new String());
         session.setAttribute("bankReceiveAccount", new BankAccountEntity());
-        session.setAttribute("balanceTransfer", new String());
+        session.setAttribute("balanceTransaction", new String());
         session.setAttribute("captcha", new String());
         session.setAttribute("confirmCode", new String());
         session.setAttribute("bank", new BankEntity());
-        session.setAttribute("contentTransfer", new String());
+        session.setAttribute("contentTransaction", new String());
     }
 
     @RequestMapping("viewExternalTransfer")
@@ -71,8 +72,8 @@ public class ExternalTransferController {
 
         session.setAttribute("receiveAccount", new String());
         session.setAttribute("bankReceiveAccount", new BankAccountEntity());
-        session.setAttribute("balanceTransfer", new String());
-        session.setAttribute("contentTransfer", new String());
+        session.setAttribute("balanceTransaction", new String());
+        session.setAttribute("contentTransaction", new String());
         session.setAttribute("bankId", 0);
         model.addAttribute("prepareET", true);
         model.addAttribute("makeET", false);
@@ -106,14 +107,15 @@ public class ExternalTransferController {
             model.addAttribute("messageReceiveAccountNumber", "Bạn chưa nhập tài khoản nhận!");
         } else {
             BankAccountEntity bankAccount = (BankAccountEntity) session.getAttribute("bankAccount");
-            String balanceTransfer = request.getParameter("balanceTransfer");
-            balanceTransfer = balanceTransfer.replaceAll(",", "");
-            String contentTransfer = request.getParameter("contentTransfer");
+            String balanceTransaction = request.getParameter("balanceTransfer");
+            balanceTransaction = balanceTransaction.replaceAll(",", "");
+            String contentTransaction = request.getParameter("contentTransfer");
             String captcha = request.getParameter("captcha");
-            boolean checkTrans = transactionService.checkTransfer(model, contentTransfer, balanceTransfer,
+            boolean checkTrans = transactionService.checkTransaction(
+                    model, "external_transfer",contentTransaction, balanceTransaction,
                     bankAccount, captcha, bankAccount.getCustomer().getCustomerEmail());
-            session.setAttribute("balanceTransfer", balanceTransfer);
-            session.setAttribute("contentTransfer", contentTransfer);
+            session.setAttribute("balanceTransaction", balanceTransaction);
+            session.setAttribute("contentTransaction", contentTransaction);
             if (checkTrans == true) {
                 return "redirect:/viewConfirmET";
             }
@@ -158,6 +160,7 @@ public class ExternalTransferController {
             model.addAttribute("completeET", false);
         }else{
             TransactionEntity transaction = new TransactionEntity();
+            transaction.setTransactionType(TransactionType.EXTERNAL_TRANSFER_PAYMENT_ACCOUNT);
             transactionService.makeTransfer("external_transfer", transaction);
             model.addAttribute("makeET", false);
             model.addAttribute("completeET", true);

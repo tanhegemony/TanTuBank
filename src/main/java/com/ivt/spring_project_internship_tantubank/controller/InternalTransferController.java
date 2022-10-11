@@ -54,7 +54,7 @@ public class InternalTransferController {
         session.setAttribute("balanceTransfer", new String());
         session.setAttribute("captcha", new String());
         session.setAttribute("confirmCode", new String());
-        session.setAttribute("contentTransfer", new String());
+        session.setAttribute("contentTransaction", new String());
     }
 
     @RequestMapping("viewInternalTransfer")
@@ -78,7 +78,7 @@ public class InternalTransferController {
         session.setAttribute("receiveBankAccount", new BankAccountEntity());
         session.setAttribute("balanceTransfer", new String());
         session.setAttribute("confirmCode", new String());
-        session.setAttribute("contentTransfer", new String());
+        session.setAttribute("contentTransaction", new String());
         return "/user/internal_transfer";
     }
 
@@ -107,16 +107,17 @@ public class InternalTransferController {
             BankAccountEntity bankAccount
                     = (BankAccountEntity) session.getAttribute("bankAccount");
             // enter fields
-            String balanceTransfer = request.getParameter("balanceTransfer");
-            balanceTransfer = balanceTransfer.replaceAll(",", "");
-            String contentTransfer = request.getParameter("contentTransfer");
+            String balanceTransaction = request.getParameter("balanceTransfer");
+            balanceTransaction = balanceTransaction.replaceAll(",", "");
+            String contentTransaction = request.getParameter("contentTransfer");
             String captcha = request.getParameter("captcha");
             //check enter captcha and sendmail
-            boolean checkTrans = transactionService.checkTransfer(
-                    model, contentTransfer, balanceTransfer, bankAccount, captcha,
+            boolean checkTrans = transactionService.checkTransaction(
+                    model, "internal_transfer",contentTransaction, 
+                    balanceTransaction, bankAccount, captcha,
                     bankAccount.getCustomer().getCustomerEmail());
-            session.setAttribute("balanceTransfer", balanceTransfer);
-            session.setAttribute("contentTransfer", contentTransfer);
+            session.setAttribute("balanceTransaction", balanceTransaction);
+            session.setAttribute("contentTransaction", contentTransaction);
             if (checkTrans == true) {
                 return "redirect:/viewConfirmIT";
             }
@@ -155,6 +156,7 @@ public class InternalTransferController {
             model.addAttribute("completeIT", false);
         } else {
             TransactionEntity transaction = new TransactionEntity();
+            transaction.setTransactionType(TransactionType.INTERNAL_TRANSFER_PAYMENT_ACCOUNT);
             transactionService.makeTransfer("internal_transfer", transaction);
             model.addAttribute("makeIT", false);
             model.addAttribute("completeIT", true);
