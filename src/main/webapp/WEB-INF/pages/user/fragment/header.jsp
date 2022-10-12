@@ -14,7 +14,7 @@
         <div class="col-7 menu1 mt-3">
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" href="#">
+                <a class="nav-link" target="_blank" href="${pageContext.request.contextPath}/management/dashboard">
                 <img src="${pageContext.request.contextPath}/resources/images/icon/aboutus.png" class="img-fluid" alt="" />
                 Giới thiệu</a
               >

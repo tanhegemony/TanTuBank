@@ -108,14 +108,14 @@ h3.title-comm:before {
     font-size: 14px;
 }
 /*code chống copy past*/
-/*#displayCaptcha{
+#displayCaptcha{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
-}*/
+}
 .captcha>.col-3{
     margin-top: 1.5rem;
 }

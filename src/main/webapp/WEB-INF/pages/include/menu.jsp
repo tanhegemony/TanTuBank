@@ -39,8 +39,8 @@
                             <li class="menu-heading">
                                 <span>-- Main</span>
                             </li>
-                            <sec:authorize access="isAuthenticated()">
-                            <li class="nav-item active">
+                            <%--<sec:authorize access="isAuthenticated()">--%>
+                            <li class="nav-item <c:if test="${action == 'dashboard'}">active</c:if>">
                                 <a href="index.html" class="nav-toggle">
                                     <i class="material-icons">dashboard</i>
                                     <span class="title">Bảng điều khiển</span>
@@ -48,7 +48,7 @@
                                 </a>
 
                             </li>
-                             <sec:authorize access="hasRole('ADMIN')">
+                             <%--<sec:authorize access="hasRole('ADMIN')">--%>
                             <li class="menu-heading m-t-20">
                                 <span>--Admin</span>
                             </li>
@@ -59,15 +59,15 @@
                                     <span class="title">Quản lý người dùng</span>
                                 </a>
                             </li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('TELLER')">
+                            <%--</sec:authorize>--%>
+                            <%--<sec:authorize access="hasRole('TELLER')">--%>
                             <li class="menu-heading m-t-20">
                                 <span>--Teller</span>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link nav-toggle">
+                            <li class="nav-item <c:if test="${action == 'deposit_for_customer'}">active</c:if>">
+                                <a href="${pageContext.request.contextPath}/management/depositForCustomer" class="nav-link nav-toggle">
                                     <i class="material-icons">attach_money</i>
-                                    <span class="title">Gửi tiền</span>
+                                    <span class="title">Nạp tiền cho khách hàng</span>
                                 </a>
                             </li>
 
@@ -95,8 +95,8 @@
                                     <span class="title">Rút tiền</span>
                                 </a>
                             </li>
-                            </sec:authorize>
-                            </sec:authorize>
+                            <%--</sec:authorize>--%>
+                            <%--</sec:authorize>--%>
                         </ul>
                     </div>
                 </div>

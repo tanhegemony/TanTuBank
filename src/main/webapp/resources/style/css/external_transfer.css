@@ -84,6 +84,14 @@ body {
     border-bottom: 22px solid transparent;
     border-right: 15px solid #8aaae5;
   }
+  #displayCaptcha{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
   .transactionContent>.col-8,
   .transactionContent>.col-4{
     border: 2px solid #8aaae5; 
