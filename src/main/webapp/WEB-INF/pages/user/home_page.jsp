@@ -1,4 +1,6 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="mvc" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -44,6 +46,62 @@
                         thiết đã ghé thăm website chính thức của TanTuBank.
                     </p>
                     <a class="btn btn-lg" href="#" role="button">Xem thêm</a>
+                </div>
+            </div>
+            <div class="container currencyConversion">
+                <div class="row">
+                    <div class="col-4 conversion">
+                        <h5>Quy đổi tiền tệ</h5>
+                        <mvc:form action="${pageContext.request.contextPath}/resultCurrencyConversion" method="POST">
+                            <div class="form-group">
+                                <label for="balanceConversion">(*)Nhập số tiền quy đổi: <small class="text-muted">${messageBalanceConversion}</small> </label>
+                                <div class="form-inline">
+                                    <input type="text" class="form-control enterBalance" name="balanceConversion" 
+                                           id="balanceConversion" value="${balanceConversion}" placeholder="Bạn muốn đổi bao nhiêu tiền?" onchange="this.form.submit();">
+                                    <script>
+                                        var Amount = document.getElementById("balanceConversion");
+                                        Amount.addEventListener('keyup', function (evt) {
+                                            var n = parseFloat(this.value.replace(/\D/g, ''), 10);
+                                            Amount.value = n.toLocaleString();
+                                        }, false);
+                                    </script>
+                                    <select name="countryCurrentId" id="countryCurrentId" 
+                                            class="form-control selectCurrencyType" onchange="this.form.submit();">
+                                        <c:forEach var="countryCurrency" items="${countriesCurrency}">
+                                            ${countryCurrencyId}
+                                            <c:if test="${countryCurrencyId == countryCurrency.id}">
+                                                <option value="${countryCurrency.id}" selected>${countryCurrency.currencyType}</option>
+                                            </c:if>
+                                            <c:if test="${countryCurrencyId != countryCurrency.id}">
+                                                <option value="${countryCurrency.id}">${countryCurrency.currencyType}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                           <input type="text" class="form-control showChangeBalance mt-2" value="<fmt:formatNumber type="number" maxFractionDigits="2" value="${balanceConversionSoVietNam}"/>VND" readonly>
+                            </div>
+
+                        </mvc:form>
+                    </div>
+                    <div class="col-8 tableConversion">
+                        <h5>Bảng tỷ giá các nước trên Thế Giới so với Việt Nam</h5>
+                        <table class="table table-responsive-sm">
+                            <tr class="headerTable">
+                                <th class="nameCountry">Tên nước</th>
+                                <th class="currencyType">Loại tiền tệ</th>
+                                <th class="currencyUnit">Đơn vị tiền tệ</th>
+                                <th class="rateSoVietNam">Tỷ giá so với Việt Nam</th>
+                            </tr>
+                            <c:forEach var="countryCurrency" items="${countriesCurrency}">
+                                <tr class="contentTable">
+                                    <td><img src="${pageContext.request.contextPath}/resources/images/icon_country/${countryCurrency.imageCountry}" class="img-fluid" alt=""> ${countryCurrency.nameCountry}</td>
+                                    <td>${countryCurrency.currencyType}</td>
+                                    <td>${countryCurrency.currencyUnit}</td>
+                                    <td>1 VND = ${countryCurrency.currencyUnit} <fmt:formatNumber maxFractionDigits="6" value="${countryCurrency.currencyValue}"  /></td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="row nameService text-center">
@@ -172,16 +230,16 @@
         <jsp:include page="fragment/footer.jsp" />
         <jsp:include page="fragment/go_to_top.jsp" />
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"
         ></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"
         ></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"
         ></script>
     </body>
 </html>

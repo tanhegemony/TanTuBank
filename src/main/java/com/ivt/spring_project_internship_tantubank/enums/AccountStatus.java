@@ -8,6 +8,6 @@ package com.ivt.spring_project_internship_tantubank.enums;
  *
  * @author TanHegemony
  */
-public enum UserStatus {
+public enum AccountStatus {
     ACTIVE, UNACTIVE, LOCK
 }

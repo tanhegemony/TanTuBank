@@ -64,7 +64,22 @@ body {
 .card-body>a>p:hover{
     font-weight: bolder;
 }
-.nameService{
+.currencyConversion{
     margin-top: -8rem;
+}
+.currencyConversion>.row>.col-4>h5,
+.currencyConversion>.row>.col-8>h5{
+    text-transform: uppercase;
+}
+.form-inline>.enterBalance{
+    width: 15rem;
+    border-radius: 10px 10px 0px 0px;
+    border: 1px solid black;
+}
+.form-inline>.selectCurrencyType{
+    background-color: black;
+    color: white;
+    border-radius: 0px 0px 10px 10px;
+    border: 1px solid black;
 }
 

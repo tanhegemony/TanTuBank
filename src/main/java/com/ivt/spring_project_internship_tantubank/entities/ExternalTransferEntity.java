@@ -4,8 +4,10 @@
  */
 package com.ivt.spring_project_internship_tantubank.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +34,7 @@ public class ExternalTransferEntity {
     @JoinColumn(name = "transactionId")
     private TransactionEntity transaction;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "bankAccountId")
     private BankAccountEntity bankAccount;
 

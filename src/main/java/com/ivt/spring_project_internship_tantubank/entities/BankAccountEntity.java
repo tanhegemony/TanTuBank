@@ -4,11 +4,16 @@
  */
 package com.ivt.spring_project_internship_tantubank.entities;
 
+import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +24,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -41,11 +47,23 @@ public class BankAccountEntity {
     private double balance;
     
     @Column(name = "create_date")
-    @Temporal(TemporalType.DATE)
-    private Date createDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp createDate;
     
     @Column(name = "account_type", length = 20)
     private String accountType;
+    
+    @Column(name = "bank_account_status", length = 10)
+    @Enumerated(EnumType.STRING)
+    private AccountStatus bankAccountStatus;
+
+    public AccountStatus getBankAccountStatus() {
+        return bankAccountStatus;
+    }
+
+    public void setBankAccountStatus(AccountStatus bankAccountStatus) {
+        this.bankAccountStatus = bankAccountStatus;
+    }
     
     @ManyToOne
     @JoinColumn(name = "customerId")
@@ -61,15 +79,15 @@ public class BankAccountEntity {
     @OneToMany(mappedBy = "bankAccount2", cascade = CascadeType.ALL)
     private List<TransactionEntity> transactions2;
 
-    @OneToOne(mappedBy = "bankAccount", cascade = CascadeType.ALL)
-    private ExternalTransferEntity externalTransfer;
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
+    private List<ExternalTransferEntity> externalTransfers;
 
-    public ExternalTransferEntity getExternalTransfer() {
-        return externalTransfer;
+    public List<ExternalTransferEntity> getExternalTransfers() {
+        return externalTransfers;
     }
 
-    public void setExternalTransfer(ExternalTransferEntity externalTransfer) {
-        this.externalTransfer = externalTransfer;
+    public void setExternalTransfers(List<ExternalTransferEntity> externalTransfers) {
+        this.externalTransfers = externalTransfers;
     }
     
     public BankEntity getBank() {
@@ -130,14 +148,15 @@ public class BankAccountEntity {
         this.balance = balance;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
+    
     public String getAccountType() {
         return accountType;
     }

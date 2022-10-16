@@ -8,7 +8,7 @@ import com.ivt.spring_project_internship_tantubank.entities.CustomerEntity;
 import com.ivt.spring_project_internship_tantubank.entities.RoleEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserRoleEntity;
-import com.ivt.spring_project_internship_tantubank.enums.UserStatus;
+import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
 import com.ivt.spring_project_internship_tantubank.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,7 +80,7 @@ public class UserService {
         user.setUserName(userName);
         user.setPassword(encoder.encode(password));
         user.setCreateDate(new Date());
-        user.setUserStatus(UserStatus.ACTIVE);
+        user.setUserStatus(AccountStatus.ACTIVE);
 
         List<UserRoleEntity> roleList = new ArrayList<>();
         UserRoleEntity roleA = new UserRoleEntity();

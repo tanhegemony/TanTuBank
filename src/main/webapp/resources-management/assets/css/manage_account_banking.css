@@ -1,0 +1,45 @@
+.pull-left>.page-title{
+    font-weight: bolder;
+}
+.openAccountButton>button{
+    background-color: #8aaae5;
+}
+.openAccountButton>button:hover{
+    background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);;
+}
+.searchAccountBank>form>.form-check-inline>input{
+    border-radius: 5px 0px 0px 5px;
+}
+.searchAccountBank>form>.form-check-inline>button{
+    border-radius: 0px 5px 5px 0px;
+}
+.searchAccountBank>form>.form-check-inline{
+    float: right;
+}
+.statusActive{
+    color: #31a24c;
+}
+.statusUnactive{
+    color: black;
+}
+.statusLock{
+    color: red;
+}
+.activeButton{
+    background-color: #31a24c;
+    color: white;
+}
+.paginate{
+    float: right;
+}
+.paginate>.col>nav>ul>li>a{
+    color: black;
+}
+.nameFilter>.col-3>h4{
+    color: white;
+    font-weight: bolder;
+    background-color: red;
+    padding: 5px;
+    text-align: center;
+    border-radius: 10px;
+}

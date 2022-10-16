@@ -4,7 +4,7 @@
  */
 package com.ivt.spring_project_internship_tantubank.entities;
 
-import com.ivt.spring_project_internship_tantubank.enums.UserStatus;
+import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,13 +44,13 @@ public class UserEntity {
     
     @Column(name = "user_status", length = 10)
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus = UserStatus.UNACTIVE;
+    private AccountStatus userStatus = AccountStatus.UNACTIVE;
     
     @Column(name = "create_date")
     @Temporal(TemporalType.DATE)
     private Date createDate;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -106,11 +107,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public UserStatus getUserStatus() {
+    public AccountStatus getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(UserStatus userStatus) {
+    public void setUserStatus(AccountStatus userStatus) {
         this.userStatus = userStatus;
     }
 

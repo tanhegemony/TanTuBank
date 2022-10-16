@@ -1,0 +1,58 @@
+@media only screen and (max-width: 1200px){
+    .accountNumber,.nameAccount,.nameBank{
+        min-width: 10rem;
+    }
+    .createDate{
+        min-width: 12rem;
+    }
+    .status,.customer{
+        min-width: 8rem;
+    }
+    .manage{
+        min-width: 16rem;
+    }
+    .openAccountButton{
+        min-width: 100%;
+        margin-bottom: 1rem;
+    }
+    .pageSize,.searchAccountBank{
+        min-width: 50%;
+    }
+    .contentFilter>.col-3{
+        min-width: 50%;
+    }
+}
+@media only screen and (max-width: 767px){
+    .nameFilter>.col-3{
+        min-width: 40%;
+    }
+    .pageSize,.searchAccountBank{
+        min-width: 100%;
+    }
+}
+@media only screen and (max-width: 580px){
+    .openAccountButton{
+        min-width: 50%;
+    }
+    .searchAccountBank{
+        margin-top: 1rem;
+        min-width: 100%;
+    }
+    .pageSize>form>.form-inline>select{
+        width: 10rem;
+    }
+}
+@media only screen and (max-width: 480px){
+    .pageSize>form>.form-inline>select{
+        width: 5rem;
+    }
+    .nameFilter>.col-3{
+        min-width: 60%;
+    }
+    .contentFilter{
+        justify-content: center;
+    }
+    .contentFilter>.col-3{
+        min-width: 80%;
+    }
+}

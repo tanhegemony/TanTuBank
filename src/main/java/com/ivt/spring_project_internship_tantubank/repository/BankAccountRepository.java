@@ -5,7 +5,10 @@
 package com.ivt.spring_project_internship_tantubank.repository;
 
 import com.ivt.spring_project_internship_tantubank.entities.BankAccountEntity;
-import com.ivt.spring_project_internship_tantubank.enums.AccountType;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +22,14 @@ public interface BankAccountRepository extends CrudRepository<BankAccountEntity,
     
     BankAccountEntity findByAccountTypeAndAccountNumberAndBankId(String accountType, String accountNumber, long bankId);
 
+    Page<BankAccountEntity> findByAccountTypeAndBankId(String accountType, long bankId, Pageable pageable);
+
+    
+    Page<BankAccountEntity> findByAccountTypeAndBankIdNot(String accountType, long bankId, Pageable pageable);
+
+    @Query("SELECT ba FROM BankAccountEntity ba WHERE ba.accountType = ?1 AND ba.bank.id = ?2 AND (ba.accountName LIKE ?3 OR ba.customer.customerPhone LIKE ?4)")
+    Page<BankAccountEntity> searchBankAccountByNameAndPhone(String accountType, long bankId, String accountName, String customerPhone, Pageable pageable);
+    
+    @Query("SELECT ba FROM BankAccountEntity ba WHERE ba.accountType = ?1 AND ba.bank.id != ?2 AND (ba.accountName LIKE ?3 OR ba.customer.customerPhone LIKE ?4)")
+    Page<BankAccountEntity> searchBankAccountByNameAndPhoneNotTanTuBank(String accountType, long bankId, String accountName, String customerPhone, Pageable pageable);
 }

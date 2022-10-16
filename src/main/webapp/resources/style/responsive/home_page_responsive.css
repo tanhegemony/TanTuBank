@@ -2,8 +2,31 @@
     .contentService>.col-2{
         margin-left: 0.5rem;
     }
+    .conversion{
+        max-width: 30%;
+    }
+    .tableConversion{
+        min-width: 70%;
+    }
 }
 @media only screen and (max-width: 991px){
+    .currencyConversion{
+        margin-top: 0rem;
+    }
+    .conversion{
+        min-width: 70%;
+    }
+    .tableConversion{
+        margin-top: 1rem;
+        min-width: 100%;
+    }
+    .form-inline>.enterBalance{
+        width: 15rem;
+        border-radius: 10px 0px 0px 10px;
+    }
+    .form-inline>.selectCurrencyType{
+        border-radius: 0px 10px 10px 0px;
+    }
     .contentService>.col-2{
         min-width: 20%;
     }
@@ -13,19 +36,31 @@
 }
 
 @media only screen and (max-width: 767px){
+    .currencyConversion{
+        margin-top: 0rem;
+    }
+    .conversion{
+        min-width: 90%;
+    }
     .content>.jumbotron>div>.display-4{
         font-size: 25px;
     }
-    .content>.jumbotron>div>.lead{
+    .content>.jumbotron>div>.lead,
+    .headerTable>th{
         font-size: 15px;
     }
-    .content>.jumbotron>div>a{
+    .content>.jumbotron>div>a,.conversion>form>.form-group>label,
+    .conversion>form>.form-group>.form-inline>input,
+    .conversion>form>.form-group>input,
+    .conversion>form>.form-group>.form-inline>select,
+    .contentTable>td{
         font-size: 13px;
     }
     .content>.jumbotron>div>p{
         font-size: 12px;
     }
-    .nameService>.col>h5{
+    .nameService>.col>h5,.currencyConversion>.row>.col-4>h5,
+    .currencyConversion>.row>.col-8>h5{
         font-size: 15px;
     }
     .contentService>.col-2{
@@ -34,23 +69,30 @@
     .contentService>.col-2>.card-1>.card-body>a>p{
         font-size: 13px;
     }
-    .nameService{
-        margin-top: -2rem;
-    }
     .content>.jumbotron>.contentJum{
         position: absolute; top: 6rem;
     }
     
 }
 @media only screen and (max-width: 580px){
+    .currencyConversion{
+        margin-top: 13rem;
+    }
+    .conversion{
+        min-width: 100%;
+    }
+    .form-inline>.enterBalance{
+        width: 12rem;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .form-inline>.selectCurrencyType{
+        border-radius: 0px 0px 10px 10px;
+    }
     .content>.jumbotron>.contentJum{
         width: 90%;
     }
     .content>img{
         display: none;
-    }
-    .nameService{
-        margin-top: 14rem;
     }
     .content>.jumbotron>.contentJum{
         position: absolute; top: 9rem;
@@ -63,30 +105,45 @@
     }
 }
 @media only screen and (max-width: 480px){
+    .currencyConversion{
+        margin-top: 17rem;
+    }
+    .nameCountry,.currencyType,.currencyUnit{
+        min-width: 7.5rem;
+    }
+    .rateSoVietNam{
+        min-width: 11rem;
+    }
     .content>.jumbotron>.contentJum{
         width: 80%;
-    }
-    .nameService{
-        margin-top: 18rem;
     }
     .contentService>.col-2{
         min-width: 40%;
     }
 }
 @media only screen and (max-width: 320px){
+    .currencyConversion{
+        margin-top: 12rem;
+    }
     .content>.jumbotron>div>.display-4{
         font-size: 18px;
     }
-    .content>.jumbotron>div>.lead{
+    .content>.jumbotron>div>.lead,.headerTable>th{
         font-size: 13px;
     }
-    .content>.jumbotron>div>a{
+    .content>.jumbotron>div>a,
+    .conversion>form>.form-group>label,
+    .conversion>form>.form-group>.form-inline>input,
+    .conversion>form>.form-group>input,
+    .conversion>form>.form-group>.form-inline>select,
+    .contentTable>td{
         font-size: 11px;
     }
     .content>.jumbotron>div>p{
         font-size: 10px;
     }
-    .nameService>.col>h5{
+    .nameService>.col>h5,.currencyConversion>.row>.col-4>h5,
+    .currencyConversion>.row>.col-8>h5{
         font-size: 11px;
     }
     .contentService>.col-2{
@@ -94,9 +151,6 @@
     }
     .contentService>.col-2>.card-1>.card-body>a>p{
         font-size: 10px;
-    }
-    .nameService{
-        margin-top: 13rem;
     }
     .contentService>.col-2{
         min-width: 45%;

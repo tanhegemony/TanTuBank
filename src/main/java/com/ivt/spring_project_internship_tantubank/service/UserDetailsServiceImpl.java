@@ -7,7 +7,7 @@ package com.ivt.spring_project_internship_tantubank.service;
 import com.ivt.spring_project_internship_tantubank.entities.RoleEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserEntity;
 import com.ivt.spring_project_internship_tantubank.enums.Nation;
-import com.ivt.spring_project_internship_tantubank.enums.UserStatus;
+import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
 import com.ivt.spring_project_internship_tantubank.repository.RoleRepository;
 import com.ivt.spring_project_internship_tantubank.repository.UserRepository;
 import java.util.HashSet;
@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserEntity user = UserRepository.findByUserNameLikeAndUserStatus(userName, UserStatus.ACTIVE);
+        UserEntity user = UserRepository.findByUserNameLikeAndUserStatus(userName, AccountStatus.ACTIVE);
         if(user == null){
             throw  new UsernameNotFoundException(userName);
         }

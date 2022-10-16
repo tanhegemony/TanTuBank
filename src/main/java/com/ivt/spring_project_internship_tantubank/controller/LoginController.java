@@ -9,7 +9,7 @@ import com.ivt.spring_project_internship_tantubank.entities.CustomerEntity;
 import com.ivt.spring_project_internship_tantubank.entities.RoleEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserRoleEntity;
-import com.ivt.spring_project_internship_tantubank.enums.UserStatus;
+import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
 import com.ivt.spring_project_internship_tantubank.service.CustomerService;
 import com.ivt.spring_project_internship_tantubank.service.RoleService;
 import com.ivt.spring_project_internship_tantubank.service.UserService;

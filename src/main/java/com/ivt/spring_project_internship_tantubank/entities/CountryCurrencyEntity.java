@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author TanHegemony
  */
 @Entity
-@Table(name = "countryCurrent")
-public class CountryCurrentEntity {
+@Table(name = "countryCurrency")
+public class CountryCurrencyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,9 +33,15 @@ public class CountryCurrentEntity {
     @Transient
     private MultipartFile imgCountry;
     
-    @Column(name = "current_value")
-    private double currentValue;
+    @Column(name = "currency_value")
+    private double currencyValue;
 
+    @Column(name = "currency_unit", length = 10)
+    private String currencyUnit;
+    
+    @Column(name = "currency_type", length = 20)
+    private String currencyType;
+    
     public long getId() {
         return id;
     }
@@ -68,13 +74,27 @@ public class CountryCurrentEntity {
         this.imgCountry = imgCountry;
     }
 
-    public double getCurrentValue() {
-        return currentValue;
+    public double getCurrencyValue() {
+        return currencyValue;
     }
 
-    public void setCurrentValue(double currentValue) {
-        this.currentValue = currentValue;
+    public void setCurrencyValue(double currencyValue) {
+        this.currencyValue = currencyValue;
     }
-    
-    
+
+    public String getCurrencyUnit() {
+        return currencyUnit;
+    }
+
+    public void setCurrencyUnit(String currencyUnit) {
+        this.currencyUnit = currencyUnit;
+    }
+
+    public String getCurrencyType() {
+        return currencyType;
+    }
+
+    public void setCurrencyType(String currencyType) {
+        this.currencyType = currencyType;
+    }
 }
