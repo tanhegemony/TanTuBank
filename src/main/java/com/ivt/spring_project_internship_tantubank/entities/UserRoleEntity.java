@@ -4,6 +4,7 @@
  */
 package com.ivt.spring_project_internship_tantubank.entities;
 
+import com.ivt.spring_project_internship_tantubank.enums.RoleUser;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -55,6 +56,6 @@ public class UserRoleEntity {
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-    
-    
+
+   
 }

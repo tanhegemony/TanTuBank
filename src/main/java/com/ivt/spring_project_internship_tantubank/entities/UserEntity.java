@@ -5,6 +5,7 @@
 package com.ivt.spring_project_internship_tantubank.entities;
 
 import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
+import com.ivt.spring_project_internship_tantubank.enums.UserStatus;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -121,6 +122,10 @@ public class UserEntity {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

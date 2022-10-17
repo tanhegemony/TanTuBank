@@ -8,7 +8,7 @@ import com.ivt.spring_project_internship_tantubank.entities.CustomerEntity;
 import com.ivt.spring_project_internship_tantubank.entities.RoleEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserEntity;
 import com.ivt.spring_project_internship_tantubank.entities.UserRoleEntity;
-import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
+import com.ivt.spring_project_internship_tantubank.enums.UserStatus;
 import com.ivt.spring_project_internship_tantubank.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,7 +72,7 @@ public class UserService {
 
     public boolean addRegister(Model model, String userName, String password,
             String customerName, String customerEmail,
-            String customerPhone, String passwordAgain) throws MessagingException {
+            String customerPhone, String passwordAgain, String captcha) throws MessagingException {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -80,60 +80,70 @@ public class UserService {
         user.setUserName(userName);
         user.setPassword(encoder.encode(password));
         user.setCreateDate(new Date());
-        user.setUserStatus(AccountStatus.ACTIVE);
-
+        user.setUserStatus(UserStatus.ACTIVE);
+        
         List<UserRoleEntity> roleList = new ArrayList<>();
         UserRoleEntity roleA = new UserRoleEntity();
         List<RoleEntity> roles = roleService.getRoles();
+        roleA.setRole(roles.get(0));
+        roleA.setUser(user);
         System.out.println(roles.get(0));
         System.out.println(user);
         roleList.add(roleA);
+        user.setUserRoles(roleList);
         System.out.println(roleList);
-        String pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&-+=]).{6,}$";
-        if (password.matches(pattern) == false) {
-            model.addAttribute("message", "Mật khẩu sai định dạng!! Vui lòng kiểm tra lại!!");
+        if (!captcha.equals(session.getAttribute("captcha"))) {
+            model.addAttribute("message", "Captcha không chính xác");
+            String reloadCaptcha = RandomStringUtils.randomAlphanumeric(6);
+            session.setAttribute("captcha", reloadCaptcha);
             model.addAttribute("displayCheckAccountBySendMail", false);
         } else {
-            if (password.equals(passwordAgain) == false) {
-                model.addAttribute("message", "Nhập lại mật khảu không trùng");
+            String pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&-+=]).{6,}$";
+            if (password.matches(pattern) == false) {
+                model.addAttribute("message", "Mật khẩu sai định dạng!! Vui lòng kiểm tra lại!!");
                 model.addAttribute("displayCheckAccountBySendMail", false);
             } else {
-                CustomerEntity customerCustomerEmail = customerService.findCustomerByCustomerEmail(customerEmail);
-                if (customerCustomerEmail.getId() > 0) {
-                    model.addAttribute("message", "Số điện thoại này đã được sử dụng!!");
+                if (password.equals(passwordAgain) == false) {
+                    model.addAttribute("message", "Nhập lại mật khảu không trùng");
                     model.addAttribute("displayCheckAccountBySendMail", false);
                 } else {
-                    CustomerEntity customerCustomerPhone = customerService.findCustomerByCustomerPhone(customerPhone);
-                    if (customerCustomerPhone.getId() > 0) {
+                    CustomerEntity customerCustomerEmail = customerService.findCustomerByCustomerEmail(customerEmail);
+                    if (customerCustomerEmail.getId() > 0) {
                         model.addAttribute("message", "Số điện thoại này đã được sử dụng!!");
                         model.addAttribute("displayCheckAccountBySendMail", false);
                     } else {
-                        if (customerPhone.length() < 10 || customerPhone.length() > 12) {
-                            model.addAttribute("message", "Số điện thoại này không đúng định dạng!!");
+                        CustomerEntity customerCustomerPhone = customerService.findCustomerByCustomerPhone(customerPhone);
+                        if (customerCustomerPhone.getId() > 0) {
+                            model.addAttribute("message", "Số điện thoại này đã được sử dụng!!");
                             model.addAttribute("displayCheckAccountBySendMail", false);
                         } else {
-                            CustomerEntity customerCustomerName = customerService.findCustomerByCustomerName(customerName);
-                            if (customerCustomerName.getId() < 0) {
-                                model.addAttribute("message", "Tên người dùng đã tồn tại");
+                            if (customerPhone.length() < 10 || customerPhone.length() > 12) {
+                                model.addAttribute("message", "Số điện thoại này không đúng định dạng!!");
                                 model.addAttribute("displayCheckAccountBySendMail", false);
                             } else {
-                                session.setAttribute("user", user);
-                                CustomerEntity customer = new CustomerEntity();
-                                customer.setCustomerName(customerName);
-                                customer.setCustomerEmail(customerEmail);
-                                customer.setCustomerPhone(customerPhone);
-                                customer.setUser(user);
-                                session.setAttribute("customer", customer);
-                                String randomNumeric = RandomStringUtils.randomNumeric(6);
-                                String subject = "Xác nhận thông tin đăng ký tài khoản tại TanTuBank";
-                                String content = "<h1>Bạn vui lòng nhập mã số gồm 6 ký tự vào khung xác nhận đăng ký!</h1>"
-                                        + "<h3>Mã gồm 6 ký tự số: <b>" + randomNumeric + "</b></h3>";
-                                sendMail("natsutan94@gmail.com", customerEmail, subject, content);
-                                session.setAttribute("randomNumericConfirmRegister", randomNumeric);
-                                session.setMaxInactiveInterval(60);
+                                CustomerEntity customerCustomerName = customerService.findCustomerByCustomerName(customerName);
+                                if (customerCustomerName.getId() < 0) {
+                                    model.addAttribute("message", "Tên người dùng đã tồn tại");
+                                    model.addAttribute("displayCheckAccountBySendMail", false);
+                                } else {
+                                    session.setAttribute("user", user);
+                                    CustomerEntity customer = new CustomerEntity();
+                                    customer.setCustomerName(customerName);
+                                    customer.setCustomerEmail(customerEmail);
+                                    customer.setCustomerPhone(customerPhone);
+                                    customer.setUser(user);
+                                    session.setAttribute("customer", customer);
+                                    String randomNumeric = RandomStringUtils.randomNumeric(6);
+                                    String subject = "Xác nhận thông tin đăng ký tài khoản tại TanTuBank";
+                                    String content = "<h1>Bạn vui lòng nhập mã số gồm 6 ký tự vào khung xác nhận đăng ký!</h1>"
+                                            + "<h3 style='text-align:center'>Mã gồm 6 ký tự số: <b>" + randomNumeric + "</b></h3>";
+                                    sendMail("natsutan94@gmail.com", customerEmail, subject, content);
+                                    session.setAttribute("randomNumericConfirmRegister", randomNumeric);
+                                    session.setMaxInactiveInterval(60);
+                                    model.addAttribute("Email", customerEmail);
+                                    return true;
+                                }
 
-                                model.addAttribute("Email", customerEmail);
-                                return true;
                             }
                         }
 

@@ -7,6 +7,7 @@
 <!--bootstrap -->
 <link rel="stylesheet" href="<c:url value="/resources-management/assets/plugins/bootstrap/css/bootstrap.min.css"/>"/>
 <link rel="stylesheet" href="<c:url value="/resources-management/assets/plugins/summernote/summernote.css"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources-management/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css"/>"/>
 <!-- morris chart -->
 <link rel="stylesheet" href="<c:url value="/resources-management/assets/plugins/morris/morris.css"/>"/>
 <!-- Material Design Lite CSS -->

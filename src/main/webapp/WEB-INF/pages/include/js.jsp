@@ -22,3 +22,8 @@
 <script src="<c:url value="/resources-management/assets/plugins/morris/raphael-min.js"/>"/></script>
 <script src="<c:url value="/resources-management/assets/js/pages/chart/morris/morris_home_data.js"/>"/></script>
  <!-- end js include path -->
+ <script>
+      function quay_lai_trang_truoc(){
+          history.back();
+      }
+  </script>
