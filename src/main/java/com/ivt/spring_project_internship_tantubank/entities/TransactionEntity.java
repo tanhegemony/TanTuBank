@@ -43,7 +43,7 @@ public class TransactionEntity {
     @Column(name = "transaction_amount")
     private double transactionAmount;
     
-    @Column(name = "transaction_content", length = 50)
+    @Column(name = "transaction_content", length = 100)
     private String transactionContent;
     
     @Column(name = "transaction_date")
@@ -67,7 +67,7 @@ public class TransactionEntity {
     
     @Column(name = "fee_transaction")
     private double feeTransaction;
-
+    
     public StaffEntity getStaff() {
         return staff;
     }

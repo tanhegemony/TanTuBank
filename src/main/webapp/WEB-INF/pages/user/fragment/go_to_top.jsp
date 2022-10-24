@@ -14,7 +14,7 @@
         font-size: 18px;
         border: none;
         outline: none;
-        background-color: #72c673;
+        background-color: #8aaae5;
         color: black;
         cursor: pointer;
         padding: 15px;

@@ -15,7 +15,7 @@ public class FilterWithSortBy {
         Sort sort = null;
         switch (sortBy) {
             case "":
-                sortBy = "idAscending";
+                sortBy = "createDateDescending";
             case "idAscending":
                 sort = Sort.by("id").ascending();
                 break;

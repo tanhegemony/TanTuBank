@@ -41,6 +41,17 @@ public class BankEntity {
     @Transient
     private MultipartFile imgBank;
 
+    @OneToMany(mappedBy = "bank",cascade = CascadeType.ALL)
+    private List<TanTuBankAddressEntity> bankAddress;
+
+    public List<TanTuBankAddressEntity> getBankAddress() {
+        return bankAddress;
+    }
+
+    public void setBankAddress(List<TanTuBankAddressEntity> bankAddress) {
+        this.bankAddress = bankAddress;
+    }
+    
     public String getImageBank() {
         return imageBank;
     }

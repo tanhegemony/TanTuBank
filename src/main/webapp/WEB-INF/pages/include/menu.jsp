@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="<c:url value="/resources/style/fontawesome-free-6.2.0-web/css/all.min.css" />" />
 <div class="sidebar-container">
     <div class="sidemenu-container navbar-collapse collapse fixed-menu">
         <div id="remove-scroll">
@@ -71,14 +72,14 @@
                     </a>
                 </li>
                 <li class="nav-item start <c:if test="${action == 'managePaymentBankAccount' || action == 'manageSavingBankAccount' || action == 'manageExternalBankAccount'}">active</c:if>">
-                    <a class="nav-link nav-toggle">
-                        <i class="material-icons">account_balance</i>
-                        <span class="title">Account Banking</span>
-                        <span class="selected"></span>
-                        <span class="arrow open"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item <c:if test="${nav == 'managePaymentBankAccount'}">active</c:if>">
+                        <a class="nav-link nav-toggle">
+                            <i class="material-icons">account_balance</i>
+                            <span class="title">Account Banking</span>
+                            <span class="selected"></span>
+                            <span class="arrow open"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item <c:if test="${nav == 'managePaymentBankAccount'}">active</c:if>">
                             <a href="${pageContext.request.contextPath}/management/viewManageBankAccount?action=viewBankAccounts&nav=managePaymentBankAccount" class="nav-link ">
                                 <span class="title"><i class="fa-solid fa-credit-card"></i> Thanh toán</span>
                             </a>
@@ -92,6 +93,19 @@
                         <li class="nav-item <c:if test="${nav == 'manageExternalBankAccount'}">active</c:if>">
                             <a href="${pageContext.request.contextPath}/management/viewManageBankAccount?action=viewBankAccounts&nav=manageExternalBankAccount" class="nav-link ">
                                 <span class="title"><i class="fa-solid fa-earth-americas"></i> Liên ngân hàng</span>
+                                <span class="selected"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item <c:if test="${nav == 'manageUnActiveBankAccount'}">active</c:if>">
+                            <a href="${pageContext.request.contextPath}/management/viewManageBankAccount?action=viewBankAccounts&nav=manageUnActiveBankAccount" class="nav-link ">
+                                <span class="title"><i class="fa-solid fa-toggle-off"></i> Chưa hoạt
+                                    động</span>
+                                <span class="selected"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item <c:if test="${nav == 'openOrEditBankAccount'}">active</c:if>">
+                            <a href="${pageContext.request.contextPath}/management/viewOpenOrEditBankAccount" class="nav-link ">
+                                <span class="title"><i class="fa-solid fa-plus"></i> Mở tài khoản</span>
                                 <span class="selected"></span>
                             </a>
                         </li>

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ivt.spring_project_internship_tantubank.controller;
+package com.ivt.spring_project_internship_tantubank.controller.admin;
 
 import com.ivt.spring_project_internship_tantubank.entities.BankAccountEntity;
 import com.ivt.spring_project_internship_tantubank.entities.StaffEntity;

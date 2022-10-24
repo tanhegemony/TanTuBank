@@ -3,9 +3,9 @@
             <div class="page-header-inner ">
                 <!-- logo start -->
                 <div class="page-logo">
-                    <a href="index.html">
+                    <a href="${pageContext.request.contextPath}/management/dashboard">
                         <img alt="" src="assets/img/logo.png">
-                        <span class="logo-default">Spice</span> </a>
+                        <span class="logo-default">TanTuBank</span> </a>
                 </div>
                 <!-- logo end -->
                 <ul class="nav navbar-nav navbar-left in">

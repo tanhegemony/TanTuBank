@@ -42,8 +42,8 @@ public class CustomerService {
         return new CustomerEntity();
     }
     // find by name and phone
-     public CustomerEntity findByCustomerEmailOrCustomerPhone(String emailAndPhone){
-        CustomerEntity customer = customerRepository.findByCustomerEmailOrCustomerPhone(emailAndPhone, emailAndPhone);
+     public CustomerEntity findByCustomerEmailOrCustomerPhone(String customerEmail, String customerPhone){
+        CustomerEntity customer = customerRepository.findByCustomerEmailOrCustomerPhone(customerEmail, customerPhone);
         if(customer != null && customer.getId() > 0){
             return customer;
         }

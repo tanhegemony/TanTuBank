@@ -22,6 +22,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -45,6 +46,43 @@ public class CustomerEntity {
     
     @Column(name = "customer_address", length = 200)
     private String customerAddress;
+    
+    @Column(name = "ci_number", length = 15)
+    private String CINumber;
+    
+    @Column(name = "issue_date")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date issueDate;
+    
+    @Column(name = "issue_place", length = 50)
+    private String issuePlace;
+
+    public String getCINumber() {
+        return CINumber;
+    }
+
+    public void setCINumber(String CINumber) {
+        this.CINumber = CINumber;
+    }
+
+    public Date getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public String getIssuePlace() {
+        return issuePlace;
+    }
+
+    public void setIssuePlace(String issuePlace) {
+        this.issuePlace = issuePlace;
+    }
+    
+    
     
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)

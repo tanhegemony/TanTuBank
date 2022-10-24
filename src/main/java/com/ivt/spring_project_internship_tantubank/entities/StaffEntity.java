@@ -40,6 +40,17 @@ public class StaffEntity {
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
     private List<TransactionEntity> transactions;
 
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    private List<BankAccountEntity> bankAccounts;
+
+    public List<BankAccountEntity> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccountEntity> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+    
     public List<TransactionEntity> getTransactions() {
         return transactions;
     }

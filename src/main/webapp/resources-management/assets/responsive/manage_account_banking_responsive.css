@@ -1,16 +1,4 @@
 @media only screen and (max-width: 1200px){
-    .accountNumber,.nameAccount,.nameBank{
-        min-width: 10rem;
-    }
-    .createDate{
-        min-width: 12rem;
-    }
-    .status,.customer{
-        min-width: 8rem;
-    }
-    .manage{
-        min-width: 16rem;
-    }
     .openAccountButton{
         min-width: 100%;
         margin-bottom: 1rem;

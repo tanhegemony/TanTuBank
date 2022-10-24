@@ -43,3 +43,18 @@
     text-align: center;
     border-radius: 10px;
 }
+.nameAccount,.nameBank,.createDate,.status{
+    min-width: 10rem;
+}
+.staff,.bankAddress{
+    min-width: 12rem;
+}
+.customer,.manage{
+    min-width: 8rem;    
+}
+.buttonManage>a{
+    margin-top: 0.5rem;
+}
+.table{
+    overflow-x: visible;
+}

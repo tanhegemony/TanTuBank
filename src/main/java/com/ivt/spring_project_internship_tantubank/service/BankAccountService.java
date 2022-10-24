@@ -5,16 +5,25 @@
 package com.ivt.spring_project_internship_tantubank.service;
 
 import com.ivt.spring_project_internship_tantubank.entities.BankAccountEntity;
+import com.ivt.spring_project_internship_tantubank.entities.BankEntity;
+import com.ivt.spring_project_internship_tantubank.entities.CustomerEntity;
+import com.ivt.spring_project_internship_tantubank.entities.StaffEntity;
+import com.ivt.spring_project_internship_tantubank.entities.TransactionEntity;
 import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
 import com.ivt.spring_project_internship_tantubank.enums.AccountType;
+import com.ivt.spring_project_internship_tantubank.enums.TransactionType;
 import com.ivt.spring_project_internship_tantubank.model.FilterWithSortBy;
 import com.ivt.spring_project_internship_tantubank.repository.BankAccountRepository;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,22 +46,154 @@ public class BankAccountService {
     private BankAccountRepository bankAccountRepository;
 
     @Autowired
+    private StaffService staffService;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private TransactionService transactionService;
+
+    @Autowired
     HttpSession session;
 
-    public void changeBankAccountStatus(BankAccountEntity bankAccount, AccountStatus bankAccountStatus){
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    @Transactional
+    public boolean editBankAccount(Model model, BankAccountEntity bankAccount, 
+            boolean physicalCard,
+            String editStaffId, String buttonEdit) throws MessagingException {
+        if (editStaffId.equals("")) {
+            model.addAttribute("messageStaff", "Staff không được để trống");
+            return false;
+        } else {
+            StaffEntity editStaff = staffService.findStaffById(model, Long.parseLong(editStaffId));
+            if (editStaff.getId() > 0) {
+                model.addAttribute("editStaff", editStaff);
+                if (buttonEdit != null) {
+                    bankAccount.setPhysicalCard(physicalCard);
+                    bankAccount.setTantuBankAddress(bankAccount.getTantuBankAddress());
+                    saveOrUpdateBankAccount(bankAccount);
+
+                    TransactionEntity transaction = new TransactionEntity();
+                    transaction.setTransactionAmount(0);
+                    transaction.setTransactionContent("TanTuBank chỉnh sửa tài khoản ngân hàng cho quý khách");
+                    transaction.setTransactionDate(Timestamp.valueOf(sdf.format(new Date())));
+                    transaction.setBankAccount2(bankAccount);
+                    transaction.setFeeTransaction(0);
+                    transaction.setTransactionType(TransactionType.EDIT_BANK_ACCOUNT_BY_STAFF);
+                    transaction.setStaff(editStaff);
+                    transactionService.saveOrUpdateTransaction(transaction);
+
+                    String subject = "Chỉnh sửa tài khoản ngân hàng thành công!";
+                    String content = "<h1>Số tài khoản: " + bankAccount.getAccountNumber() + "</h1>"
+                            + "<h1>Chủ sở hữu " + bankAccount.getAccountName() + "<h1>"
+                            + "<h3>đã được chỉnh sửa tại ngân hàng TanTuBank</h3>"
+                            + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
+                            + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
+                            + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";
+                    transactionService.sendMail("natsutan94@gmail.com", bankAccount.getCustomer().getCustomerEmail(), subject, content);
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    @Transactional
+    public boolean openBankAccount(Model model, BankAccountEntity bankAccount,
+            String customerPhone, String customerEmail, String staffId,
+            boolean physicalCard, String buttonOpen) throws MessagingException {
+        if (customerPhone.matches("^(\\d{10,12})$") == false) {
+            model.addAttribute("messageCustomerPhone", "CustomerPhone phải là số có từ 10 đến 12 chữ số");
+            return false;
+        } else {
+            if (customerEmail.matches("^[a-zA-Z0-9]{1,30}+@[a-zA-Z0-9]{2,10}+\\.[a-zA-Z]{2,10}$") == false) {
+                model.addAttribute("messageCustomerEmail", "CustomerEmail không đúng định dạng");
+                return false;
+            } else {
+                CustomerEntity customer = customerService.findByCustomerEmailOrCustomerPhone(customerPhone, customerEmail);
+                if (customer.getId() <= 0) {
+                    model.addAttribute("messageOpenBA", "Khách hàng không tồn tại");
+                    return false;
+                } else if (!customer.getBankAccounts().isEmpty()) {
+                    model.addAttribute("messageOpenBA", "Tài khoản ngân hàng đã tồn tại");
+                    return false;
+                } else {
+                    model.addAttribute("customer", customer);
+                    if (staffId.equals("")) {
+                        model.addAttribute("messageStaff", "Staff không được để trống");
+                        return false;
+                    } else {
+                        StaffEntity findStaff = staffService.findStaffById(model, Long.parseLong(staffId));
+                        if (findStaff.getId() > 0) {
+                            model.addAttribute("staff", findStaff);
+                            if (buttonOpen != null) {
+                                bankAccount.setAccountName(customer.getCustomerName());
+                                String accountNumber = RandomStringUtils.randomNumeric(16);
+                                bankAccount.setAccountNumber(accountNumber);
+                                bankAccount.setBalance(50000);
+                                bankAccount.setCreateDate(Timestamp.valueOf(sdf.format(new Date())));
+                                BankEntity bank = new BankEntity();
+                                bank.setId(1);
+                                bankAccount.setBank(bank);
+                                bankAccount.setCustomer(customer);
+                                bankAccount.setBankAccountStatus(AccountStatus.ACTIVE);
+                                StaffEntity staff = new StaffEntity();
+                                staff.setId(Long.parseLong(staffId));
+                                bankAccount.setStaff(staff);
+                                bankAccount.setPhysicalCard(physicalCard);
+                                saveOrUpdateBankAccount(bankAccount);
+
+                                TransactionEntity transaction = new TransactionEntity();
+                                if (physicalCard == true) {
+                                    transaction.setTransactionAmount(50000);
+                                } else {
+                                    transaction.setTransactionAmount(0);
+                                }
+                                transaction.setTransactionContent("TanTuBank mở tài khoản ngân hàng cho quý khách");
+                                transaction.setTransactionDate(Timestamp.valueOf(sdf.format(new Date())));
+                                transaction.setTransactionType(TransactionType.OPEN_BANK_ACCOUNT_BY_STAFF);
+                                transaction.setBankAccount2(bankAccount);
+                                transaction.setFeeTransaction(0);
+                                transaction.setStaff(staff);
+                                transactionService.saveOrUpdateTransaction(transaction);
+
+                                String subject = "Mở tài khoản ngân hàng thành công!";
+                                String content = "<h1>Số tài khoản: " + bankAccount.getAccountNumber() + "</h1>"
+                                        + "<h1>Chủ sở hữu " + bankAccount.getAccountName() + "<h1>"
+                                        + "<h3>đã được cấp quyền sử dụng tại ngân hàng TanTuBank</h3>"
+                                        + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
+                                        + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
+                                        + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";
+                                transactionService.sendMail("natsutan94@gmail.com", customerEmail, subject, content);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void deleteBankAccount(long bankAccountId) {
+        bankAccountRepository.deleteById(bankAccountId);
+    }
+
+    public void changeBankAccountStatus(BankAccountEntity bankAccount, AccountStatus bankAccountStatus) {
         bankAccount.setBankAccountStatus(bankAccountStatus);
         bankAccountRepository.save(bankAccount);
     }
-    
-    public BankAccountEntity findBAById(long bankAccountId){
+
+    public BankAccountEntity findBAById(long bankAccountId) {
         Optional<BankAccountEntity> bankAccountOpt = bankAccountRepository.findById(bankAccountId);
-        if(bankAccountOpt != null && bankAccountOpt.isPresent()){
+        if (bankAccountOpt != null && bankAccountOpt.isPresent()) {
             return bankAccountOpt.get();
         }
         return new BankAccountEntity();
     }
-    
-    
+
     // tạo lại các phương thức để nhận bank accounts thực hiện trong filter
     // create again methods for receive bankAccounts make in filter
     public Page<BankAccountEntity> getBankAccountsMakeInFilter(String nav, String searchValue, int page, int pageSize, Sort sort) {
@@ -96,9 +237,6 @@ public class BankAccountService {
         if (bankAccounts == null) {
             return false;
         } else {
-            for (BankAccountEntity ba : bankAccounts.getContent()) {
-                System.out.println("H1" + ba.getAccountName());
-            }
             // if select only startDate
             if ((!startDate.equals("") || startDate.equals(""))
                     && (endDate.equals("") && accountStatus.equals(""))) {
@@ -186,9 +324,6 @@ public class BankAccountService {
     public Page<BankAccountEntity> findBAByTypeAndBank(String accountType, long bankId, int currentPage, int pageSize, Sort sort) {
         Page<BankAccountEntity> bankAccounts = bankAccountRepository.findByAccountTypeAndBankId(accountType, bankId, PageRequest.of(currentPage, pageSize, sort));
         if (!bankAccounts.isEmpty()) {
-            for (BankAccountEntity ba : bankAccounts.getContent()) {
-                Hibernate.initialize(ba.getCustomer().getUser().getUserRoles());
-            }
             return bankAccounts;
         }
         return null;
@@ -197,7 +332,15 @@ public class BankAccountService {
     @Transactional
     public Page<BankAccountEntity> findBAByTypeAndNotTanTuBank(String accountType, long bankId, int currentPage, int pageSize, Sort sort) {
         Page<BankAccountEntity> bankAccounts = bankAccountRepository.findByAccountTypeAndBankIdNot(accountType, bankId, PageRequest.of(currentPage, pageSize, sort));
-        System.out.println(bankAccounts.getContent());
+        if (!bankAccounts.isEmpty()) {
+            return bankAccounts;
+        }
+        return null;
+    }
+
+    @Transactional
+    public Page<BankAccountEntity> findBAByBankAndStatus(long bankId, AccountStatus accountStatus, int currentPage, int pageSize, Sort sort) {
+        Page<BankAccountEntity> bankAccounts = bankAccountRepository.findByBankIdAndBankAccountStatus(bankId, accountStatus, PageRequest.of(currentPage, pageSize, sort));
         if (!bankAccounts.isEmpty()) {
             return bankAccounts;
         }

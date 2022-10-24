@@ -11,16 +11,19 @@
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta name="description" content="Responsive Admin Template" />
         <meta name="author" content="SmartUniversity" />
-        <title>Quản lý tài khoản ngân hàng -- <c:if test="${nav == 'managePaymentBankAccount'}">Tài khoản thanh toán</c:if>
-            <c:if test="${nav == 'manageSavingBankAccount'}">Tài khoản tiết kiệm</c:if>
-            <c:if test="${nav == 'manageExternalBankAccount'}">Tài khoản liên ngân hàng</c:if>
-            <c:if test="${nav == 'manageUnActiveBankAccount'}">Tài khoản ngân hàng chưa hoạt động</c:if>
-            </title>
-            <!-- google font -->
-            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
-            <link rel="stylesheet" href="<c:url value="/resources/style/fontawesome-free-6.2.0-web/css/all.min.css" />" />
-        <link rel="stylesheet" href="<c:url value="/resources-management/assets/css/manage_account_banking.css" />" />
-        <link rel="stylesheet" href="<c:url value="/resources-management/assets/responsive/manage_account_banking_responsive.css" />" />
+        <title>
+            <c:if test="${action == 'openBankAccount'}">
+                Mở tài khoản ngân hàng
+            </c:if>
+            <c:if test="${action == 'editBankAccount'}">
+                Chỉnh sửa tài khoản ngân hàng
+            </c:if>
+        </title>
+        <!-- google font -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="<c:url value="/resources/style/fontawesome-free-6.2.0-web/css/all.min.css" />" />
+        <link rel="stylesheet" href="<c:url value="/resources-management/assets/css/open_or_edit_bank_account_management.css" />" />
+        <link rel="stylesheet" href="<c:url value="/resources-management/assets/responsive/open_or_edit_bank_account_management_responsive.css" />" />
         <jsp:include page="../include/css.jsp" />
     </head>
     <!-- END HEAD -->
@@ -42,325 +45,272 @@
                             <div class="page-title-breadcrumb">
                                 <div class=" pull-left">
                                     <div class="page-title">
-                                        <c:if test="${nav == 'managePaymentBankAccount'}">Quản lý tài khoản ngân hàng thanh toán</c:if>
-                                        <c:if test="${nav == 'manageSavingBankAccount'}">Quản lý tài khoản ngân hàng tiết kiệm</c:if>
-                                        <c:if test="${nav == 'manageExternalBankAccount'}">Quản lý tài khoản liên ngân hàng</c:if>
-                                        <c:if test="${nav == 'manageUnActiveBankAccount'}">Quản lý tài khoản ngân hàng chưa hoạt động</c:if>
-                                        </div>
-                                    </div>
-                                    <ol class="breadcrumb page-breadcrumb pull-right">
-                                        <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
-                                        </li>
-                                        <li><a class="parent-item" href="index.html">Quản lý tài khoản ngân hàng</a>&nbsp;<i class="fa fa-angle-right"></i>
-                                        </li>
-                                        <li class="active">
-                                        <c:if test="${nav == 'managePaymentBankAccount'}">Tài khoản thanh toán</c:if>
-                                        <c:if test="${nav == 'manageSavingBankAccount'}">Tài khoản tiết kiệm</c:if>
-                                        <c:if test="${nav == 'manageExternalBankAccount'}">Tài khoản liên ngân hàng</c:if>
-                                        <c:if test="${nav == 'manageUnActiveBankAccount'}">Tài khoản ngân hàng chưa hoạt động</c:if>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <!-- chart start -->
-                            <div class="row manageAccountBank">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-4 openAccountButton">
-                                        <c:if test="${nav == 'managePaymentBankAccount'}">
-                                            <button class="btn">Mở tài khoản thanh toán</button>
+                                        <c:if test="${action == 'openBankAccount'}">
+                                            Mở tài khoản ngân hàng
                                         </c:if>
-                                        <c:if test="${nav == 'manageSavingBankAccount'}">
-                                            <button class="btn">Mở tài khoản tiết kiệm</button>
+                                        <c:if test="${action == 'editBankAccount'}">
+                                            Chỉnh sửa tài khoản ngân hàng
                                         </c:if>
                                     </div>
-                                    <div class="col-4 pageSize">
-                                        <form>
-                                            <input type="hidden" name="action" value="${action}">
-                                            <input type="hidden" name="nav" value="${nav}">
-                                            <c:if test="${action == 'filterBankAccount'}">
-                                                <input type="hidden" name="startDate" value="${startDate}">
-                                                <input type="hidden" name="endDate" value="${endDate}">
-                                                <input type="hidden" name="accountStatus" value="${accountStatus}">
-                                                <input type="hidden" name="sortBy" value="${sortBy}">
-                                            </c:if>
-                                            <input type="hidden" name="searchValue" value="${searchValue}">
-                                            <input type="hidden" name="page" value="${currentPage}">
-                                            <div class="form-inline">
-                                                <label for="size">Hiển thị: </label>
-                                                <select class="form-control ml-2 mr-2" name="size" id="size" onchange="this.form.submit();">
-                                                    <option value="5" <c:if test="${pageSize == 5}">selected</c:if>>5</option>
-                                                    <option value="10" <c:if test="${pageSize == 10}">selected</c:if>>10</option>
-                                                    <option value="15" <c:if test="${pageSize == 15}">selected</c:if>>15</option>
-                                                    </select>
-                                                <c:if test="${nav == 'managePaymentBankAccount'}">
-                                                    tài khoản thanh toán
-                                                </c:if>
-                                                <c:if test="${nav == 'manageSavingBankAccount'}">
-                                                    tài khoản tiết kiệm
-                                                </c:if>
-                                                <c:if test="${nav == 'manageExternalBankAccount'}">
-                                                    tài khoản liên ngân hàng
-                                                </c:if>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="col-4 searchAccountBank">
-                                        <mvc:form action="${pageContext.request.contextPath}/management/searchBankAccount" method="get">
-                                            <input type="hidden" name="nav" value="${nav}">
-                                            <input type="hidden" name="accountStatus" value="${accountStatus}">
-                                            <input type="hidden" name="sortBy" value="${sortBy}">
-                                            <div class="form-check-inline">
-                                                <input type="text"
-                                                       class="form-control" name="searchValue" id="searchValue" 
-                                                       placeholder="Tìm kiếm tài khoản" value="${searchValue}">
-                                                <button class="btn btn-dark"><i class="fas fa-search"></i></button>
-                                            </div>
-                                        </mvc:form>
-                                    </div>
                                 </div>
-                                <div class="row nameFilter justify-content-center"> 
-                                    <div class="col-3" >
-                                        <h4>Bộ lọc tài khoản</h4> 
-                                    </div>
-                                </div>
-                                <div class="row makeFilter">
-                                    <div class="col">
-                                        <mvc:form action="${pageContext.request.contextPath}/management/resultFilter" method="GET">
-                                            <input type="hidden" name="action" value="${action}">
-                                            <input type="hidden" name="nav" value="${nav}">
-                                            <input type="hidden" name="searchValue" value="${searchValue}">
-                                            <input type="hidden" name="size" value="${pageSize}">
-                                            <div class="row contentFilter">
-                                                <div class="col-3">
-                                                    <div class="form-group">
-                                                        <label for="startDate">Ngày bắt đầu: </label>
-                                                        <input type="date"  max="<c:if test="${endDate != ''}">${endDate}</c:if><c:if test="${endDate == '' || action == 'viewBankAccounts' || action == 'searchBankAccount'}">${today}</c:if>" class="form-control" name="startDate" 
-                                                               id="startDate" value="${startDate}" onchange="this.form.submit();">
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="form-group">
-                                                        <label for="endDate">Ngày kết thúc: </label>
-                                                        <input type="date" min="${startDate}" max="${today}" class="form-control"  name="endDate" 
-                                                               id="endDate" value="${endDate}" onchange="this.form.submit();">
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="form-group">
-                                                        <label for="accountStatus">Trạng thái: </label>
-                                                        <select class="form-control" name="accountStatus" id="accountStatus" onchange="this.form.submit();">
-                                                            <option <c:if test="${accountStatus == ''}">selected</c:if> value="">Tất cả</option>
-                                                            <c:forEach var="aStatus" items="${accountStatusList}">
-                                                                <c:if test="${accountStatus == aStatus}">
-                                                                    <option value="${aStatus}" selected>${aStatus}</option>
-                                                                </c:if>
-                                                                <c:if test="${accountStatus != aStatus}">
-                                                                    <option value="${aStatus}">${aStatus}</option>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="form-group">
-                                                        <label for="sortBy">Sắp xếp theo: </label>
-                                                        <select class="form-control" name="sortBy" id="sortBy" onchange="this.form.submit();">
-                                                            <option value="idAscending" <c:if test="${sortBy == 'idAscending'}">selected</c:if> >Id tài khoản tăng dần</option>
-                                                            <option value="idDescending" <c:if test="${sortBy == 'idDescending'}">selected</c:if>>Id tài khoản giảm dần</option>
-                                                            <option value="accountNumberAscending"<c:if test="${sortBy == 'accountNumberAscending'}">selected</c:if>>Số tài khoản tăng dần</option>
-                                                            <option value="accountNumberDescending" <c:if test="${sortBy == 'accountNumberDescending'}">selected</c:if>>Số tài khoản giảm dần</option>
-                                                            <option value="accountNameAscending" <c:if test="${sortBy == 'accountNameAscending'}">selected</c:if>>Tên tài khoản tăng dần</option>
-                                                            <option value="accountNameDescending" <c:if test="${sortBy == 'accountNameDescending'}">selected</c:if>>Tên tài khoản giảm dần</option>
-                                                            <option value="createDateAscending" <c:if test="${sortBy == 'createDateAscending'}">selected</c:if>>Ngày tạo tăng dần</option>
-                                                            <option value="createDateDescending" <c:if test="${sortBy == 'createDateDescending'}">selected</c:if>>Ngày tạo giảm dần</option>
-                                                            <option value="customerIdAscending" <c:if test="${sortBy == 'customerIdAscending'}">selected</c:if>>Id khách hàng tăng dần</option>
-                                                            <option value="customerIdDescending" <c:if test="${sortBy == 'customerIdDescending'}">selected</c:if>>Id khách hàng giảm dần dần</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                        </mvc:form>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col">
-                                        <table class="table table-striped table-responsive text-center">
-                                            <tr class="headerManageAccountBank thead-dark">
-                                                <th class="accountNumber">Số tài khoản</th>
-                                                <th class="nameAccount">Tên tài khoản</th>
-                                                <th class="typeAccount">Loại tài khoản</th>
-                                                <th class="nameBank">Tên ngân hàng</th>
-                                                <th class="createDate">Ngày tạo</th>
-                                                <th class="staff">Nhân viên</th>
-                                                <th class="bankAddress">Địa chủ ngân hàng</th>
-                                                <th class="customer">Khách hàng</th>
-                                                <th class="status">Trạng thái</th>
-                                                <th class="manage">Quản lý</th>
-                                            </tr>
-                                            <c:if test="${bankAccounts.content.size() <= 0 || bankAccounts.content == null}">
-                                                <tr>
-                                                    <td colspan="9"><h4 style="font-weight: bolder;color:red; ">Không tồn tại tài khoản ngân hàng nào</h4></td>
-                                                </tr>
-                                            </c:if>
-                                            <c:if test="${bankAccounts.content.size() > 0}">
-                                                <c:forEach var="ba" items="${bankAccounts.content}">
-                                                    <tr>
-                                                        <td>${ba.accountNumber}</td>
-                                                        <td>${ba.accountName}</td>
-                                                        <td>${ba.accountType}</td>
-                                                        <td>${ba.bank.bankName}</td>
-                                                        <td><fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${ba.createDate}" /></td>
-                                                        <c:if test="${ba.staff == null}">
-                                                            <td colspan="2">Customer thực hiện</td>
-                                                        </c:if>
-                                                        <c:if test="${ba.staff != null}">
-                                                            <td>ID: ${ba.staff.id}-Name: ${ba.staff.staffName} </td>
-                                                            <td>${ba.tantuBankAddress}</td>
-                                                        </c:if>
-                                                        <td>
-                                                            <c:if test="${ba.customer == null}">
-                                                                Staff thực hiện
-                                                            </c:if>
-                                                            <c:if test="${ba.customer != null}">
-                                                                <a href="#">${ba.customer.id}</a>
-                                                            </c:if>
-                                                        </td>
-                                                        <td class="<c:if test="${ba.bankAccountStatus == 'ACTIVE'}">statusActive</c:if>
-                                                            <c:if test="${ba.bankAccountStatus == 'UNACTIVE'}">statusUnactive</c:if>
-                                                            <c:if test="${ba.bankAccountStatus == 'LOCK'}">statusLock</c:if>">
-                                                            <i class="fas fa-circle"></i> ${ba.bankAccountStatus}</td>
-                                                        <td class="buttonManage">
-                                                            <c:if test="${ba.bankAccountStatus == 'ACTIVE'}">
-                                                                <a onclick="return confirm('Bạn có chắc chắn muốn KHOÁ tài khoản ngân hàng --${ba.accountNumber}-- không?')" href="${pageContext.request.contextPath}/management/changeBankAccountStatus/${action}/${nav}/${currentPage}/${pageSize}/${ba.id}/LOCK" class="btn btn-danger"><i class="fas fa-lock"></i> Lock</a>
-                                                                <a onclick="location.href='${pageContext.request.contextPath}/management/editBankAccount/${ba.id}'" class="btn btn-secondary" style="color: white;"><i class="fas fa-file-edit"></i> Edit</a>
-                                                            </c:if>
-                                                            <c:if test="${ba.bankAccountStatus == 'UNACTIVE'}">
-                                                                <a onclick="return confirm('Bạn có chắc chắn muốn MỞ HOẠT ĐỘNG tài khoản ngân hàng --${ba.accountNumber}-- không?')" href="${pageContext.request.contextPath}/management/changeBankAccountStatus/${action}/${nav}/${currentPage}/${pageSize}/${ba.id}/ACTIVE" class="btn activeButton"><i class="fas fa-circle"></i> Active</a>
-                                                                <a onclick="return confirm('Bạn có chắc chắn muốn XOÁ tài khoản ngân hàng --${ba.accountNumber}-- không?')" href="${pageContext.request.contextPath}/management/deleteBankAccount/${action}/${nav}/${ba.id}" class="btn btn-dark" style="color: white;"><i class="fas fa-trash-alt"></i> Delete</a>
-                                                            </c:if>
-                                                            <c:if test="${ba.bankAccountStatus == 'LOCK'}">
-                                                                <a onclick="return confirm('Bạn có chắc chắn muốn MỞ KHOÁ tài khoản ngân hàng --${ba.accountNumber}-- không?')" href="${pageContext.request.contextPath}/management/changeBankAccountStatus/${action}/${nav}/${currentPage}/${pageSize}/${ba.id}/ACTIVE" class="btn btn-primary"><i class="fas fa-lock-open"></i> Unlock</a>
-                                                                <a onclick="return confirm('Bạn có chắc chắn muốn XOÁ tài khoản ngân hàng --${ba.accountNumber}-- không?')" href="${pageContext.request.contextPath}/management/deleteBankAccount/${action}/${nav}/${ba.id}" class="btn btn-dark" style="color: white;"><i class="fas fa-trash-alt"></i> Delete</a>
-                                                            </c:if>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </c:if>
-
-                                        </table>
-                                    </div>
-                                </div>
-                                <c:if test="${bankAccounts.content.size() > 0}">
-                                    <div class="row paginate">
-                                        <div class="col">
-                                            <nav aria-label="Page navigation">
-                                                <ul class="pagination">
-                                                    <li class="page-item <c:if test="${currentPage == 1}">disabled</c:if>">
-                                                            <a class="page-link" 
-                                                            <c:if test="${action == 'viewBankAccounts'}">
-                                                                href="${pageContext.request.contextPath}/management/viewManageBankAccount?nav=${nav}&page=1&size=${pageSize}"
-                                                            </c:if>
-                                                            <c:if test="${action == 'searchBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/searchBankAccount?nav=${nav}&searchValue=${searchValue}&page=1&size=${pageSize}"
-                                                            </c:if> 
-                                                            <c:if test="${action == 'filterBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/resultFilter?action=filterBankAccount&nav=${nav}&searchValue=${searchValue}&startDate=${startDate}&endDate=${endDate}&accountStatus=${accountStatus}&sortBy=${sortBy}&page=1&size=${pageSize}"
-                                                            </c:if>    
-                                                            aria-label="First">
-
-                                                            <span aria-hidden="true">Trang đầu</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item <c:if test="${currentPage == 1}">disabled</c:if>">
-                                                            <a class="page-link" 
-                                                            <c:if test="${action == 'viewBankAccounts'}">
-                                                                href="${pageContext.request.contextPath}/management/viewManageBankAccount?nav=${nav}&page=${currentPage-1}&size=${pageSize}"
-                                                            </c:if>
-                                                            <c:if test="${action == 'searchBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/searchBankAccount?nav=${nav}&searchValue=${searchValue}&page=${currentPage-1}&size=${pageSize}"
-                                                            </c:if> 
-                                                            <c:if test="${action == 'filterBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/resultFilter?action=filterBankAccount&nav=${nav}&searchValue=${searchValue}&startDate=${startDate}&endDate=${endDate}&accountStatus=${accountStatus}&sortBy=${sortBy}&page=${currentPage-1}&size=${pageSize}"
-                                                            </c:if>    
-                                                            aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <c:forEach begin="1" end="${totalPage}" var="i">
-                                                        <c:if test="${currentPage == i}">
-                                                            <li class="page-item active" >
-                                                                <a class="page-link " style="background-color: black;border: 1px solid black;" 
-                                                                   <c:if test="${action == 'viewBankAccounts'}">
-                                                                       href="${pageContext.request.contextPath}/management/viewManageBankAccount?nav=${nav}&page=${i}&size=${pageSize}"
-                                                                   </c:if>
-                                                                   <c:if test="${action == 'searchBankAccount'}">
-                                                                       href="${pageContext.request.contextPath}/management/searchBankAccount?nav=${nav}&searchValue=${searchValue}&page=${i}&size=${pageSize}"
-                                                                   </c:if>
-                                                                   <c:if test="${action == 'filterBankAccount'}">
-                                                                       href="${pageContext.request.contextPath}/management/resultFilter?action=filterBankAccount&nav=${nav}&searchValue=${searchValue}&startDate=${startDate}&endDate=${endDate}&accountStatus=${accountStatus}&sortBy=${sortBy}&page=${i}&size=${pageSize}"
-                                                                   </c:if>
-                                                                   >${i}
-                                                                </a>
-                                                            </li>
-                                                        </c:if>
-                                                        <c:if test="${currentPage != i}">
-                                                            <li class="page-item">
-                                                                <a class="page-link" 
-                                                                   <c:if test="${action == 'viewBankAccounts'}">
-                                                                       href="${pageContext.request.contextPath}/management/viewManageBankAccount?nav=${nav}&page=${i}&size=${pageSize}"
-                                                                   </c:if>
-                                                                   <c:if test="${action == 'searchBankAccount'}">
-                                                                       href="${pageContext.request.contextPath}/management/searchBankAccount?nav=${nav}&searchValue=${searchValue}&page=${i}&size=${pageSize}"
-                                                                   </c:if>  
-                                                                   <c:if test="${action == 'filterBankAccount'}">
-                                                                       href="${pageContext.request.contextPath}/management/resultFilter?action=filterBankAccount&nav=${nav}&searchValue=${searchValue}&startDate=${startDate}&endDate=${endDate}&accountStatus=${accountStatus}&sortBy=${sortBy}&page=${i}&size=${pageSize}"
-                                                                   </c:if>
-                                                                   >${i}
-                                                                </a>
-                                                            </li>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <li class="page-item <c:if test="${currentPage == totalPage}">disabled</c:if>">
-                                                            <a class="page-link" 
-                                                            <c:if test="${action == 'viewBankAccounts'}">
-                                                                href="${pageContext.request.contextPath}/management/viewManageBankAccount?nav=${nav}&page=${currentPage+1}&size=${pageSize}"
-                                                            </c:if>
-                                                            <c:if test="${action == 'searchBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/searchBankAccount?nav=${nav}&searchValue=${searchValue}&page=${currentPage+1}&size=${pageSize}"
-                                                            </c:if>
-                                                            <c:if test="${action == 'filterBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/resultFilter?action=filterBankAccount&nav=${nav}&searchValue=${searchValue}&startDate=${startDate}&endDate=${endDate}&accountStatus=${accountStatus}&sortBy=${sortBy}&page=${currentPage+1}&size=${pageSize}"
-                                                            </c:if>    
-                                                            aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item <c:if test="${currentPage == totalPage}">disabled</c:if>">
-                                                            <a class="page-link" 
-                                                            <c:if test="${action == 'viewBankAccounts'}">
-                                                                href="${pageContext.request.contextPath}/management/viewManageBankAccount?nav=${nav}&page=${totalPage}&size=${pageSize}"
-                                                            </c:if>
-                                                            <c:if test="${action == 'searchBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/searchBankAccount?nav=${nav}&searchValue=${searchValue}&page=${totalPage}&size=${pageSize}"
-                                                            </c:if> 
-                                                            <c:if test="${action == 'filterBankAccount'}">
-                                                                href="${pageContext.request.contextPath}/management/resultFilter?action=filterBankAccount&nav=${nav}&searchValue=${searchValue}&startDate=${startDate}&endDate=${endDate}&accountStatus=${accountStatus}&sortBy=${sortBy}&page=${totalPage}&size=${pageSize}"
-                                                            </c:if>    
-                                                            aria-label="Finally">
-                                                            <span aria-hidden="true">Trang cuối</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </c:if>
-
+                                <ol class="breadcrumb page-breadcrumb pull-right">
+                                    <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item"
+                                                                           href="index.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+                                    </li>
+                                    <li><a class="parent-item" href="index.html">Quản lý tài khoản ngân hàng</a>&nbsp;<i
+                                            class="fa fa-angle-right"></i>
+                                    </li>
+                                    <li class="active">
+                                        <c:if test="${action == 'openBankAccount'}">
+                                            Mở tài khoản ngân hàng
+                                        </c:if>
+                                        <c:if test="${action == 'editBankAccount'}">
+                                            Chỉnh sửa tài khoản ngân hàng
+                                        </c:if>
+                                    </li>
+                                </ol>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <p style="color: red;">${messageOpenBA}</p>
+                            </div>
+                        </div>
+                        <!-- chart start -->
+                        <c:if test="${makeOpenBA == true}">
+                            <div class="row openAccountBank">
+                                <div class="col-md-12">
+                                    <mvc:form action="${pageContext.request.contextPath}/management/resultManageBankAccount"
+                                              modelAttribute="bankAccount" method="POST">
+                                        <c:if test="${action == 'editBankAccount'}">
+                                            <input type="hidden" class="form-control" name="id" value="${findBankAccount.id}" />
+                                        </c:if>
+                                        <div class="row customerInfo1">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="customerPhone">Số điện thoại khách hàng: </label>
+                                                    <input type="text" class="form-control" name="customerPhone"
+                                                           id="customerPhone" value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.customer.customerPhone}</c:if><c:if test="${action == 'openBankAccount'}">${customerPhone}</c:if>"
+                                                               placeholder="Nhập số điện thoại khách hàng" onchange="this.form.submit();" 
+                                                           <c:if test="${action == 'editBankAccount'}">readonly</c:if>
+                                                               required>
+                                                           <small class="form-text text-muted">${messageCustomerPhone}</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="customerEmail">Email khách hàng: </label>
+                                                    <input type="email" class="form-control" name="customerEmail"
+                                                           id="customerEmail" value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.customer.customerEmail}</c:if><c:if test="${action == 'openBankAccount'}">${customerEmail}</c:if>" onchange="this.form.submit();"
+                                                               placeholder="Nhập email khách hàng" 
+                                                           <c:if test="${action == 'editBankAccount'}">readonly</c:if>
+                                                               required>
+                                                           <small class="form-text text-muted">${messageCustomerEmail}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Tên khách hàng: </label>
+                                                    <input type="text" class="form-control" value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.customer.customerName}</c:if><c:if test="${action == 'openBankAccount'}">${customer.customerName}</c:if>" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Số CCCD: </label>
+                                                            <input type="text" class="form-control" value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.customer.CINumber}</c:if><c:if test="${action == 'openBankAccount'}">${customer.CINumber}</c:if>" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-inline mt-2 typeAccount">
+                                                        <label for="typeAccount">Loại tài khoản: </label>
+                                                        <div class="form-check">
+                                                        <c:forEach var="at" items="${accountTypes}">
+                                                            <label class="form-check-label ml-3">
+                                                                <c:if test="${at == bankAccount.accountType}">
+                                                                    <input type="radio" class="form-check-input" name="accountType" 
+                                                                           id="accountType"
+                                                                           value="${at}" checked required>
+                                                                    <c:if test="${at == 'PAYMENT_ACCOUNT'}">
+                                                                        Thanh toán
+                                                                    </c:if>
+                                                                    <c:if test="${at == 'SAVING_ACCOUNT'}">
+                                                                        Tiết kiệm
+                                                                    </c:if>
+                                                                </c:if>
+                                                                <c:if test="${at != bankAccount.accountType}">
+                                                                    <input type="radio" class="form-check-input" name="accountType" 
+                                                                           id="accountType" 
+                                                                           value="${at}" <c:if test="${at == 'PAYMENT_ACCOUNT' || at == findBankAccount.accountType}">checked</c:if>
+                                                                           <c:if test="${action == 'editBankAccount'}">disabled</c:if>
+                                                                               required>
+                                                                    <c:if test="${at == 'PAYMENT_ACCOUNT'}">
+                                                                        Thanh toán
+                                                                    </c:if>
+                                                                    <c:if test="${at == 'SAVING_ACCOUNT'}">
+                                                                        Tiết kiệm
+                                                                    </c:if>
+                                                                </c:if>
+
+                                                            </label>
+                                                        </c:forEach>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-check mb-4 mt-2">
+                                                    <label class="form-check-label">
+                                                        <c:if test="${physicalCard == true || findBankAccount.physicalCard == true}">
+                                                            <input type="checkbox" class="form-check-input" name="physicalCard" 
+                                                                   value="true" checked>
+                                                        </c:if>
+                                                        <c:if test="${physicalCard == false}">
+                                                            <input type="checkbox" class="form-check-input" name="physicalCard" 
+                                                                   value="true">
+                                                        </c:if>
+                                                        Cung cấp thẻ ngân hàng vật lý
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row bank">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label>Ngân hàng: </label>
+                                                    <input type="text" class="form-control" value="TanTuBank" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="form-group">
+                                                    <label for="tantuBankAddress">Địa chỉ ngân hàng: </label>
+                                                    <select class="form-control" name="tantuBankAddress" id="tantuBankAddress" required>
+                                                        <c:forEach var="tantubankAddress" items="${tantubankAddressList}">
+                                                            <c:if test="${tantubankAddress.address == bankAccount.tantuBankAddress || tantubankAddress.address == findBankAccount.tantuBankAddress}">
+                                                                <option value="${tantubankAddress.address}" selected>${tantubankAddress.address}</option>
+                                                            </c:if>
+                                                            <c:if test="${tantubankAddress.address != bankAccount.tantuBankAddress}">
+                                                                <option value="${tantubankAddress.address}">${tantubankAddress.address}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row staff">
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="staffId">Id Nhân viên mở: </label>
+                                                    <input type="text" class="form-control" name="staffId" id="staffId"
+                                                           placeholder="Nhập id nhân viên" 
+                                                           value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.staff.id}</c:if><c:if test="${action == 'openBankAccount'}">${staffId}</c:if>" 
+                                                           <c:if test="${action == 'editBankAccount'}">readonly</c:if>
+                                                               onchange="this.form.submit();" required>
+                                                    <c:if test="${action == 'openBankAccount'}">
+                                                        <small class="form-text text-muted">${messageStaff}</small>
+                                                    </c:if>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label>Tên nhân viên mở: </label>
+                                                    <input type="text" class="form-control" value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.staff.staffName}</c:if><c:if test="${action == 'openBankAccount'}">${staff.staffName}</c:if>" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>Số điện thoại nhân viên mở: </label>
+                                                            <input type="text" class="form-control" value="<c:if test="${action == 'editBankAccount'}">${findBankAccount.staff.user.customer.customerPhone}</c:if><c:if test="${action == 'openBankAccount'}">${staff.user.customer.customerPhone}</c:if>" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <c:if test="${action == 'editBankAccount'}">
+                                            <div class="row staff">
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label for="editStaffId">Id Nhân viên sửa: </label>
+                                                        <input type="text" class="form-control" name="editStaffId" id="editStaffId"
+                                                               placeholder="Nhập id nhân viên" value="${editStaffId}" onchange="this.form.submit();" required>
+                                                        <small class="form-text text-muted">${messageStaff}</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>Tên nhân viên sửa: </label>
+                                                        <input type="text" class="form-control" value="${editStaff.staffName}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>Số điện thoại nhân viên sửa: </label>
+                                                        <input type="text" class="form-control" value="${editStaff.user.customer.customerPhone}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${action == 'openBankAccount'}">
+                                            <button name="buttonOpenBA" class="btn openAccountButton">Mở tài khoản thanh toán</button>
+                                        </c:if>
+                                        <c:if test="${action == 'editBankAccount'}">
+                                            <button name="buttonEditBA" class="btn openAccountButton">Chỉnh sửa tài khoản thanh toán</button>
+                                        </c:if>
+                                        <button type="reset" class="btn btn-dark">Reset</button>
+                                    </mvc:form>
+                                </div>
+                            </div>      
+                        </c:if>
+                        <c:if test="${makeOpenBA == false}">
+                            <div class="row mt-3 completeOpen justify-content-center" >
+                                <div class="col">
+                                    <h4 class="header text-center">Thông tin hoá đơn</h4>
+                                    <h6 class="header text-center">Mở tài khoản ngân hàng</h6>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>Số tài khoản: ${bankAccount.accountNumber}</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Tên tài khoản: ${bankAccount.accountName}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>Số tiền nạp: 50.000đ</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Phí giao dịch: 0đ</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>Tên nhân viên thực hiện giao dịch: ${staff.staffName}</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Cấp thẻ vật lý: <c:if test="${bankAccount.physicalCard == true}">Có</c:if><c:if test="${bankAccount.physicalCard == false}">Không</c:if></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                    <p>Ngân hàng giao dịch: TanTuBank --- Địa chỉ: ${bankAccount.tantuBankAddress}</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Ngày giao dịch: <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${bankAccount.createDate}" /></p>
+                                        </div>
+                                    </div>
+                                    <button onclick="javascript:window.print();" class="btn"><i class="fa-solid fa-print"></i> In hoá đơn</button>
+                                    <button onclick="location.href = '${pageContext.request.contextPath}/management/viewOpenOrEditBankAccount'" class="btn btn-danger"><i class="fa-solid fa-backward"></i> Quay lại</button>
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
+
+
                 </div>
                 <!-- end page content -->
                 <!-- start chat sidebar -->

@@ -142,6 +142,8 @@ public class TransactionService {
         if (balanceTransactionString.equals("")) {
             model.addAttribute("messageBalanceTransaction", "Số tiền chuyển không được để trống");
         } else {
+            balanceTransactionString = balanceTransactionString.replaceAll(",", "");
+            System.out.println("ba"+balanceTransactionString);
             if (StringUtils.isNumeric(balanceTransactionString) == false) {
                 model.addAttribute("messageBalanceTransaction", "Số tiền chuyển phải là số");
             } else {
@@ -209,6 +211,10 @@ public class TransactionService {
             }
         }
         return false;
+    }
+    
+    public void saveOrUpdateTransaction(TransactionEntity transaction){
+        transactionRepository.save(transaction);
     }
 
 }

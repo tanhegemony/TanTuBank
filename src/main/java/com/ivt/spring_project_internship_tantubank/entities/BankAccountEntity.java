@@ -6,24 +6,19 @@ package com.ivt.spring_project_internship_tantubank.entities;
 
 import com.ivt.spring_project_internship_tantubank.enums.AccountStatus;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -41,7 +36,7 @@ public class BankAccountEntity {
     @Column(name = "account_number", length = 20, unique = true)
     private String accountNumber;
     
-    @Column(name = "account_name", length = 50, unique = true)
+    @Column(name = "account_name", length = 50)
     private String accountName;
     
     private double balance;
@@ -53,17 +48,19 @@ public class BankAccountEntity {
     @Column(name = "account_type", length = 20)
     private String accountType;
     
+    @Column(name = "physical_card")
+    private boolean physicalCard = false;
+    
     @Column(name = "bank_account_status", length = 10)
     @Enumerated(EnumType.STRING)
     private AccountStatus bankAccountStatus;
 
-    public AccountStatus getBankAccountStatus() {
-        return bankAccountStatus;
-    }
-
-    public void setBankAccountStatus(AccountStatus bankAccountStatus) {
-        this.bankAccountStatus = bankAccountStatus;
-    }
+    @Column(name = "tantubank_address", length = 100)
+    private String tantuBankAddress;
+    
+    @ManyToOne
+    @JoinColumn(name = "staffId")
+    private StaffEntity staff;
     
     @ManyToOne
     @JoinColumn(name = "customerId")
@@ -82,40 +79,14 @@ public class BankAccountEntity {
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
     private List<ExternalTransferEntity> externalTransfers;
 
-    public List<ExternalTransferEntity> getExternalTransfers() {
-        return externalTransfers;
+    public boolean isPhysicalCard() {
+        return physicalCard;
     }
 
-    public void setExternalTransfers(List<ExternalTransferEntity> externalTransfers) {
-        this.externalTransfers = externalTransfers;
-    }
-    
-    public BankEntity getBank() {
-        return bank;
+    public void setPhysicalCard(boolean physicalCard) {
+        this.physicalCard = physicalCard;
     }
 
-    public void setBank(BankEntity bank) {
-        this.bank = bank;
-    }
-
-    public List<TransactionEntity> getTransactions1() {
-        return transactions1;
-    }
-
-    public void setTransactions1(List<TransactionEntity> transactions1) {
-        this.transactions1 = transactions1;
-    }
-
-    public List<TransactionEntity> getTransactions2() {
-        return transactions2;
-    }
-
-    public void setTransactions2(List<TransactionEntity> transactions2) {
-        this.transactions2 = transactions2;
-    }
-    
-    
-    
     public long getId() {
         return id;
     }
@@ -156,13 +127,36 @@ public class BankAccountEntity {
         this.createDate = createDate;
     }
 
-    
     public String getAccountType() {
         return accountType;
     }
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public AccountStatus getBankAccountStatus() {
+        return bankAccountStatus;
+    }
+
+    public void setBankAccountStatus(AccountStatus bankAccountStatus) {
+        this.bankAccountStatus = bankAccountStatus;
+    }
+
+    public String getTantuBankAddress() {
+        return tantuBankAddress;
+    }
+
+    public void setTantuBankAddress(String tantuBankAddress) {
+        this.tantuBankAddress = tantuBankAddress;
+    }
+
+    public StaffEntity getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffEntity staff) {
+        this.staff = staff;
     }
 
     public CustomerEntity getCustomer() {
@@ -172,6 +166,41 @@ public class BankAccountEntity {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
     }
+
+    public BankEntity getBank() {
+        return bank;
+    }
+
+    public void setBank(BankEntity bank) {
+        this.bank = bank;
+    }
+
+    public List<TransactionEntity> getTransactions1() {
+        return transactions1;
+    }
+
+    public void setTransactions1(List<TransactionEntity> transactions1) {
+        this.transactions1 = transactions1;
+    }
+
+    public List<TransactionEntity> getTransactions2() {
+        return transactions2;
+    }
+
+    public void setTransactions2(List<TransactionEntity> transactions2) {
+        this.transactions2 = transactions2;
+    }
+
+    public List<ExternalTransferEntity> getExternalTransfers() {
+        return externalTransfers;
+    }
+
+    public void setExternalTransfers(List<ExternalTransferEntity> externalTransfers) {
+        this.externalTransfers = externalTransfers;
+    }
+
+
+    
     
     
 }
