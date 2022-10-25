@@ -4,27 +4,19 @@
  */
 package com.ivt.spring_project_internship_tantubank.controller.user;
 
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.ivt.spring_project_internship_tantubank.entities.BankAccountEntity;
 import com.ivt.spring_project_internship_tantubank.entities.TransactionEntity;
 import com.ivt.spring_project_internship_tantubank.enums.AccountType;
 import com.ivt.spring_project_internship_tantubank.enums.TransactionType;
 import com.ivt.spring_project_internship_tantubank.service.BankAccountService;
 import com.ivt.spring_project_internship_tantubank.service.TransactionService;
-import java.util.Date;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -106,7 +98,9 @@ public class InternalTransferController {
             session.setAttribute("balanceTransaction", balanceTransactionString.replaceAll(",", ""));
             session.setAttribute("contentTransaction", contentTransaction);
             if (checkTrans == true) {
-                return "redirect:/viewConfirmIT";
+                model.addAttribute("prepareIT", false);
+                model.addAttribute("makeIT", true);
+                return "/user/internal_transfer";
             }
         }
         model.addAttribute("prepareIT", true);
@@ -124,24 +118,10 @@ public class InternalTransferController {
         return reloadCaptcha;
     }
 
-    @RequestMapping("viewConfirmIT")
-    public String viewConfirmEmailInternalTransfer(Model model) {
-        if(session.getAttribute("receiveAccount") == null || session.getAttribute("balanceTransaction") == null){
-            return "redirect:/viewInternalTransfer";
-        }
-        model.addAttribute("action", "internal_transfer");
-        model.addAttribute("prepareIT", false);
-        model.addAttribute("makeIT", true);
-        model.addAttribute("completeIT", false);
-        return "/user/internal";
-    }
-
     @RequestMapping(value = "resultMakeInternalTransfer", method = RequestMethod.POST)
     public String resultMakeInternalTransfer(Model model) {
         model.addAttribute("action", "internal_transfer");
-        System.out.println(session.getAttribute("receiveBankAccount"));
-        System.out.println(session.getAttribute("balanceTransaction"));
-        if(session.getAttribute("receiveAccount") == null || session.getAttribute("balanceTransaction") == null){
+        if (session.getAttribute("receiveAccount") == null || session.getAttribute("balanceTransaction") == null) {
             return "redirect:/viewInternalTransfer";
         }
         String confirmCode = request.getParameter("confirmCode");

@@ -62,7 +62,9 @@
     .confirmCode>.form-group>input,
     .transferButton>.col>button,
     .bodyCompleteIT,
-    .footerCompleteIT {
+    .footerCompleteIT ,
+    .nextTransaction,
+    .backHome{
         font-size: 14px;
     }
 
@@ -168,7 +170,9 @@
     .confirmCode>.form-group>input,
     .transferButton>.col>button,
     .bodyCompleteIT,
-    .footerCompleteIT {
+    .footerCompleteIT ,
+    .nextTransaction,
+    .backHome{
         font-size: 12px;
     }
 

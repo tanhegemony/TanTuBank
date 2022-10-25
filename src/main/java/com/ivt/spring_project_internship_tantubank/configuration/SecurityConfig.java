@@ -47,10 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/", "/login", "/logout", "/home", "/register", "/checkAccountBySendEmails", "/user/loan_calculation").permitAll();
 
-        http.authorizeRequests().antMatchers("/user/home","/user/internal_transfer", "/viewExternalTransfer").access("hasAnyRole('CUSTOMER,TELLER,ADMIN')")
-                .antMatchers("/admin/*").access("hasRole('TELLER')")
-                .antMatchers("/admin/*","/admin/accountsBanking").access("hasRole('ADMIN')");
-                
+//        http.authorizeRequests().antMatchers("/user/home","/user/internal_transfer", "/viewExternalTransfer").access("hasAnyRole('CUSTOMER,TELLER,ADMIN')")
+//                .antMatchers("/admin/*").access("hasRole('TELLER')")
+//                .antMatchers("/admin/*","/admin/accountsBanking").access("hasRole('ADMIN')");
+//                
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
         http.authorizeRequests().and().formLogin()

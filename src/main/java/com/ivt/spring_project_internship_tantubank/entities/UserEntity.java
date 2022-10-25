@@ -45,7 +45,7 @@ public class UserEntity {
     
     @Column(name = "user_status", length = 10)
     @Enumerated(EnumType.STRING)
-    private AccountStatus userStatus = AccountStatus.UNACTIVE;
+    private UserStatus userStatus = UserStatus.UNACTIVE;
     
     @Column(name = "create_date")
     @Temporal(TemporalType.DATE)
@@ -108,11 +108,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public AccountStatus getUserStatus() {
+    public UserStatus getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(AccountStatus userStatus) {
+    public void setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
     }
 
@@ -123,10 +123,4 @@ public class UserEntity {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-
-    public void setUserStatus(UserStatus userStatus) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
 }

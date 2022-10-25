@@ -155,3 +155,6 @@ font-weight: bolder;
   .footerCompleteIT>a{
     color: red;
   }
+  .nextTransaction{
+    background-color: #8aaae5;
+  }
