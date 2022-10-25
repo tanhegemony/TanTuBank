@@ -20,24 +20,19 @@
 .depositButton>.col>button>img{
     width: 20%;
 }
-.completeDeposit>.col{
-    background-color: #8aaae5;
+.completeDeposit>.col-6{
+    border: 5px solid #8aaae5;
     border-radius: 10px;
     padding: 20px;
 }
-.completeDeposit>.col>.headerCD{
-    font-size: 20px;
+.completeDeposit>.col-6>.headerCD{
     color: red;
     font-weight: bold;
+    text-transform: uppercase;
 }
 .contentCD{
     font-size: 18px;
 }
-#displayCaptcha{
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+.nextTransaction{
+  background-color: #8aaae5;
 }

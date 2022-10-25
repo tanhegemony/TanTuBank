@@ -61,12 +61,23 @@ public class TransactionEntity {
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<ExternalTransferEntity> externalTransfers;
 
+    @Column(name = "tantubank_address", length = 100)
+    private String tantuBankAddress;
+    
     @ManyToOne
     @JoinColumn(name = "staffId")
     private StaffEntity staff; 
     
     @Column(name = "fee_transaction")
     private double feeTransaction;
+
+    public String getTantuBankAddress() {
+        return tantuBankAddress;
+    }
+
+    public void setTantuBankAddress(String tantuBankAddress) {
+        this.tantuBankAddress = tantuBankAddress;
+    }
     
     public StaffEntity getStaff() {
         return staff;

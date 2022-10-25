@@ -1,228 +1,210 @@
-@media only screen and (max-width: 1200px){
-    .captcha>.col-8{
-        max-width: 60%;
-    } 
+@media only screen and (max-width: 1200px) {
+    .content>.row>.col-6 {
+        max-width: 40%;
+    }
+
+    .content>.row>.col-4 {
+        min-width: 40%;
+    }
 }
-@media only screen and (max-width: 991px){
-    .content>.row>.col>nav{
-        position: absolute;
-        left: 2rem;
-        top: 3rem;
+
+@media only screen and (max-width: 991px) {
+    .transactionContent>.col-2 {
+        display: none;
     }
-    .transactionContent>.col-4{
-        min-width: 35%;
-    }
-    .transactionContent>.col-8{
-        max-width: 65%;
-    }
-    .enterReceiveAcc>.col-8,
-    .enterReceiveAcc>.col-4{
+
+    .transactionContent>.col-9 {
         min-width: 100%;
     }
-    .captcha>.col-3{
-        margin-top: 3rem;
+
+    .content>.row>.col-6 {
+        min-width: 100%;
     }
-    .captcha>.col-1{
-        margin-top: 3.5rem;
+
+    .content>.row>.col-4 {
+        min-width: 100%;
+    }
+
+    .content>.row>.col-4>nav {
+        float: right;
+        margin-right: 5rem;
+    }
+
+
+}
+
+@media only screen and (max-width: 767px) {
+    .content>.row>.col-6>h5 {
+        font-size: 16px;
+    }
+    .displayInfoTransaction{
+        min-width: 100%;
+    }
+    .confirmCode{
+        min-width: 80%;
     }
     .makeTransaction{
         justify-content: center;
     }
-    .makeTransaction>.displayInfoTransaction{
-        min-width: 80%;
-        border-radius: 10px 10px 0px 0px;
-        text-align: center;
-    }
-    .makeTransaction>.confirmCode{
-        min-width: 80%;
-        border-radius: 0px 0px 10px 10px;
-    }
-}
-@media only screen and (max-width: 767px){
-    .content>.row>.col>nav{
-        position: absolute;
-        top: 2rem;
-    }
-    .transactionContent>.col-8{
-        min-width: 100%;
-        border-radius: 10px;
-    }
-    .transactionContent>.col-4{
-        min-width: 70%;
-        border-radius: 10px 10px 0px 0px;
-    }
-    .makeTransaction>.displayInfoTransaction,
-    .makeTransaction>.confirmCode{
-        min-width: 90%;
+
+
+    .content>.row>.col-4>nav>ol>li>a,
+    .content>.row>.col-4>nav>ol>.active,
+    .guide>.part1,
+    .guide>.part2,
+    .guide>.part3,
+    .myCard>b,
+    .myCard>p,
+    .enterInfo>.col-8>.form-group>label,
+    .enterInfo>.col-8>.form-group>input,
+    .enterInfo>.col-8>.form-group>textarea,
+    .captcha>.col-7>.form-group>label,
+    .captcha>.col-7>.form-group>input,
+    .captcha>.col-3>p,
+    .nextButton>.col>button,
+    .transferButton>.col>button,
+    .destinationAccount>.col>b,
+    .destinationAccount>.col>p,
+    .receiveAccount>label,
+    .nameReceiveAccount>label,
+    .balance>label,
+    .confirmCode>.form-group>label,
+    .confirmCode>.form-group>input,
+    .transferButton>.col>button,
+    .bodyCompleteIT,
+    .footerCompleteIT,
+    .nextTransaction,
+    .backHome,
+    .destinationAccount>.col-5>b,
+    .destinationAccount>.col-5>p{
+        font-size: 14px;
     }
 
-    .content>.row>.col>nav>ol>li>a,
-    .content>.row>.col>nav>ol>.active{
-        font-size: 14px;
+    .transactionContent>.col-9>.row>.col-4 {
+        min-width: 50%;
+        max-height: 16rem;
+        border-radius: 10px 10px 0px 0px;
+        box-shadow: 0px 5px 5px 0px gray;
     }
-    .title-comm{
-        font-size: 14px;
+
+    .enterInfo>.col-8 {
+        min-width: 100%;
+        border-radius: 0px 10px 10px 10px;
+        box-shadow: 5px 5px 5px 0px gray;
     }
-    .transactionContent>.col-8>h5,
-    .transactionContent>.col-4>h5,
+
+    .myCard>h6,
     .displayInfoTransaction>h5,
-    .confirmCode>h5,.headerCompleteIT{
-        font-size: 18px;
+    .confirmCode>h5,
+    .headerCompleteIT {
+        font-size: 15px;
     }
-    .destinationAccount>.col>b,
-  .destinationAccount>.col-5>b{
-    font-size: 15px;
-  }
-  .destinationAccount>.col>p,
-  .destinationAccount>.col-5>p{
-    font-size: 12px;
-  }
-  .transactionContent>.col-8>form>.form-group>label,
-  .transactionContent>.col-8>form>.form-group>input,
-  .transactionContent>.col-8>form>.form-group>textarea,
-  .enterReceiveAcc>.col-8>.form-group>label,
-  .enterReceiveAcc>.col-8>.form-group>input,
-  .enterReceiveAcc>.col-4>.form-group>label,
-  .enterReceiveAcc>.col-4>.form-group>input,
-  .captcha>.col-8>.form-group>label,
-  .captcha>.col-8>.form-group>input,
-  .nextButton>.col>button,
-  .receiveAccount>label,
-  .nameReceiveAccount>label,
-  .balance>label,
-  .confirmCode>.form-group>label,
-  .confirmCode>.form-group>input,.transferButton>.col>button,
-  .bodyCompleteIT,.footerCompleteIT{
-    font-size: 14px;
-  }
-  .captcha>.col-3>p{
-    font-size: 17px;
-  }
-  .captcha>.col-8{
-    max-width: 55%;
-  }
-  .captcha>.col-3{
-    margin-top: 1.5rem;
-  }
-  .captcha>.col-1{
-    margin-top: 2rem;
-  }
 }
-@media only screen and (max-width: 580px){
-    .content>.row>.col>nav{
-        position: absolute;
-        top: 1rem;
+
+@media only screen and (max-width: 480px) {
+    .content>.row>.col-4>nav {
+        margin-right: 0rem;
     }
-    
-    .completeIT>.col-8{
-        min-width: 90%;
+
+    .transactionContent>.col-9>.row>.col-4 {
+        min-width: 70%;
     }
-    
-}
-@media only screen and (max-width: 480px){
-    .transactionContent>.col-8,
-    .transactionContent>.col-4,
-    .makeTransaction>.displayInfoTransaction,
-    .makeTransaction>.confirmCode{
-        padding: 5px;
-    }   
-    .transactionContent>.col-4{
-        min-width: 80%;
+
+    .captcha>.col-3 {
+        min-width: 50%;
+    }
+
+    .captcha>.col-7 {
+        min-width: 100%;
+    }
+
+    .captcha>.col-3 {
+        margin-top: 0rem;
+    }
+
+    .captcha>.col-1 {
+        margin-top: 0rem;
     }
     .destinationAccount{
         justify-content: center;
     }
     .destinationAccount>.col-5{
-        min-width: 90%;
+        min-width: 60%;
     }
-    .destinationAccount>.col-5>img,
-    .destinationAccount>.col-6>img{
-        width: 60%;
-    }
-    .destinationAccount>.col-1,
-    .destinationAccount>.col-6{
+    .destinationAccount>.col-1{
         min-width: 100%;
         transform: translateY(-3rem);
     }
-    .fa-long-arrow-right{
-        display: none;
+    .destinationAccount>.col-6{
+        min-width: 60%;
+        transform: translateY(-4rem);
+    }
+    .confirmCode{
+        transform: translateY(-3rem);
     }
     .fa-long-arrow-down{
-        display: block;
-        
-    }
-    .captcha>.col-8{
-        min-width: 100%;
-    }
-    .captcha>.col-3{
-        min-width: 35%;
-        margin-top: 0rem;
-    }
-    .captcha>.col-1{
-        max-width: 50%;
-        margin-top: 0.2rem;
-    }
-
+        display: inline;
+      }
+      .fa-long-arrow-right{
+        display: none;
+      }
 }
-@media only screen and (max-width: 380px){
-    .content>.row>.col>nav{
-        position: absolute;
-        left: 0rem;
+
+@media only screen and (max-width: 380px) {
+    .destinationAccount>.col-5{
+        min-width: 80%;
+    }
+    .destinationAccount>.col-6{
+        min-width: 80%;
+    }
+    .confirmCode{
+        min-width: 100%;
     }
     
 }
-@media only screen and (max-width: 320px){
-    .transactionContent>.col-4{
-        min-width: 100%;
-    }
-    .transactionContent>.col-8{
-        border-radius: 0px 0px 10px 10px;
+
+@media only screen and (max-width: 320px) {
+    .content>.row>.col-6>h5 {
+        font-size: 14px;
     }
 
-    .content>.row>.col>nav>ol>li>a,
-    .content>.row>.col>nav>ol>.active{
-        font-size: 13px;
-    }
-    .title-comm{
+    .content>.row>.col-4>nav>ol>li>a,
+    .content>.row>.col-4>nav>ol>.active,
+    .guide>.part1,
+    .guide>.part2,
+    .guide>.part3,
+    .myCard>b,
+    .myCard>p,
+    .enterInfo>.col-8>.form-group>label,
+    .enterInfo>.col-8>.form-group>input,
+    .enterInfo>.col-8>.form-group>textarea,
+    .captcha>.col-7>.form-group>label,
+    .captcha>.col-7>.form-group>input,
+    .captcha>.col-3>p,
+    .nextButton>.col>button,
+    .transferButton>.col>button,
+    .destinationAccount>.col>b,
+    .destinationAccount>.col>p,
+    .receiveAccount>label,
+    .nameReceiveAccount>label,
+    .balance>label,
+    .confirmCode>.form-group>label,
+    .confirmCode>.form-group>input,
+    .transferButton>.col>button,
+    .bodyCompleteIT,
+    .footerCompleteIT,
+    .nextTransaction,
+    .backHome ,
+    .destinationAccount>.col-5>b,
+    .destinationAccount>.col-5>p{
         font-size: 12px;
     }
-    .title-comm .title-holder{
-        min-width: 50px;
-    }
-    .transactionContent>.col-8>h5,
-    .transactionContent>.col-4>h5,
+
+    .myCard>h6,
     .displayInfoTransaction>h5,
-    .confirmCode>h5,.headerCompleteIT{
+    .confirmCode>h5,
+    .headerCompleteIT {
         font-size: 13px;
     }
-    .destinationAccount>.col>b,
-  .destinationAccount>.col-5>b{
-    font-size: 12px;
-  }
-  .destinationAccount>.col>p,
-  .destinationAccount>.col-5>p{
-    font-size: 11px;
-  }
-  .transactionContent>.col-8>form>.form-group>label,
-  .transactionContent>.col-8>form>.form-group>input,
-  .transactionContent>.col-8>form>.form-group>textarea,
-  .enterReceiveAcc>.col-8>.form-group>label,
-  .enterReceiveAcc>.col-8>.form-group>input,
-  .enterReceiveAcc>.col-4>.form-group>label,
-  .enterReceiveAcc>.col-4>.form-group>input,
-  .captcha>.col-8>.form-group>label,
-  .captcha>.col-8>.form-group>input,
-  .nextButton>.col>button,
-  .receiveAccount>label,
-  .nameReceiveAccount>label,
-  .balance>label,
-  .confirmCode>.form-group>label,
-  .confirmCode>.form-group>input,.transferButton>.col>button,
-  .bodyCompleteIT,.footerCompleteIT{
-    font-size: 12px;
-  }
-  .captcha>.col-3>p{
-    font-size: 15px;
-  }
-    
+
 }

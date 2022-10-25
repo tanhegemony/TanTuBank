@@ -81,47 +81,46 @@ public class ExternalTransferController {
         return "/user/external_transfer";
     }
 
-    @RequestMapping(value = "checkEnterReceiveAccountET", method = RequestMethod.POST)
-    public String checkEnterReceiveAccountET(Model model) {
-        model.addAttribute("action", "external_transfer");
-        String receiveAccount = request.getParameter("receiveAccount");
-        String bankIdString = request.getParameter("bankId");
-        long bankId = Long.parseLong(bankIdString);
-        BankAccountEntity receiveBankAccount = bankAccountService.findBankAccountByTypeAndAccountNumberAndBank(model, AccountType.PAYMENT_ACCOUNT.toString(), receiveAccount, bankId);
-
-        session.setAttribute("receiveAccount", receiveAccount);
-        session.setAttribute("bankId", bankId);
-        session.setAttribute("receiveBankAccount", receiveBankAccount);
-        List<BankEntity> banks = bankService.getBanks();
-        model.addAttribute("banks", banks);
-        model.addAttribute("prepareET", true);
-        model.addAttribute("makeET", false);
-        model.addAttribute("completeET", false);
-        return "/user/external_transfer";
-    }
-
     @RequestMapping(value = "resultPrepareExternalTransfer", method = RequestMethod.POST)
     public String resultPrepareExternalTransfer(Model model) throws MessagingException {
         model.addAttribute("action", "external_transfer");
-        if (session.getAttribute("receiveBankAccount") == null) {
-            model.addAttribute("messageReceiveAccountNumber", "Bạn chưa nhập tài khoản nhận!");
+        String receiveAccount = request.getParameter("receiveAccount");
+        String bankIdString = request.getParameter("bankId");
+        if (bankIdString.equals("")) {
+            model.addAttribute("messageBank", "Bạn vui lòng chọn Bank!");
         } else {
-            BankAccountEntity bankAccount = (BankAccountEntity) session.getAttribute("bankAccount");
-            String balanceTransaction = request.getParameter("balanceTransfer");
-            balanceTransaction = balanceTransaction.replaceAll(",", "");
-            String contentTransaction = request.getParameter("contentTransfer");
-            String captcha = request.getParameter("captcha");
-            boolean checkTrans = transactionService.checkTransaction(
-                    model, "external_transfer",contentTransaction, balanceTransaction,
-                    bankAccount, captcha, bankAccount.getCustomer().getCustomerEmail());
-            session.setAttribute("balanceTransaction", balanceTransaction);
-            session.setAttribute("contentTransaction", contentTransaction);
-            if (checkTrans == true) {
-                return "redirect:/viewConfirmET";
+            long bankId = Long.parseLong(bankIdString);
+            session.setAttribute("bankId", bankId);
+            if (receiveAccount.equals("")) {
+                model.addAttribute("messageReceiveAccountNumber", "Bạn chưa nhập tài khoản nhận!");
+            } else {
+                BankAccountEntity receiveBankAccount = bankAccountService.
+                        findBankAccountByTypeAndAccountNumberAndBank(model,
+                                AccountType.PAYMENT_ACCOUNT.toString(),
+                                receiveAccount, bankId);
+                if (receiveBankAccount != null) {
+                    BankAccountEntity bankAccount = (BankAccountEntity) session.getAttribute("bankAccount");
+                    String balanceTransactionString = request.getParameter("balanceTransfer");
+                    String contentTransaction = request.getParameter("contentTransfer");
+                    String captcha = request.getParameter("captcha");
+                    boolean checkTrans = transactionService.checkTransaction(
+                            model, "external_transfer", contentTransaction, balanceTransactionString,
+                            bankAccount, captcha, bankAccount.getCustomer().getCustomerEmail());
+                    session.setAttribute("balanceTransaction", balanceTransactionString);
+                    session.setAttribute("contentTransaction", contentTransaction);
+                    session.setAttribute("receiveBankAccount", receiveBankAccount);
+                    if (checkTrans == true) {
+                        BankEntity bank = bankService.findBankById((Long) session.getAttribute("bankId"));
+                        session.setAttribute("bank", bank);
+                        model.addAttribute("prepareET", false);
+                        model.addAttribute("makeET", true);
+                        model.addAttribute("completeET", false);
+                        return "/user/external_transfer";
+                    }
+                }
             }
-
         }
-
+        model.addAttribute("receiveAccount", receiveAccount);
         List<BankEntity> banks = bankService.getBanks();
         model.addAttribute("banks", banks);
         model.addAttribute("prepareET", true);
@@ -139,33 +138,26 @@ public class ExternalTransferController {
         return reloadCaptcha;
     }
 
-    @RequestMapping("viewConfirmET")
-    public String viewConfirmET(Model model) {
-        model.addAttribute("action", "external_transfer");
-        BankEntity bank = bankService.findBankById((Long) session.getAttribute("bankId"));
-        session.setAttribute("bank", bank);
-        model.addAttribute("prepareET", false);
-        model.addAttribute("makeET", true);
-        model.addAttribute("completeET", false);
-        return "/user/external_transfer";
-    }
-
     @RequestMapping(value = "resultMakeExternalTransfer", method = RequestMethod.POST)
     public String resultMakeExternalTransfer(Model model) {
         model.addAttribute("action", "external_transfer");
+        if(session.getAttribute("receiveBankAccount") == null){
+            return "redirect:/viewExternalTransfer";
+        }
         String confirmCode = request.getParameter("confirmCode");
         boolean checkConfirmCode = transactionService.checkConfirmCode(model, confirmCode);
         if (checkConfirmCode == false) {
             model.addAttribute("makeET", true);
             model.addAttribute("completeET", false);
-        }else{
+        } else {
             TransactionEntity transaction = new TransactionEntity();
             transaction.setTransactionType(TransactionType.EXTERNAL_TRANSFER_PAYMENT_ACCOUNT);
             transactionService.makeTransfer("external_transfer", transaction);
             model.addAttribute("makeET", false);
             model.addAttribute("completeET", true);
             resetSessionTransactionAfter();
-        }model.addAttribute("prepareET", false);
+        }
+        model.addAttribute("prepareET", false);
         return "/user/external_transfer";
     }
 }

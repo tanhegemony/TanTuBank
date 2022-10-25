@@ -10,7 +10,11 @@
     .makeDeposit>.col-md-12>form>.row>
     .col-6>.form-group>input,
     .captcha>.col-9>.form-group>label,
-    .captcha>.col-9>.form-group>input{
+    .captcha>.col-9>.form-group>input,
+    .bank>.col-3>.form-group>label,
+    .bank>.col-3>.form-group>input,
+    .bank>.col-9>.form-group>label,
+    .bank>.col-9>.form-group>select{
         font-size: 14px;
     }
     .captcha>.col-2>p{
@@ -62,7 +66,11 @@
     .makeDeposit>.col-md-12>form>.row>
     .col-6>.form-group>input,
     .captcha>.col-9>.form-group>label,
-    .captcha>.col-9>.form-group>input{
+    .captcha>.col-9>.form-group>input,
+    .bank>.col-3>.form-group>label,
+    .bank>.col-3>.form-group>input,
+    .bank>.col-9>.form-group>label,
+    .bank>.col-9>.form-group>select{
         font-size: 12px;
     }
     .captcha>.col-2>p{

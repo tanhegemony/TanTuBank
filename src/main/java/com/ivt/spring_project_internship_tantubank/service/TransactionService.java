@@ -65,18 +65,27 @@ public class TransactionService {
     @Transactional
     public void makeTransfer(String action, TransactionEntity transaction) {
         try {
-            double transactionAmount = Double.parseDouble((String) session.getAttribute("balanceTransaction"));
+            String balanceTransactionString = (String) session.getAttribute("balanceTransaction");
+            String balanceTransaction =  balanceTransactionString.replaceAll(",", "");
+            double transactionAmount = Double.parseDouble(balanceTransaction);
             transaction.setTransactionAmount(transactionAmount);
             transaction.setTransactionDate(new Timestamp(new Date().getTime()));
             if (action.equals("internal_transfer") || action.equals("external_transfer")) {
                 transaction.setBankAccount1((BankAccountEntity) session.getAttribute("bankAccount"));
-                transaction.setFeeTransaction(0);
+                if(action.equals("internal_transfer")){
+                    transaction.setFeeTransaction(0);
+                }else if(action.equals("external_transfer")){
+                     transaction.setFeeTransaction(2000);
+                }
+                transaction.setTantuBankAddress(null);
                 transaction.setStaff(null);
             } else if (action.equals("deposit_for_customer")) {
                 transaction.setBankAccount1(null);
                 transaction.setFeeTransaction(2000);
                 StaffEntity staff = (StaffEntity) session.getAttribute("staff");
                 transaction.setStaff(staff);
+                String tantuBankAddress = (String) session.getAttribute("tantuBankAddress");
+                transaction.setTantuBankAddress(tantuBankAddress);
             }
             transaction.setBankAccount2((BankAccountEntity) session.getAttribute("receiveBankAccount"));
             transaction.setTransactionContent((String) session.getAttribute("contentTransaction"));
@@ -87,16 +96,15 @@ public class TransactionService {
                 externalTransferService.addExternalTransfer(externalTransfer, transaction);
             }
 
-            double balanceTransaction = Double.parseDouble((String) session.getAttribute("balanceTransaction"));
             if (action.equals("internal_transfer") || action.equals("external_transfer")) {
                 BankAccountEntity bankAccountOriginal = (BankAccountEntity) session.getAttribute("bankAccount");
-                double updateBalanceBAOriginal = bankAccountOriginal.getBalance() - balanceTransaction;
+                double updateBalanceBAOriginal = bankAccountOriginal.getBalance() - transactionAmount;
                 bankAccountOriginal.setBalance(updateBalanceBAOriginal);
                 bankAccountService.saveOrUpdateBankAccount(bankAccountOriginal);
             }
 
             BankAccountEntity receiveBankAccount = (BankAccountEntity) session.getAttribute("receiveBankAccount");
-            double updateBalanceBAReceive = receiveBankAccount.getBalance() + balanceTransaction;
+            double updateBalanceBAReceive = receiveBankAccount.getBalance() + transactionAmount;
             receiveBankAccount.setBalance(updateBalanceBAReceive);
             bankAccountService.saveOrUpdateBankAccount(receiveBankAccount);
 
@@ -110,24 +118,25 @@ public class TransactionService {
                     subjectEmailOriginal = "Giao dịch chuyển tiền liên ngân hàng thành công!";
                 }
 
-                String contentEmailOriginal = "<h1>Bạn vừa chuyển tiền đến số tài khoản " + transaction.getBankAccount2().getAccountNumber() + " </h1>"
-                        + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
-                        + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
-                        + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";
+                String contentEmailOriginal = "<h2>Bạn vừa chuyển tiền đến số tài khoản " + transaction.getBankAccount2().getAccountNumber() + " </h2>"
+                        + "<h4>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h4>"
+                        + "<h5><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h5>"
+                        + "<h5>Cảm ơn bạn! Love 3000 nè!</h5>";
                 sendMail("natsutan94@gmail.com", transaction.getBankAccount1().getCustomer().getCustomerEmail(), subjectEmailOriginal, contentEmailOriginal);
 
                 String subjectEmailReceive = "Nhận tiền thành công!";
-                String contentEmailReceive = "<h1>Bạn vừa được số tài khoản" + transaction.getBankAccount1().getAccountNumber() + " chuyển tiền với nội dung chuyển khoản : " + transaction.getTransactionContent() + "<h1>"
-                        + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
-                        + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
-                        + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";
+                String contentEmailReceive = "<h2>Bạn vừa được số tài khoản" + transaction.getBankAccount1().getAccountNumber() + " chuyển tiền với nội dung chuyển khoản : " + transaction.getTransactionContent() + "<h2>"
+                        + "<h4>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h4>"
+                        + "<h5><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h5>"
+                        + "<h5>Cảm ơn bạn! Love 3000 nè!</h5>";
                 sendMail("natsutan94@gmail.com", transaction.getBankAccount2().getCustomer().getCustomerEmail(), subjectEmailReceive, contentEmailReceive);
             }else if(action.equals("deposit_for_customer")){
                 String subjectEmailReceive = "Nạp tiền thành công!";
-                String contentEmailReceive = "<h1>Bạn vừa được ngân hàng nạp tiền vào tài khoản "+receiveBankAccount.getAccountNumber()+" với nội dung chuyển khoản : " + transaction.getTransactionContent() + ". Phí giao dịch: 2,000đ<h1>"
-                        + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
-                        + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
-                        + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";
+                String contentEmailReceive = "<h2>Bạn vừa được ngân hàng nạp tiền vào tài khoản "+receiveBankAccount.getAccountNumber()+" với nội dung chuyển khoản : " + transaction.getTransactionContent() 
+                        + ". Phí giao dịch: 2,000đ. Tại ngân hàng TanTuBank - Địa chỉ: "+ transaction.getTantuBankAddress() +"<h2>"
+                        + "<h4>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h4>"
+                        + "<h5><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h5>"
+                        + "<h5>Cảm ơn bạn! Love 3000 nè!</h5>";
                 sendMail("natsutan94@gmail.com", transaction.getBankAccount2().getCustomer().getCustomerEmail(), subjectEmailReceive, contentEmailReceive);
             }
 
@@ -143,12 +152,15 @@ public class TransactionService {
             model.addAttribute("messageBalanceTransaction", "Số tiền chuyển không được để trống");
         } else {
             balanceTransactionString = balanceTransactionString.replaceAll(",", "");
-            System.out.println("ba"+balanceTransactionString);
             if (StringUtils.isNumeric(balanceTransactionString) == false) {
                 model.addAttribute("messageBalanceTransaction", "Số tiền chuyển phải là số");
             } else {
                 double balanceTransfer = Double.parseDouble(balanceTransactionString);
-                if (balanceTransfer > bankAccount.getBalance() && !action.equals("deposit_for_customer")) {
+                if(action.equals("external_transfer")){
+                    balanceTransfer = balanceTransfer + 2000;
+                }
+                if (balanceTransfer > bankAccount.getBalance() 
+                        && !action.equals("deposit_for_customer")) {
                     model.addAttribute("messageBalanceTransaction", "Số dư không đủ");
                 } else {
                     if (contentTransaction.equals("")) {
@@ -156,13 +168,13 @@ public class TransactionService {
                     } else if (contentTransaction.length() > 50) {
                         model.addAttribute("messageContentTransfer", "Nội dung chuyển khoản không được quá 50 ký tự");
                     } else {
-                        if (captcha.equals("")) {
+                        if (captcha.equals("") && !action.equals("deposit_for_customer")) {
                             model.addAttribute("messageCaptcha", "Captcha không được để trống");
                         } else {
-                            if (captcha.length() != 6) {
+                            if (captcha.length() != 6 && !action.equals("deposit_for_customer")) {
                                 model.addAttribute("messageCaptcha", "Captcha phải có 6 ký tự");
                             } else {
-                                if (!captcha.equals(session.getAttribute("captcha"))) {
+                                if (!captcha.equals(session.getAttribute("captcha")) && !action.equals("deposit_for_customer")) {
                                     model.addAttribute("messageCaptcha", "Captcha không chính xác");
                                     String reloadCaptcha = RandomStringUtils.randomAlphanumeric(6);
                                     session.setAttribute("captcha", reloadCaptcha);

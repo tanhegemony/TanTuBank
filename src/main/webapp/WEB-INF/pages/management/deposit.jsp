@@ -88,7 +88,7 @@
                                         <div class="form-group">
                                             <label for="balanceDeposit">Nhập số tiền nạp: </label>
                                             <input type="text" class="form-control" name="balanceDeposit" id="balanceDeposit"  
-                                                   placeholder="Số tài khoản nào cần nạp" value="${balanceTransaction}">
+                                                   placeholder="Số tài khoản nào cần nạp" value="${balanceTransactionString}">
                                             <small class="form-text text-muted">${messageBalanceTransaction}</small>
                                             <script>
                                                 var Amount = document.getElementById("balanceDeposit");
@@ -98,11 +98,34 @@
                                                 }, false);
                                             </script>
                                         </div>
+                                        <div class="row bank">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label>Ngân hàng: </label>
+                                                    <input type="text" class="form-control" value="TanTuBank" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="form-group">
+                                                    <label for="tantuBankAddress">Địa chỉ ngân hàng: </label>
+                                                    <select class="form-control" name="tantuBankAddress" id="tantuBankAddress" required>
+                                                        <c:forEach var="tantubankAddress" items="${tantubankAddressList}">
+                                                            <c:if test="${tantubankAddress.address == sessionScope.tantuBankAddress}">
+                                                                <option value="${tantubankAddress.address}" selected>${tantubankAddress.address}</option>
+                                                            </c:if>
+                                                            <c:if test="${tantubankAddress.address != sessionScope.tantuBankAddress}">
+                                                                <option value="${tantubankAddress.address}">${tantubankAddress.address}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row staffInfoDeposit">
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="staffId">Nhập Id Nhân viên thực hiện : </label>
-                                                    <input type="text" class="form-control" name="staffId" id="staffId"  
+                                                    <input type="number" class="form-control" name="staffId" id="staffId"  
                                                            placeholder="Nhân viên nào thực hiện?" value="${staffId}" onchange="this.form.submit();">
                                                     <small class="form-text text-muted">${messageStaff}</small>
                                                 </div>    
@@ -114,42 +137,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row captcha">
-                                            <div class="col-9">
-                                                <div class="form-group">
-                                                    <label for="captcha">Nhập captcha (6 ký tự): </label>
-                                                    <input type="text" class="form-control" name="captcha" id="captcha"
-                                                           placeholder="Captcha nè!">
-                                                    <small class="form-text text-muted">${messageCaptcha}</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-2 text-center ">
-                                                <p id="displayCaptcha">${sessionScope.captcha}</p>
-                                                <script>
-                                                    function change() {
-                                                        $.ajax({
-                                                            type: 'GET',
-                                                            contentType: "application/json",
-                                                            dataType: 'json',
-                                                            url: '${home}changeCaptDeposit',
-                                                            success: function (e) {
-                                                            },
-                                                            error: function (e) {
-                                                                $("#displayCaptcha").load("${home}changeCaptDeposit");
-                                                            }
-
-                                                        });
-                                                    }
-
-                                                </script>
-                                            </div>
-                                            <div class="col-1">
-                                                <p onclick="change()" class="btn"><i class="fa-solid fa-rotate"></i></p>
-                                            </div>
-                                        </div>
                                         <div class="row depositButton text-center">
                                             <div class="col">
-                                                <button class="btn">
+                                                <button name="depositButton" class="btn">
                                                     <img src="${pageContext.request.contextPath}/resources-management/images/icon/deposit.png" class="img-fluid" alt=""> Nạp tiền</button>
                                             </div>
                                         </div>
@@ -158,36 +148,60 @@
                             </div>
                         </c:if>
                         <c:if test="${completeDeposit == true}">
-                            <div class="row completeDeposit">
-                                <div class="col">
+                            <div class="row completeDeposit justify-content-center">
+                                <div class="col-6">
                                     <h5 class="headerCD text-center">Thông tin hoá đơn</h5>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <p>Số tài khoản: ${sessionScope.transaction.bankAccount2.accountNumber}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Tên tài khoản: ${sessionScope.transaction.bankAccount2.accountName}</p>
+                                        <div class="col">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td><p>Số tài khoản:</p></td>
+                                                    <td><b>${sessionScope.transaction.bankAccount2.accountNumber}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Tên tài khoản: </p></td>
+                                                    <td><b>${sessionScope.transaction.bankAccount2.accountName}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Số tiền nạp: </p></td>
+                                                    <td><b><fmt:formatNumber type="number" value="${sessionScope.transaction.transactionAmount}" />đ</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Phí giao dịch: </p></td>
+                                                    <td><b>2.000đ</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Tổng tiền giao dịch: </p></td>
+                                                    <td><b><fmt:formatNumber type="number" value="${sessionScope.transaction.transactionAmount + 2000}" />đ</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Ngân hàng giao dịch: </p></td>
+                                                    <td><b>TanTuBank</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Địa chỉ ngân hàng: </p></td>
+                                                    <td><b>${sessionScope.transaction.tantuBankAddress}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Nhân viên thực hiện: </p></td>
+                                                    <td><b>${sessionScope.transaction.staff.staffName}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Ngày giao dịch: </p></td>
+                                                    <td><b><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${sessionScope.transaction.transactionDate}" /></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><button onclick="javascript:window.print();" class="btn"><i class="fa-solid fa-print"></i> In hoá đơn</button></td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <p>Số tiền nạp: <fmt:formatNumber type="number" value="${sessionScope.transaction.transactionAmount}" />đ</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Phí giao dịch: <fmt:formatNumber type="number" value="${sessionScope.transaction.feeTransaction}" />đ</p>
+                                        <div class="col">
+                                            <button onclick="location.href = '${pageContext.request.contextPath}/management/depositForCustomer'" class="nextTransaction btn mt-4"><i class="fa-solid fa-forward"></i> Tiếp tục giao dịch</button>
+                                            <button onclick="location.href = '${pageContext.request.contextPath}/admin/adminHome'" class="backHome btn btn-danger mt-4"><i class="fa-solid fa-backward"></i> Quay lại trang chủ</button>
                                         </div>
                                     </div>
-                                    <p>Tên nhân viên thực hiện giao dịch: ${sessionScope.transaction.staff.staffName}</p>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <p>Ngân hàng giao dịch: TanTuBank</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Ngày giao dịch: <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${sessionScope.transaction.transactionDate}" /></p>
-                                        </div>
-                                    </div>
-
-                                    <button id="print_button" onclick="window.print();" class="btn"><i class="fa-solid fa-print"></i> In hoá đơn</button>
                                 </div>
                             </div>
                         </c:if>

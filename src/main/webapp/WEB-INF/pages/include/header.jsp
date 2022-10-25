@@ -3,7 +3,7 @@
             <div class="page-header-inner ">
                 <!-- logo start -->
                 <div class="page-logo">
-                    <a href="${pageContext.request.contextPath}/management/dashboard">
+                    <a href="${pageContext.request.contextPath}/admin/adminHome">
                         <img alt="" src="assets/img/logo.png">
                         <span class="logo-default">TanTuBank</span> </a>
                 </div>

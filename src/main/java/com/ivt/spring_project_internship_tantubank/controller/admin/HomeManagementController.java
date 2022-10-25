@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class HomeManagementController {
-      @Autowired
+    @Autowired
     private UserService userService;
     
      public UserEntity getUserByUserLogin(Model model) {

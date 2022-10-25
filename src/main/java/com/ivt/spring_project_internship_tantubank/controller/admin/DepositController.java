@@ -6,12 +6,15 @@ package com.ivt.spring_project_internship_tantubank.controller.admin;
 
 import com.ivt.spring_project_internship_tantubank.entities.BankAccountEntity;
 import com.ivt.spring_project_internship_tantubank.entities.StaffEntity;
+import com.ivt.spring_project_internship_tantubank.entities.TanTuBankAddressEntity;
 import com.ivt.spring_project_internship_tantubank.entities.TransactionEntity;
 import com.ivt.spring_project_internship_tantubank.enums.AccountType;
 import com.ivt.spring_project_internship_tantubank.enums.TransactionType;
 import com.ivt.spring_project_internship_tantubank.service.BankAccountService;
 import com.ivt.spring_project_internship_tantubank.service.StaffService;
+import com.ivt.spring_project_internship_tantubank.service.TanTuBankAddressService;
 import com.ivt.spring_project_internship_tantubank.service.TransactionService;
+import java.util.List;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,13 +49,14 @@ public class DepositController {
     @Autowired
     private StaffService staffService;
 
+    @Autowired
+    private TanTuBankAddressService tanTuBankAddressService;
+    
     @RequestMapping("depositForCustomer")
     public String viewDeposit(Model model) {
         model.addAttribute("action", "deposit_for_customer");
-
-        String captcha = RandomStringUtils.randomAlphanumeric(6);
-        session.setAttribute("captcha", captcha);
-
+        List<TanTuBankAddressEntity> tantubankAddressList = tanTuBankAddressService.getTanTuBankAddressList();
+        model.addAttribute("tantubankAddressList", tantubankAddressList);
         model.addAttribute("makeDeposit", true);
         model.addAttribute("completeDeposit", false);
         session.setAttribute("balanceTransaction", new String());
@@ -60,6 +64,7 @@ public class DepositController {
         session.setAttribute("transaction", new TransactionEntity());
         session.setAttribute("staff", new StaffEntity());
         session.setAttribute("receiveBankAccount", new BankAccountEntity());
+        session.setAttribute("tantuBankAddress", new String());
         return "/management/deposit";
     }
 
@@ -70,55 +75,45 @@ public class DepositController {
         BankAccountEntity receiveBankAccount = bankAccountService.findBankAccountByTypeAndAccountNumberAndBank(
                 model, AccountType.PAYMENT_ACCOUNT.toString(), depositAccountNumber, 1);
         if (receiveBankAccount.getId() > 0) {
-            String balanceTransaction = request.getParameter("balanceDeposit");
-            balanceTransaction = balanceTransaction.replaceAll(",", "");
+            String balanceTransactionString = request.getParameter("balanceDeposit");
+            String depositButton = request.getParameter("depositButton");
             String contentTransaction = "TanTuBank nap tien cho quy khach";
-            String captcha = request.getParameter("captcha");
-
+            String tantuBankAddress = request.getParameter("tantuBankAddress");
             String staffId = request.getParameter("staffId");
+            model.addAttribute("staffId", staffId);
+            boolean checkTrans = transactionService.checkTransaction(
+                        model, "deposit_for_customer", contentTransaction,
+                        balanceTransactionString, receiveBankAccount,
+                        "", receiveBankAccount.getCustomer().getCustomerEmail());
+            session.setAttribute("tantuBankAddress", tantuBankAddress);
+            model.addAttribute("balanceTransactionString", balanceTransactionString);
+            session.setAttribute("balanceTransaction", balanceTransactionString.replaceAll(",", ""));
+            session.setAttribute("contentTransaction", contentTransaction);
             if (staffId.equals("")) {
                 staffId = "0";
             }
             StaffEntity staff = staffService.findStaffById(model, Long.parseLong(staffId));
-
-            boolean checkTrans = transactionService.checkTransaction(
-                    model, "deposit_for_customer", contentTransaction,
-                    balanceTransaction, receiveBankAccount,
-                    captcha, receiveBankAccount.getCustomer().getCustomerEmail());
-            session.setAttribute("balanceTransaction", balanceTransaction);
-            session.setAttribute("contentTransaction", contentTransaction);
-            if (checkTrans == true) {
-                TransactionEntity transaction = new TransactionEntity();
-                transaction.setTransactionType(TransactionType.DEPOSIT_PAYMENT_ACCOUNT);
-                transactionService.makeTransfer("deposit_for_customer", transaction);
-                session.setAttribute("transaction", transaction);
-                return "redirect:/management/viewCompleteDeposit";
+            if (staff.getId() > 0) {
+                session.setAttribute("staff", staff);
+                if (checkTrans == true && depositButton != null) {
+                    TransactionEntity transaction = new TransactionEntity();
+                    transaction.setTransactionType(TransactionType.DEPOSIT_PAYMENT_ACCOUNT);
+                    transactionService.makeTransfer("deposit_for_customer", transaction);
+                    session.setAttribute("transaction", transaction);
+                    model.addAttribute("makeDeposit", false);
+                    model.addAttribute("completeDeposit", true);
+                    return "/management/deposit";
+                }
+            }else{
+               session.setAttribute("staff", new StaffEntity()); 
             }
-            
-            session.setAttribute("staff", staff);
-            model.addAttribute("staffId", staffId);
             session.setAttribute("receiveBankAccount", receiveBankAccount);
         }
+        List<TanTuBankAddressEntity> tantubankAddressList = tanTuBankAddressService.getTanTuBankAddressList();
+        model.addAttribute("tantubankAddressList", tantubankAddressList);
         model.addAttribute("depositAccountNumber", depositAccountNumber);
         model.addAttribute("makeDeposit", true);
         model.addAttribute("completeDeposit", false);
-        return "/management/deposit";
-    }
-
-    //change captcha with AJAX
-    @RequestMapping(value = "changeCaptDeposit", method = RequestMethod.GET)
-    public @ResponseBody
-    String ajaxChangeCaptcha(Model model) {
-        String reloadCaptcha = RandomStringUtils.randomAlphanumeric(6);
-        session.setAttribute("captcha", reloadCaptcha);
-        return reloadCaptcha;
-    }
-
-    @RequestMapping("viewCompleteDeposit")
-    public String viewCompleteDepositI(Model model) {
-        model.addAttribute("action", "deposit_for_customer");
-        model.addAttribute("makeDeposit", false);
-        model.addAttribute("completeDeposit", true);
         return "/management/deposit";
     }
 }
