@@ -53,7 +53,7 @@ public class ChangePasswordService {
 
     public boolean checkEmailPhoneAndUserName(Model model, String userName, String emailAndPhone) throws MessagingException {
 
-        CustomerEntity customerCustomerEmailAndPhone = customerService.findByCustomerEmailOrCustomerPhone(emailAndPhone,emailAndPhone);
+        CustomerEntity customerCustomerEmailAndPhone = customerService.findByCustomerEmailOrCustomerPhone(emailAndPhone);
         if (customerCustomerEmailAndPhone.getId() <= 0) {
             model.addAttribute("message", "Email hoặc số điện thoại không tông tại");
         } else {

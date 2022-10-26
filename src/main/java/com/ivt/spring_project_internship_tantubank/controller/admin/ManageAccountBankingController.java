@@ -121,6 +121,7 @@ public class ManageAccountBankingController {
         List<TanTuBankAddressEntity> tantubankAddressList = tanTuBankAddressService.getTanTuBankAddressList();
         model.addAttribute("tantubankAddressList", tantubankAddressList);
         model.addAttribute("accountTypes", AccountType.values());
+        session.setAttribute("tantuBankAddress", new String());
         return "/management/open_or_edit_bank_account_management";
     }
 
@@ -142,10 +143,12 @@ public class ManageAccountBankingController {
                 model.addAttribute("action", "openBankAccount");
                 String customerPhone = request.getParameter("customerPhone");
                 String customerEmail = request.getParameter("customerEmail");
+                String tantuBankAddress = request.getParameter("tantuBankAddress");
                 String buttonOpen = request.getParameter("buttonOpenBA");
+                
                 boolean physicalCard = Boolean.parseBoolean(request.getParameter("physicalCard"));
                 String staffId = request.getParameter("staffId");
-
+                session.setAttribute("tantuBankAddress", tantuBankAddress);
                 model.addAttribute("customerPhone", customerPhone);
                 model.addAttribute("customerEmail", customerEmail);
                 model.addAttribute("physicalCard", physicalCard);
@@ -153,7 +156,7 @@ public class ManageAccountBankingController {
                 model.addAttribute("staffId", staffId);
                 
                 boolean makeOpen = bankAccountService.openBankAccount(model, bankAccount,
-                        customerPhone, customerEmail, staffId, physicalCard, buttonOpen);
+                        customerPhone, customerEmail, staffId, physicalCard, tantuBankAddress,buttonOpen);
                 if (makeOpen == true) {
                     model.addAttribute("makeOpenBA", false);
                     model.addAttribute("bankAccount", bankAccount);
@@ -163,24 +166,23 @@ public class ManageAccountBankingController {
                 }
             } else {
                 String editStaffId = request.getParameter("editStaffId");
+                String editTantuBankAddress = request.getParameter("tantuBankAddress");
                 String buttonEdit = request.getParameter("buttonEditBA");
                 boolean physicalCard = Boolean.parseBoolean(request.getParameter("physicalCard"));
-                String tantuBankAddress = bankAccount.getTantuBankAddress();
+               
                 BankAccountEntity bankAcc = bankAccountService.findBAById(bankAccount.getId());
-                if(!tantuBankAddress.equals("")){
-                    bankAcc.setTantuBankAddress(tantuBankAddress);
-                }
                 if(bankAcc.isPhysicalCard() != physicalCard){
                     bankAcc.setPhysicalCard(physicalCard);
                 }
                 boolean editBankAccount = bankAccountService.editBankAccount(
-                        model, bankAcc, physicalCard, editStaffId, buttonEdit);
+                        model, bankAcc, physicalCard, editStaffId, editTantuBankAddress,buttonEdit);
                 
                 if(editBankAccount == true){
                     return "redirect:/management/editBankAccount/" + bankAccount.getId();
                 }
                 
                 model.addAttribute("editStaffId", editStaffId);
+                model.addAttribute("editTantuBankAddress", editTantuBankAddress);
                 model.addAttribute("findBankAccount", bankAcc);
                 model.addAttribute("makeOpenBA", true);
                 model.addAttribute("action", "editBankAccount");

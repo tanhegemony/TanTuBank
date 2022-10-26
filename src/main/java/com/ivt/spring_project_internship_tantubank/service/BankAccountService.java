@@ -62,7 +62,7 @@ public class BankAccountService {
     @Transactional
     public boolean editBankAccount(Model model, BankAccountEntity bankAccount, 
             boolean physicalCard,
-            String editStaffId, String buttonEdit) throws MessagingException {
+            String editStaffId, String editTantuBankAddress, String buttonEdit) throws MessagingException {
         if (editStaffId.equals("")) {
             model.addAttribute("messageStaff", "Staff không được để trống");
             return false;
@@ -72,7 +72,6 @@ public class BankAccountService {
                 model.addAttribute("editStaff", editStaff);
                 if (buttonEdit != null) {
                     bankAccount.setPhysicalCard(physicalCard);
-                    bankAccount.setTantuBankAddress(bankAccount.getTantuBankAddress());
                     saveOrUpdateBankAccount(bankAccount);
 
                     TransactionEntity transaction = new TransactionEntity();
@@ -83,12 +82,13 @@ public class BankAccountService {
                     transaction.setFeeTransaction(0);
                     transaction.setTransactionType(TransactionType.EDIT_BANK_ACCOUNT_BY_STAFF);
                     transaction.setStaff(editStaff);
+                    transaction.setTantuBankAddress(editTantuBankAddress);
                     transactionService.saveOrUpdateTransaction(transaction);
 
                     String subject = "Chỉnh sửa tài khoản ngân hàng thành công!";
                     String content = "<h1>Số tài khoản: " + bankAccount.getAccountNumber() + "</h1>"
                             + "<h1>Chủ sở hữu " + bankAccount.getAccountName() + "<h1>"
-                            + "<h3>đã được chỉnh sửa tại ngân hàng TanTuBank</h3>"
+                            + "<h3>đã được chỉnh sửa tại ngân hàng TanTuBank -- Địa chỉ: "+transaction.getTantuBankAddress()+"</h3>"
                             + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
                             + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
                             + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";
@@ -103,7 +103,7 @@ public class BankAccountService {
     @Transactional
     public boolean openBankAccount(Model model, BankAccountEntity bankAccount,
             String customerPhone, String customerEmail, String staffId,
-            boolean physicalCard, String buttonOpen) throws MessagingException {
+            boolean physicalCard, String tantuBankAddress,String buttonOpen) throws MessagingException {
         if (customerPhone.matches("^(\\d{10,12})$") == false) {
             model.addAttribute("messageCustomerPhone", "CustomerPhone phải là số có từ 10 đến 12 chữ số");
             return false;
@@ -112,7 +112,7 @@ public class BankAccountService {
                 model.addAttribute("messageCustomerEmail", "CustomerEmail không đúng định dạng");
                 return false;
             } else {
-                CustomerEntity customer = customerService.findByCustomerEmailOrCustomerPhone(customerPhone, customerEmail);
+                CustomerEntity customer = customerService.findByCustomerEmailAndCustomerPhone(customerEmail, customerPhone);
                 if (customer.getId() <= 0) {
                     model.addAttribute("messageOpenBA", "Khách hàng không tồn tại");
                     return false;
@@ -157,12 +157,13 @@ public class BankAccountService {
                                 transaction.setBankAccount2(bankAccount);
                                 transaction.setFeeTransaction(0);
                                 transaction.setStaff(staff);
+                                transaction.setTantuBankAddress(tantuBankAddress);
                                 transactionService.saveOrUpdateTransaction(transaction);
 
                                 String subject = "Mở tài khoản ngân hàng thành công!";
                                 String content = "<h1>Số tài khoản: " + bankAccount.getAccountNumber() + "</h1>"
                                         + "<h1>Chủ sở hữu " + bankAccount.getAccountName() + "<h1>"
-                                        + "<h3>đã được cấp quyền sử dụng tại ngân hàng TanTuBank</h3>"
+                                        + "<h3>đã được cấp quyền sử dụng tại ngân hàng TanTuBank -- Địa chỉ: "+transaction.getTantuBankAddress()+"</h3>"
                                         + "<h1>Để biết thêm chi tiết, bạn vui lòng click vào đường link bên dưới: </h1>"
                                         + "<h3><a href='http://localhost:8080/Spring_Project_Internship_TanTuBank/'>TanTuBank</a></h3>"
                                         + "<h3>Cảm ơn bạn! Love 3000 nè!</h3>";

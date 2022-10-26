@@ -68,10 +68,10 @@
                                     <div class="row">
                                         <div class="col-4 openAccountButton">
                                         <c:if test="${nav == 'managePaymentBankAccount'}">
-                                            <button class="btn">Mở tài khoản thanh toán</button>
+                                            <button onclick="location.href='${pageContext.request.contextPath}/management/viewOpenOrEditBankAccount'" class="btn">Mở tài khoản thanh toán</button>
                                         </c:if>
                                         <c:if test="${nav == 'manageSavingBankAccount'}">
-                                            <button class="btn">Mở tài khoản tiết kiệm</button>
+                                            <button onclick="location.href='${pageContext.request.contextPath}/management/viewOpenOrEditBankAccount'" class="btn">Mở tài khoản tiết kiệm</button>
                                         </c:if>
                                     </div>
                                     <div class="col-4 pageSize">
@@ -85,7 +85,7 @@
                                                 <input type="hidden" name="sortBy" value="${sortBy}">
                                             </c:if>
                                             <input type="hidden" name="searchValue" value="${searchValue}">
-                                            <input type="hidden" name="page" value="${currentPage}">
+                                            <input type="hidden" name="page" value="1">
                                             <div class="form-inline">
                                                 <label for="size">Hiển thị: </label>
                                                 <select class="form-control ml-2 mr-2" name="size" id="size" onchange="this.form.submit();">
@@ -194,7 +194,6 @@
                                                 <th class="nameBank">Tên ngân hàng</th>
                                                 <th class="createDate">Ngày tạo</th>
                                                 <th class="staff">Nhân viên</th>
-                                                <th class="bankAddress">Địa chủ ngân hàng</th>
                                                 <th class="customer">Khách hàng</th>
                                                 <th class="status">Trạng thái</th>
                                                 <th class="manage">Quản lý</th>
@@ -213,11 +212,10 @@
                                                         <td>${ba.bank.bankName}</td>
                                                         <td><fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${ba.createDate}" /></td>
                                                         <c:if test="${ba.staff == null}">
-                                                            <td colspan="2">Customer thực hiện</td>
+                                                            <td>Customer thực hiện</td>
                                                         </c:if>
                                                         <c:if test="${ba.staff != null}">
                                                             <td>ID: ${ba.staff.id}-Name: ${ba.staff.staffName} </td>
-                                                            <td>${ba.tantuBankAddress}</td>
                                                         </c:if>
                                                         <td>
                                                             <c:if test="${ba.customer == null}">

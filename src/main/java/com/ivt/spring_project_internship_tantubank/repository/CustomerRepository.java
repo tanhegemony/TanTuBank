@@ -24,7 +24,8 @@ public interface CustomerRepository extends CrudRepository<CustomerEntity, Long>
      // find by name
     CustomerEntity findByCustomerName(String customerName);
     //find by email and phone
-    @Query(value = "SELECT * FROM customer where customer_email = ?1 or customer_phone = ?2", nativeQuery = true)
-    CustomerEntity findByCustomerEmailOrCustomerPhone(String customerEmail, String customePhone);
+    CustomerEntity findByCustomerEmailAndCustomerPhone(String customerEmail, String customePhone);
     
+     @Query(value = "SELECT * FROM customer where customer_email = ?1 or customer_phone = ?2", nativeQuery = true)
+    CustomerEntity findByCustomerEmailOrCustomerPhone(String customerEmail, String customePhone);
 }

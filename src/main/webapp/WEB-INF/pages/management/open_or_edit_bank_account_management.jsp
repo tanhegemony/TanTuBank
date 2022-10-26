@@ -191,10 +191,10 @@
                                                     <label for="tantuBankAddress">Địa chỉ ngân hàng: </label>
                                                     <select class="form-control" name="tantuBankAddress" id="tantuBankAddress" required>
                                                         <c:forEach var="tantubankAddress" items="${tantubankAddressList}">
-                                                            <c:if test="${tantubankAddress.address == bankAccount.tantuBankAddress || tantubankAddress.address == findBankAccount.tantuBankAddress}">
+                                                            <c:if test="${tantubankAddress.address == tantuBankAddress || tantubankAddress.address == editTantuBankAddress}">
                                                                 <option value="${tantubankAddress.address}" selected>${tantubankAddress.address}</option>
                                                             </c:if>
-                                                            <c:if test="${tantubankAddress.address != bankAccount.tantuBankAddress}">
+                                                            <c:if test="${tantubankAddress.address != tantuBankAddress}">
                                                                 <option value="${tantubankAddress.address}">${tantubankAddress.address}</option>
                                                             </c:if>
                                                         </c:forEach>
@@ -266,45 +266,64 @@
                             </div>      
                         </c:if>
                         <c:if test="${makeOpenBA == false}">
-                            <div class="row mt-3 completeOpen justify-content-center" >
-                                <div class="col">
-                                    <h4 class="header text-center">Thông tin hoá đơn</h4>
-                                    <h6 class="header text-center">Mở tài khoản ngân hàng</h6>
+                            <div class="row completeOpen justify-content-center">
+                                <div class="col-6">
+                                    <h5 class="headerCD text-center">Thông tin hoá đơn</h5>
+                                    <h6 class="headerCD text-center">Mở tài khoản ngân hàng</h6>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <p>Số tài khoản: ${bankAccount.accountNumber}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Tên tài khoản: ${bankAccount.accountName}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <p>Số tiền nạp: 50.000đ</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Phí giao dịch: 0đ</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <p>Tên nhân viên thực hiện giao dịch: ${staff.staffName}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Cấp thẻ vật lý: <c:if test="${bankAccount.physicalCard == true}">Có</c:if><c:if test="${bankAccount.physicalCard == false}">Không</c:if></p>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-6">
-                                                    <p>Ngân hàng giao dịch: TanTuBank --- Địa chỉ: ${bankAccount.tantuBankAddress}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>Ngày giao dịch: <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${bankAccount.createDate}" /></p>
-                                        </div>
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td><p>Số tài khoản:</p></td>
+                                                <td><b>${bankAccount.accountNumber}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td ><p>Tên tài khoản: </p></td>
+                                                <td><b>${bankAccount.accountName}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Số tiền nạp: </p></td>
+                                                <td><b>50.000đ</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Phí giao dịch: </p></td>
+                                                <td><b>0đ</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Tổng tiền giao dịch: </p></td>
+                                                <td><b>50.000đ</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Cấp thẻ vật lý: </p></td>
+                                                <td><b><c:if test="${bankAccount.physicalCard == true}">Có</c:if><c:if test="${bankAccount.physicalCard == false}">Không</c:if></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Ngân hàng giao dịch: </p></td>
+                                                    <td><b>TanTuBank</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Địa chỉ ngân hàng: </p></td>
+                                                        <td><b>${sessionScope.tantuBankAddress}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Nhân viên thực hiện: </p></td>
+                                                <td><b>${staff.staffName}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Ngày giao dịch: </p></td>
+                                                <td><b><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${bankAccount.createDate}" /></b></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><button onclick="javascript:window.print();" class="btn"><i class="fa-solid fa-print"></i> In hoá đơn</button></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <button onclick="javascript:window.print();" class="btn"><i class="fa-solid fa-print"></i> In hoá đơn</button>
-                                    <button onclick="location.href = '${pageContext.request.contextPath}/management/viewOpenOrEditBankAccount'" class="btn btn-danger"><i class="fa-solid fa-backward"></i> Quay lại</button>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button onclick="location.href = '${pageContext.request.contextPath}/management/depositForCustomer'" class="nextTransaction btn mt-4"><i class="fa-solid fa-forward"></i> Tiếp tục giao dịch</button>
+                                            <button onclick="location.href = '${pageContext.request.contextPath}/admin/adminHome'" class="backHome btn btn-danger mt-4"><i class="fa-solid fa-backward"></i> Quay lại trang chủ</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </c:if>

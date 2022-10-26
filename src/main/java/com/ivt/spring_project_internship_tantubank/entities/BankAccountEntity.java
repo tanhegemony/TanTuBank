@@ -55,9 +55,6 @@ public class BankAccountEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus bankAccountStatus;
 
-    @Column(name = "tantubank_address", length = 100)
-    private String tantuBankAddress;
-    
     @ManyToOne
     @JoinColumn(name = "staffId")
     private StaffEntity staff;
@@ -143,14 +140,7 @@ public class BankAccountEntity {
         this.bankAccountStatus = bankAccountStatus;
     }
 
-    public String getTantuBankAddress() {
-        return tantuBankAddress;
-    }
-
-    public void setTantuBankAddress(String tantuBankAddress) {
-        this.tantuBankAddress = tantuBankAddress;
-    }
-
+    
     public StaffEntity getStaff() {
         return staff;
     }
